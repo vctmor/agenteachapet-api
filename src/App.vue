@@ -1,15 +1,16 @@
 <template>
   <div class="container">
     <h1>BuscaPet</h1>
-    <FormPet />
+    <router-link to="/">Anunciar Desaparecimento</router-link> |
+    <router-link to="/pets">Lista de Pets Desaparecidos</router-link>
     <hr />
-    <PetList />
+    <router-view />
   </div>
 </template>
 
 <script setup>
-import FormPet from './components/FormPet.vue'
-import PetList from './components/PetList.vue'
+// import FormPet from './components/FormPet.vue'
+// import PetList from './components/PetList.vue'
 </script>
 
 <style>
