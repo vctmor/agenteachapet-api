@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="container">
     <h1>BuscaPet</h1>
     <router-link to="/">Anunciar Desaparecimento</router-link> |
@@ -6,6 +6,10 @@
     <hr />
     <router-view />
   </div>
+</template> -->
+
+<template>
+  <router-view />
 </template>
 
 <script setup>

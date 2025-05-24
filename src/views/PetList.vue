@@ -1,34 +1,33 @@
 <template>
-  <div>
-    <h2>Pets cadastrados</h2>
+  <div class="pet-list">
+    <Header />
+    <h2>Pets Cadastrados</h2>
     <div v-if="pets.length === 0">Nenhum pet encontrado.</div>
     <ul>
-      <li v-for="pet in pets" :key="pet.id" style="margin-bottom: 20px">
+      <li v-for="pet in pets" :key="pet.id">
         <strong>{{ pet.name }}</strong> - {{ pet.breed }} - {{ pet.color }}<br />
-        <img :src="`http://localhost:8080/pets/imagem/${pet.image}`" alt="Foto do Pet" />
-
+        <img :src="`http://localhost:8080/pets/imagem/${pet.imagePath}`" class="pet-image" />
       </li>
     </ul>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import axios from 'axios'
+import Header from '@/components/Header.vue'
 
 const pets = ref([])
 
-async function loadPets() {
-  try {
-    const res = await axios.get('http://localhost:8080/pets')
-    console.log(res.data)
-    pets.value = res.data
-  } catch (err) {
-    console.error('Erro ao carregar pets', err)
-  }
-}
-
-onMounted(() => {
-  loadPets()
+onMounted(async () => {
+  const res = await axios.get('http://localhost:8080/pets')
+  pets.value = res.data
 })
 </script>
+
+<style scoped>
+.pet-image {
+  max-height: 150px;
+  margin-top: 0.5rem;
+}
+</style>
