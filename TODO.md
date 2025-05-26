@@ -6,8 +6,6 @@ Project Description
 
 ### Todo
 
-- 2.DTO, Person {Testes}, {Person}  
-- 3.Mapper, Person(MapStruct)  
 - 4.Repository, Person  
 - 5.Service, Person  
 - 6.Controller, Person  
@@ -21,12 +19,14 @@ Project Description
 
 ### Testes
 
+- 3.Mapper, Person(MapStruct)  
 
 ### In Progress
 
 
 ### Done ✓
 
+- 2.DTO, Person {Testes}, {Person}  
 - 1.1Model, Role: Tutor, adviser, vigilant, keeper  
 - 1.Model, Person: Entidade  
 
