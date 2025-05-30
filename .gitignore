@@ -1,5 +1,9 @@
 HELP.md
+TODO.md
+.gitignore
 target/
+doc/
+
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/

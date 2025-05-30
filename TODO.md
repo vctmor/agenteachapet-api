@@ -16,7 +16,7 @@ Project Description
 - 4.Repository  
 - 5.Service  
 - 6.Controller  
-
+- URLs com slug (/share/toto-preto-jardins).
 ### Testes
 
 - 3.Mapper, Person(MapStruct)  
