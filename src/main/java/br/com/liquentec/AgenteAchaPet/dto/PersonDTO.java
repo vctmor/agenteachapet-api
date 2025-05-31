@@ -1,4 +1,4 @@
-package br.com.liquentec.dto;
+package br.com.liquentec.AgenteAchaPet.dto;
 
 import br.com.liquentec.AgenteAchaPet.model.Role;
 import lombok.*;

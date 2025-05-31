@@ -1,4 +1,4 @@
-package br.com.liquentec.dto;
+package br.com.liquentec.AgenteAchaPet.dto;
 
 import lombok.*;
 
