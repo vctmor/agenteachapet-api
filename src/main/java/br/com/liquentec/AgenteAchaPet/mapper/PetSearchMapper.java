@@ -3,7 +3,7 @@ package br.com.liquentec.AgenteAchaPet.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import br.com.liquentec.AgenteAchaPet.dto.PetSearchResponseDTO;
+import br.com.liquentec.AgenteAchaPet.dto.response.PetSearchResponseDTO;
 import br.com.liquentec.AgenteAchaPet.model.PetSearch;
 
 @Mapper(componentModel = "spring")

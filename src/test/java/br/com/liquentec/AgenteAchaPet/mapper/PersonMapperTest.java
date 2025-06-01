@@ -1,4 +1,4 @@
-package br.com.liquentec.mapper;
+package br.com.liquentec.AgenteAchaPet.mapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -8,10 +8,10 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import br.com.liquentec.AgenteAchaPet.dto.PersonWithPetsDTO;
 import br.com.liquentec.AgenteAchaPet.model.Person;
 import br.com.liquentec.AgenteAchaPet.model.Pet;
 import br.com.liquentec.AgenteAchaPet.model.Role;
-import br.com.liquentec.dto.PersonWithPetsDTO;
 
 public class PersonMapperTest {
 
@@ -39,7 +39,7 @@ public class PersonMapperTest {
         
         PersonWithPetsDTO pWithPetsDTO;
           // Act
-        PersonWithPetsDTO pwpDto = PersonMapper.INSTANCE.pwpToEntity(pWithPetsDTO);
+        Person pwpDto = PersonMapper.INSTANCE.pwpToEntity(pWithPetsDTO);
 
         // Assert
         assertNotNull(pwpDto);

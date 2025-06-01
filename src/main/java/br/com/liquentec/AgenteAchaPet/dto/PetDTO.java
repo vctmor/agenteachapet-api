@@ -11,8 +11,8 @@ public class PetDTO {
     private String color;
     private String breed;
     private Integer age;
-    private Long personId;
     private String imageBase64;
+    private Long personId;
 
     // public PetDTO(Long id, String name, String color, String breed, Integer age,
     // Long personId) {
