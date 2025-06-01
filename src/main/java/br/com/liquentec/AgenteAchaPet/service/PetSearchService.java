@@ -8,8 +8,11 @@ import org.springframework.web.multipart.MultipartFile;
 import br.com.liquentec.AgenteAchaPet.model.Person;
 import br.com.liquentec.AgenteAchaPet.model.Pet;
 import br.com.liquentec.AgenteAchaPet.model.PetSearch;
+import br.com.liquentec.AgenteAchaPet.dto.PetSearchCompositeForm;
 import br.com.liquentec.AgenteAchaPet.dto.request.PetSearchRequestForm;
 import br.com.liquentec.AgenteAchaPet.dto.response.PetSearchResponseDTO;
+import br.com.liquentec.AgenteAchaPet.mapper.PersonMapper;
+import br.com.liquentec.AgenteAchaPet.mapper.PetMapper;
 // import br.com.liquentec.AgenteAchaPet.dto.PetSearchRequestForm;
 // import br.com.liquentec.AgenteAchaPet.dto.PetSearchResponseDTO;
 import br.com.liquentec.AgenteAchaPet.mapper.PetSearchMapper;
@@ -17,6 +20,7 @@ import br.com.liquentec.AgenteAchaPet.repository.PersonRepository;
 import br.com.liquentec.AgenteAchaPet.repository.PetRepository;
 import br.com.liquentec.AgenteAchaPet.repository.PetSearchRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -25,8 +29,40 @@ public class PetSearchService {
 
     private final PetSearchRepository repository;
     private final PetRepository petRepository;
+    private final PetSearchRepository petSearchRepository;
     private final PersonRepository personRepository;
-    private final PetSearchMapper mapper;
+    private final PetSearchMapper petSearchMapper;
+    private final PetMapper petMapper;
+    private final PersonMapper personMapper;
+
+    @Transactional
+public PetSearchResponseDTO registerFullSearch(PetSearchCompositeForm compositeForm, MultipartFile photo) throws IOException {
+ 
+    // 1. Salvar a pessoa
+    Person person = personRepository.save(personMapper.toEntity(compositeForm.getPerson()));
+ 
+    // 2. Salvar o pet
+    Pet pet = petMapper.toEntity(compositeForm.getPet());
+    pet.setPerson(person);
+    pet = petRepository.save(pet);
+ 
+    // 3. Criar a busca
+    PetSearchRequestForm form = compositeForm.getSearch();
+    PetSearch search = new PetSearch();
+    search.setPet(pet);
+    search.setRegisteredBy(person);
+    search.setLocation(form.getLocation());
+    search.setDisappearanceDate(form.getDisappearanceDate());
+    search.setAdditionalNotes(form.getAdditionalNotes());
+    search.setReporterRole(form.getReporterRole());
+ 
+    if (photo != null && !photo.isEmpty()) {
+        search.setPhoto(photo.getBytes());
+    }
+ 
+    petSearchRepository.save(search);
+    return petSearchMapper.toResponseDto(search);
+}
 
     public PetSearchResponseDTO register(PetSearchRequestForm form, MultipartFile photo) throws IOException {
 
@@ -46,7 +82,7 @@ public class PetSearchService {
                 .photo(photo != null ? photo.getBytes() : null)
                 .build();
 
-        return mapper.toDto(repository.save(entity));
+        return petSearchMapper.toResponseDto(repository.save(entity));
     }
 
     public byte[] getPhotoById(Long id) {
@@ -57,4 +93,7 @@ public class PetSearchService {
         }
         return search.getPhoto();
     }
+
+
+
 }

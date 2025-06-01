@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import br.com.liquentec.AgenteAchaPet.dto.PetSearchCompositeForm;
 import br.com.liquentec.AgenteAchaPet.dto.request.PetSearchRequestForm;
 import br.com.liquentec.AgenteAchaPet.dto.response.PetSearchResponseDTO;
 import br.com.liquentec.AgenteAchaPet.service.PetSearchService;
@@ -29,10 +30,10 @@ public class PetSearchController {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<PetSearchResponseDTO> register(
-            @RequestPart("data") @Validated PetSearchRequestForm form,
+            @RequestPart("data") @Validated PetSearchCompositeForm compositeform,
             @RequestPart(value = "photo", required = false) MultipartFile photo) throws IOException {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.register(form, photo));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.registerFullSearch(compositeform, photo));
     }
 
     @GetMapping("/{id}/image")

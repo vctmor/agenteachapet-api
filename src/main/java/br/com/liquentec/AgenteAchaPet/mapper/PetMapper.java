@@ -2,9 +2,12 @@ package br.com.liquentec.AgenteAchaPet.mapper;
 
 import java.util.Base64;
 
+import org.mapstruct.Mapper;
+
 import br.com.liquentec.AgenteAchaPet.dto.PetDTO;
 import br.com.liquentec.AgenteAchaPet.model.*;
 
+@Mapper(componentModel = "spring")
 public class PetMapper {
 
     public static Pet toEntity(PetDTO dto) {
