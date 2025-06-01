@@ -5,17 +5,23 @@
     <h3>Dados do Tutor</h3>
     <input v-model="person.name" placeholder="Nome do Tutor" required />
     <input v-model="person.phone" placeholder="Telefone" required />
-    <select v-model="person.role" required>
-      <option disabled value="">Selecione o Papel</option>
-      <option value="TUTOR">Tutor</option>
-      <option value="ADVERTISER">Anunciante</option>
-    </select>
 
     <h3>Dados do Pet</h3>
     <input v-model="pet.name" placeholder="Nome do Pet" required />
     <input v-model="pet.color" placeholder="Cor" required />
     <input v-model="pet.breed" placeholder="Raça" required />
     <input v-model.number="pet.age" placeholder="Idade" type="number" required />
+
+    <h3>Dados do Desaparecimento</h3>
+    <select v-model="search.reporterRole" required>
+      <option disabled value="">Quem está reportando?</option>
+      <option value="TUTOR">Tutor</option>
+      <option value="ADVERTISER">Anunciante</option>
+    </select>
+
+    <input v-model="search.disappearanceDate" type="datetime-local" required />
+    <input v-model="search.location" placeholder="Local do desaparecimento" required />
+    <textarea v-model="search.additionalNotes" placeholder="Observações adicionais"></textarea>
 
     <label for="photo">Foto do Pet:</label>
     <input id="photo" type="file" accept="image/*" @change="previewImage" required />
@@ -28,21 +34,25 @@
   </form>
 </template>
 
-
 <script>
 export default {
   data() {
     return {
       person: {
         name: "",
-        phone: "",
-        role: ""
+        phone: ""
       },
       pet: {
         name: "",
         color: "",
         breed: "",
         age: null
+      },
+      search: {
+        reporterRole: "",
+        disappearanceDate: "",
+        location: "",
+        additionalNotes: ""
       },
       image: null,
       preview: null
@@ -59,26 +69,23 @@ export default {
     async submitForm() {
       const formData = new FormData();
 
-      const personWithPetsDTO = {
-        name: this.person.name,
-        phone: this.person.phone,
-        role: this.person.role,
-        pets: [
-          {
-            name: this.pet.name,
-            color: this.pet.color,
-            breed: this.pet.breed,
-            age: this.pet.age
-          }
-        ]
+      const petSearchDTO = {
+        pet: { ...this.pet },
+        registeredBy: { ...this.person },
+        reporterRole: this.search.reporterRole,
+        disappearanceDate: this.search.disappearanceDate,
+        location: this.search.location,
+        additionalNotes: this.search.additionalNotes
       };
 
-      formData.append("personWithPetsDTO", new Blob([JSON.stringify(personWithPetsDTO)], { type: "application/json" }));
+      formData.append("petSearchDTO", new Blob([JSON.stringify(petSearchDTO)], {
+        type: "application/json"
+      }));
 
-      formData.append("image", this.image);
+      formData.append("photo", this.image);
 
       try {
-          const response = await fetch("http://localhost:8080/persons/withPets", {
+        const response = await fetch("http://localhost:8080/api/pet-searches", {
           method: "POST",
           body: formData,
           headers: {
@@ -100,6 +107,7 @@ export default {
   }
 };
 </script>
+
 
 <style scoped>
 .form-container {
