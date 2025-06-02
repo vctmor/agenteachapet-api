@@ -1,0 +1,17 @@
+:root {
+  --green-forest: #2e7d32;
+  --blue-river: #1565c0;
+  --brown-earth: #5d4037;
+  --earth-red: #8b0000;
+  --gold-sun: #ffd700;
+  --background-light: #f4f1ed;
+  --text-dark: #2e2e2e;
+}
+
+body {
+  background-color: var(--background-light);
+  color: var(--text-dark);
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
