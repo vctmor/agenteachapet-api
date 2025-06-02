@@ -66,19 +66,21 @@ export default {
         this.preview = URL.createObjectURL(file);
       }
     },
-    async submitForm() {
-      const formData = new FormData();
+      async submitForm() {
+        const formData = new FormData();
 
-      const petSearchDTO = {
-        pet: { ...this.pet },
-        registeredBy: { ...this.person },
-        reporterRole: this.search.reporterRole,
-        disappearanceDate: this.search.disappearanceDate,
-        location: this.search.location,
-        additionalNotes: this.search.additionalNotes
-      };
+        const data = {
+          person: { ...this.person },
+          pet: { ...this.pet },
+          search: {
+          reporterRole: this.search.reporterRole,
+          disappearanceDate: this.search.disappearanceDate,
+          location: this.search.location,
+          additionalNotes: this.search.additionalNotes
+  }
+};
 
-      formData.append("petSearchDTO", new Blob([JSON.stringify(petSearchDTO)], {
+      formData.append("data", new Blob([JSON.stringify(data)], {
         type: "application/json"
       }));
 
