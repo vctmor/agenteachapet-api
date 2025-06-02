@@ -10,7 +10,7 @@ import br.com.liquentec.AgenteAchaPet.dto.PersonWithPetsDTO;
 @Mapper(componentModel = "spring") // ou "default" se não usar Spring
 public interface PersonMapper {
 
-    PersonMapper INSTANCE = Mappers.getMapper(PersonMapper.class);
+    // PersonMapper INSTANCE = Mappers.getMapper(PersonMapper.class);
 
     // Mapeamento básico
     PersonDTO toDto(Person person);

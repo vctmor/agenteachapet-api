@@ -1,57 +1,72 @@
 package br.com.liquentec.AgenteAchaPet.mapper;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.util.List;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-
+import br.com.liquentec.AgenteAchaPet.dto.PersonDTO;
 import br.com.liquentec.AgenteAchaPet.dto.PersonWithPetsDTO;
 import br.com.liquentec.AgenteAchaPet.model.Person;
-import br.com.liquentec.AgenteAchaPet.model.Pet;
 import br.com.liquentec.AgenteAchaPet.model.Role;
 
-public class PersonMapperTest {
+import org.junit.jupiter.api.Test;
+import org.mapstruct.factory.Mappers;
 
-    @Autowired
-    private PersonMapper personMapper;
+import static org.junit.jupiter.api.Assertions.*;
 
-    @Test
-    void testToWithPetsDto(){
+class PersonMapperTest {
 
-         // Arrange
-        Pet pet = new Pet();
-        pet.setId(1L);
-        pet.setName("Totó");
-        pet.setColor("Preto");
-        pet.setBreed("Vira-lata");
-        pet.setAge(2);
- 
-        Person person = new Person();
-        person.setId(1L);
-        person.setName("Maria");
-        person.setEmail("maria@email.com");
-        person.setPhone("11999999999");
-        person.setRole(Role.TUTOR);
-        person.setPets(List.of(pet));
-        
-        PersonWithPetsDTO pWithPetsDTO;
-          // Act
-        Person pwpDto = PersonMapper.INSTANCE.pwpToEntity(pWithPetsDTO);
+  private final PersonMapper mapper = Mappers.getMapper(PersonMapper.class);
 
-        // Assert
-        assertNotNull(pwpDto);
-        assertEquals("Maria", pwpDto.getName());
-        assertEquals("maria@email.com", pwpDto.getEmail());
-        assertEquals("11999999999", pwpDto.getPhone());
-        assertEquals(Role.TUTOR, pwpDto.getRole());
+  @Test
+  void testToDto() {
+    Person person = new Person();
+    person.setId(1L);
+    person.setName("Alice");
+    person.setEmail("alice@email.com");
+    person.setPhone("11999999999");
+    person.setRole(Role.TUTOR);
 
-        assertNotNull(pwpDto.getPets());
-        assertEquals(1, pwpDto.getPets().size());
-        assertEquals("Totó", pwpDto.getPets().get(0).getName());
-    }
+    PersonDTO dto = mapper.toDto(person);
 
+    assertNotNull(dto);
+    assertEquals(1L, dto.getId());
+    assertEquals("Alice", dto.getName());
+    assertEquals("alice@email.com", dto.getEmail());
+    assertEquals("11999999999", dto.getPhone());
+    assertEquals(Role.TUTOR, dto.getRole());
+  }
 
+  @Test
+  void testToEntity() {
+    PersonDTO dto = new PersonDTO();
+    dto.setId(2L);
+    dto.setName("Bob");
+    dto.setEmail("bob@email.com");
+    dto.setPhone("11988887777");
+    dto.setRole(Role.SENTINEL);
+
+    Person person = mapper.toEntity(dto);
+
+    assertNotNull(person);
+    assertEquals(2L, person.getId());
+    assertEquals("Bob", person.getName());
+    assertEquals("bob@email.com", person.getEmail());
+    assertEquals("11988887777", person.getPhone());
+    assertEquals(Role.SENTINEL, person.getRole());
+  }
+
+  @Test
+  void testPwpToEntity() {
+    PersonWithPetsDTO dto = new PersonWithPetsDTO();
+    dto.setName("Carol");
+    dto.setEmail("carol@email.com");
+    dto.setPhone("11977776666");
+    dto.setRole(Role.ADDOPTER);
+
+    Person person = mapper.pwpToEntity(dto);
+
+    assertNotNull(person);
+    assertNull(person.getId()); // ID não vem nesse DTO
+    assertEquals("Carol", person.getName());
+    assertEquals("carol@email.com", person.getEmail());
+    assertEquals("11977776666", person.getPhone());
+    assertEquals(Role.ADDOPTER, person.getRole());
+  }
 }

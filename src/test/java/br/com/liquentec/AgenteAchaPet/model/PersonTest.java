@@ -20,13 +20,13 @@ public class PersonTest {
         person.setName("Maria");
         person.setEmail("maria@email.com");
         person.setPhone("11965498733");
-        person.setRole(Role.ADVISER);
+        person.setRole(Role.TUTOR);
 
         assertEquals(1L, person.getId());
         assertEquals("Maria", person.getName());
         assertEquals("maria@email.com", person.getEmail());
         assertEquals("11965498733", person.getPhone());
-        assertEquals(Role.ADVISER, person.getRole());
+        assertEquals(Role.TUTOR, person.getRole());
 
     }
 
