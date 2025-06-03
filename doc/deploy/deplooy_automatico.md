@@ -16,6 +16,20 @@
    ```
    - Assim, o código-fonte fica separado da versão pronta para deploy.
 
+2.1 **Criar a tag na branch `main` após o merge**
+- Faz o **merge primeiro** (`deploy` → `main`), e depois cria a tag `v0.1` na `main`.
+- A tag **marca um commit que está na `main`**, garantindo que ele represente a versão final pós-merge.
+- Mais seguro para fluxo de produção, pois reflete **exatamente** o que foi implantado.
+
+📌 **Exemplo de fluxo:**  
+```sh
+git checkout main
+git merge deploy
+git tag -a v0.1 -m "Versão 0.1 - Protótipo"
+git push origin v0.1
+git push origin main
+```
+
 3. **📦 Melhor opção: Usar GitHub Actions ou CI/CD**
    - Em vez de enviar `dist/` manualmente, configure um fluxo de **deploy automático**:
    - Quando um commit/tag é feito, o servidor **gera `dist/` e faz o deploy** sem precisar versioná-la.
@@ -118,3 +132,4 @@ Agora, **sempre que um push for feito**, o GitHub acionará o workflow e fará o
 
 Qual delas faz mais sentido para seu projeto? 😃  
 Se precisar de ajustes ou refinamentos, me avise! 🚀  
+
