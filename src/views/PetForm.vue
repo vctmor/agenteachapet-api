@@ -11,7 +11,7 @@
       <option disabled value="" >Qual vai ser seu papel nesta jornada? </option>
       <option value="TUTOR">Tutor</option>
       <option value="BASTIAN">Bastiã: estou contigo, mobilizado na busca ativa </option>
-      <option value="SENTINEL">Sentinela: este bichinho parece pedido, não posso acolher, estou vigilante!</option>
+      <option value="SENTINEL">Sentinela: este bichinho parece perdido, não posso acolher, estou vigilante!</option>
       <option value="RESCUER">Guardião: ele está comigo, morrendo de saudades da sua pessoa Tutora</option>
     </select>
 
