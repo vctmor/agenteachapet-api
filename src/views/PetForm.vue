@@ -2,7 +2,7 @@
   <form @submit.prevent="submitForm" class="form-container">
 
     <h2>🎯 Comece sua Jornada de Busca ou apoio</h2>
-    <p>Vamos torcer para que ele tenha ido dormir dentro de alguama gaveta, ou esteja dentro do sofá.</p>
+    <p>Vamos torcer para que ele tenha ido dormir dentro de alguma gaveta, ou esteja dentro do sofá.</p>
     <p>Mas enquanto não  temos certeza, <strong>vamos dar início à jornada</strong></p>
 
     <h3>👤 Etapa 1: Quem está convocando a travessia!?</h3>
