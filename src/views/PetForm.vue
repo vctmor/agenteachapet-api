@@ -1,9 +1,9 @@
 <template>
   <form @submit.prevent="submitForm" class="form-container">
 
-    <h2>🎯 Comece sua Jornada de Busca ou apoio</h2>
+    <h2>🎯 Inicie uma nova Jornada de Busca</h2>
     <p>Vamos torcer para que ele tenha ido dormir dentro de alguma gaveta, ou esteja dentro do sofá.</p>
-    <p>Mas enquanto não  temos certeza, <strong>vamos dar início à jornada</strong></p>
+    <p>Enquanto não  temos certeza, seguimoso no encalço! -  <strong>AgenteAchaPet!</strong></p>
 
     <h3>👤 Etapa 1: Quem está convocando a travessia!?</h3>
     <input v-model="person.name" placeholder="Como prefere que te chame" required />
@@ -22,11 +22,17 @@
     <input v-model="pet.color" placeholder="Cor" required />
     <input v-model="pet.breed" placeholder="Raça" required />
     <input v-model.number="pet.age" placeholder="Idade" type="number" required />
-
-    <h3>📍 Etapa 3: Onde foi visto pela última vez?</h3>
+    <div>
+      <label for="necessidades">Tem necessidades especiais?</label>
+      <textarea id="necessidades" placeholder="Como comorbidades, se toma remédios..."></textarea>
+    </div>
+    <h3>📍 Etapa 3: Quando e onde foi visto pela última vez?</h3>
     <input v-model="search.disappearanceDate" type="datetime-local" required />
-    <input v-model="search.location" placeholder="Visto pela última vez em..." required />
-    <textarea v-model="search.additionalNotes" placeholder="Observações adicionais"></textarea>
+    <input v-model="search.location" placeholder="Endereço aproximado." required />
+
+    <label for="additionalNotes">Conte-nos mais detalhes que possam ajudar na empreitada</label>
+    <textarea id="additionalNotes" v-model="search.additionalNotes" placeholder="Mas com empatia, não vamos impressionar nem angustiars a pessoa tutora, certo!?"></textarea>
+
     <div>
         <label for="photo">Foto do Pet:</label>
         <input id="photo" type="file" accept="image/*" @change="previewImage" required />
@@ -36,7 +42,10 @@
       <img :src="preview" alt="Prévia da imagem" />
     </div>
 
-    <button type="submit">O caminho se faz ao caminhar</button>
+    <div>
+  <label for="button">Respira! Vamos juntos?!!?!?</label>
+  <button id="button" type="button" onclick="this.innerText='O caminho se faz caminhando!'">JÁ!</button>
+</div>
   </form>
 </template>
 
@@ -74,6 +83,9 @@ export default {
       }
     },
       async submitForm() {
+
+        document.getElementById('button').innerText = 'O caminho se faz caminhando!';
+
         const formData = new FormData();
 
         const data = {
@@ -119,6 +131,30 @@ export default {
 
 
 <style scoped>
+
+  /* Coloca o label acima e estiliza */
+  div {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+  }
+
+  label {
+    margin-bottom: 0.5rem;
+    font-size: 15px;
+    font-weight: bold;
+  }
+
+  textarea {
+    width: 100%;       /* ou defina em px, ex: 400px */
+    height: 150px;     /* aumenta a altura */
+    padding: 10px;
+    margin-bottom: 0.5rem;
+    font-size: 16px;
+    resize: vertical;  /* permite redimensionamento vertical */
+  }
+
+
 .form-container {
   max-width: 500px;
   margin: auto;
