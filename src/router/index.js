@@ -5,7 +5,7 @@ import PetList from '@/views/PetList.vue'
 
 const routes = [
   { path: '/', name: 'FormPet', component: FormPet },
-  {path: '/pets', name: 'PetList', component: PetList}
+  { path: '/pets', name: 'PetList', component: PetList}
 ]
 
 export default createRouter({

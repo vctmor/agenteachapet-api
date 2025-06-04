@@ -1,7 +1,7 @@
 
 <template>
   <header>
-    <h1>Buscapet</h1>
+    <h1>Agente Acha Pet</h1>
   </header>
 </template>
 

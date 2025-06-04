@@ -1,40 +1,47 @@
 <template>
   <form @submit.prevent="submitForm" class="form-container">
-    <h2>Anunciar Pet Desaparecido</h2>
 
-    <h3>Dados do Tutor</h3>
-    <input v-model="person.name" placeholder="Nome do Tutor" required />
-    <input v-model="person.phone" placeholder="Telefone" required />
+    <h2>🎯 Comece sua Jornada de Busca ou apoio</h2>
+    <p>Vamos torcer para que ele tenha ido dormir dentro de alguama gaveta, ou esteja dentro do sofá.</p>
+    <p>Mas enquanto não  temos certeza, <strong>vamos dar início à jornada</strong></p>
 
-    <h3>Dados do Pet</h3>
-    <input v-model="pet.name" placeholder="Nome do Pet" required />
+    <h3>👤 Etapa 1: Quem está convocando a travessia!?</h3>
+    <input v-model="person.name" placeholder="Como prefere que te chame" required />
+    <select v-model="search.reporterRole" required>
+      <option disabled value="" >Qual vai ser seu papel nesta jornada? </option>
+      <option value="TUTOR">Tutor</option>
+      <option value="BASTIAN">Bastiã: estou contigo, mobilizado na busca ativa </option>
+      <option value="SENTINEL">Sentinela: este bichinho parece pedido, não posso acolher, estou vigilante!</option>
+      <option value="RESCUER">Guardião: ele está comigo, morrendo de saudades da sua pessoa Tutora</option>
+    </select>
+
+    <input v-model="person.phone" placeholder="Seu melhor contato celular" required />
+
+    <h3>🐾 Etapa 2: Quem estamos buscando?</h3>
+    <input v-model="pet.name" placeholder="atende por..." required />
     <input v-model="pet.color" placeholder="Cor" required />
     <input v-model="pet.breed" placeholder="Raça" required />
     <input v-model.number="pet.age" placeholder="Idade" type="number" required />
 
-    <h3>Dados do Desaparecimento</h3>
-    <select v-model="search.reporterRole" required>
-      <option disabled value="">Quem está reportando?</option>
-      <option value="TUTOR">Tutor</option>
-      <option value="ADVERTISER">Anunciante</option>
-    </select>
-
+    <h3>📍 Etapa 3: Onde foi visto pela última vez?</h3>
     <input v-model="search.disappearanceDate" type="datetime-local" required />
-    <input v-model="search.location" placeholder="Local do desaparecimento" required />
+    <input v-model="search.location" placeholder="Visto pela última vez em..." required />
     <textarea v-model="search.additionalNotes" placeholder="Observações adicionais"></textarea>
-
-    <label for="photo">Foto do Pet:</label>
-    <input id="photo" type="file" accept="image/*" @change="previewImage" required />
+    <div>
+        <label for="photo">Foto do Pet:</label>
+        <input id="photo" type="file" accept="image/*" @change="previewImage" required />
+    </div>
 
     <div v-if="preview" class="image-preview">
       <img :src="preview" alt="Prévia da imagem" />
     </div>
 
-    <button type="submit">Cadastrar Anúncio</button>
+    <button type="submit">O caminho se faz ao caminhar</button>
   </form>
 </template>
 
 <script>
+
 export default {
   data() {
     return {

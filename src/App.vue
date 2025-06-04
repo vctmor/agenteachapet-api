@@ -1,6 +1,6 @@
 <!-- <template>
   <div class="container">
-    <h1>BuscaPet</h1>
+    <h1>AgenteAchaPet</h1>
     <router-link to="/">Anunciar Desaparecimento</router-link> |
     <router-link to="/pets">Lista de Pets Desaparecidos</router-link>
     <hr />
