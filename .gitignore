@@ -1,6 +1,4 @@
-HELP.md
-TODO.md
-.gitignore
+
 target/
 doc/
 
@@ -26,7 +24,7 @@ doc/
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
-/dist/
+
 /nbdist/
 /.nb-gradle/
 build/
