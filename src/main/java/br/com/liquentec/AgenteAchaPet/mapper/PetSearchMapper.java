@@ -1,5 +1,7 @@
 package br.com.liquentec.AgenteAchaPet.mapper;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -14,5 +16,7 @@ public interface PetSearchMapper {
     @Mapping(target = "petName", source = "pet.name")
     @Mapping(target = "personName", source = "registeredBy.name")
     
-    PetSearchResponseDTO toDto(PetSearch entity);
+    // PetSearchResponseDTO toDto(PetSearch entity);
+
+    List<PetSearchResponseDTO> toDoList(List<PetSearch> entities);
 }

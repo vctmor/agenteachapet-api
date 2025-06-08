@@ -1,7 +1,10 @@
 package br.com.liquentec.AgenteAchaPet.service;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import org.springframework.core.annotation.MergedAnnotations.Search;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -94,6 +97,15 @@ public PetSearchResponseDTO registerFullSearch(PetSearchCompositeForm compositeF
         return search.getPhoto();
     }
 
+    public List<PetSearchResponseDTO> listAll(){
+
+        List<PetSearch> entities = repository.findAll();
+
+        return petSearchMapper.toDoList(entities);
+       
+    }
+
 
 
 }
+

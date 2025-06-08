@@ -1,6 +1,7 @@
 package br.com.liquentec.AgenteAchaPet.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,18 +22,26 @@ import br.com.liquentec.AgenteAchaPet.service.PetSearchService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/pet-searches")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class PetSearchController {
 
     private final PetSearchService service;
 
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/pet-searches", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<PetSearchResponseDTO> register(
             @RequestPart("data") @Validated PetSearchCompositeForm compositeform,
             @RequestPart(value = "photo", required = false) MultipartFile photo) throws IOException {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(service.registerFullSearch(compositeform, photo));
+    }
+
+    @GetMapping("/pet-searches")
+    public ResponseEntity<List<PetSearchResponseDTO>> listAll(){
+
+        List<PetSearchResponseDTO> result = service.listAll();
+
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/{id}/image")
