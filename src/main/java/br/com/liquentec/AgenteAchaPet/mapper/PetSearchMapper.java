@@ -16,7 +16,7 @@ public interface PetSearchMapper {
     @Mapping(target = "petName", source = "pet.name")
     @Mapping(target = "personName", source = "registeredBy.name")
     
-    // PetSearchResponseDTO toDto(PetSearch entity);
+    PetSearchResponseDTO toResponseDto(PetSearch entity);
 
     List<PetSearchResponseDTO> toDoList(List<PetSearch> entities);
 }
