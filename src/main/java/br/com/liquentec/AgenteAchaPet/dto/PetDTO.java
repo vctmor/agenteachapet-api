@@ -14,14 +14,5 @@ public class PetDTO {
     private String imageBase64;
     private Long personId;
 
-    // public PetDTO(Long id, String name, String color, String breed, Integer age,
-    // Long personId) {
-    // this.id = id;
-    // this.name = name;
-    // this.color = color;
-    // this.breed = breed;
-    // this.age = age;
-    // this.personId = personId;
-    // }
 
 }

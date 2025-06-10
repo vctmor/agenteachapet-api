@@ -18,8 +18,8 @@ public class Pet {
     private Integer age;
 
     @Lob
-    @Column
-    private byte[] image;
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] photo;
 
     @ManyToOne
     @JoinColumn(name = "person_id")

@@ -4,6 +4,7 @@ public enum SearchRole {
 
     TUTOR,
     BASTIAN,
-    RESCUER,
-    ADDOPTER
+    SENTINEL,
+    RESCUER
+    // ADOPTER
 }

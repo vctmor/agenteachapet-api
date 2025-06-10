@@ -25,7 +25,7 @@ public class PetMapper {
         }
 
         if (dto.getImageBase64() != null) {
-            pet.setImage(Base64.getDecoder().decode(dto.getImageBase64()));
+            pet.setPhoto(Base64.getDecoder().decode(dto.getImageBase64()));
         }
 
         return pet;
@@ -33,8 +33,8 @@ public class PetMapper {
 
     public static PetDTO toDTO(Pet pet) {
         String imageBase64 = null;
-        if (pet.getImage() != null) {
-            imageBase64 = Base64.getEncoder().encodeToString(pet.getImage());
+        if (pet.getPhoto() != null) {
+            imageBase64 = Base64.getEncoder().encodeToString(pet.getPhoto());
         }
 
         return new PetDTO(

@@ -60,7 +60,8 @@ public PetSearchResponseDTO registerFullSearch(PetSearchCompositeForm compositeF
     search.setReporterRole(form.getReporterRole());
  
     if (photo != null && !photo.isEmpty()) {
-        search.setPhoto(photo.getBytes());
+        pet.setPhoto(photo.getBytes());
+        
     }
  
     petSearchRepository.save(search);
@@ -82,19 +83,26 @@ public PetSearchResponseDTO registerFullSearch(PetSearchCompositeForm compositeF
                 .disappearanceDate(form.getDisappearanceDate())
                 .location(form.getLocation())
                 .additionalNotes(form.getAdditionalNotes())
-                .photo(photo != null ? photo.getBytes() : null)
                 .build();
 
         return petSearchMapper.toResponseDto(repository.save(entity));
     }
 
     public byte[] getPhotoById(Long id) {
+
+       PetSearch compositeForm = petSearchRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("PetSearch not found"));
+        // Verifica se o pet está associado à busca
+
+        // Pet pet = petMapper.toEntity(compositeForm.getPet());
+
         PetSearch search = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("PetSearch not found"));
-        if (search.getPhoto() == null) {
+        Pet pet = null;
+        if (pet.getPhoto() == null) {
             throw new EntityNotFoundException("No photo available for this record");
         }
-        return search.getPhoto();
+        return pet.getPhoto();
     }
 
     public List<PetSearchResponseDTO> listAll(){

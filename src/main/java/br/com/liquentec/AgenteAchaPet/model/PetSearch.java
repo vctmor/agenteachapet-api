@@ -4,7 +4,10 @@ import java.time.LocalDateTime;
 
 import org.hibernate.annotations.ManyToAny;
 
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -38,12 +41,19 @@ public class PetSearch {
     @Enumerated(EnumType.STRING)
     private SearchRole reporterRole;
 
+    
     private LocalDateTime disappearanceDate;
  
     private String location;
+
+    @Embedded
+    @AttributeOverrides({
+        @AttributeOverride(name = "description", column = @Column(name = "special_need_description", length = 700))
+    })
+     private SpecialNeed specialNeed;
  
-    @Lob
-    private byte[] photo; // Pode ser uma URL para o armazenamento externo (como S3)
+    // @Lob
+    // private byte[] photo; // Pode ser uma URL para o armazenamento externo (como S3)
  
     @Column(columnDefinition = "TEXT")
     private String additionalNotes;

@@ -33,6 +33,10 @@ public class PetSearchController {
             @RequestPart("data") @Validated PetSearchCompositeForm compositeform,
             @RequestPart(value = "photo", required = false) MultipartFile photo) throws IOException {
 
+                System.out.println("Recebido: " + compositeform);
+                if (photo != null) System.out.println("Foto: " + photo.getOriginalFilename());
+            
+
         return ResponseEntity.status(HttpStatus.CREATED).body(service.registerFullSearch(compositeform, photo));
     }
 
@@ -46,7 +50,7 @@ public class PetSearchController {
 
     @GetMapping("/{id}/image")
     public ResponseEntity<byte[]> getImage(@PathVariable Long id) {
-        byte[] imageData = service.getPhotoById(id);
+        byte[] imageData = (byte[]) service.getPhotoById(id);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.IMAGE_JPEG); // ou IMAGE_PNG, se for o caso

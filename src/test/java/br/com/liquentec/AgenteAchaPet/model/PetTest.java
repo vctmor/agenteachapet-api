@@ -35,7 +35,7 @@ public class PetTest {
 		assertEquals("Preto", pet.getColor());
 		assertEquals("Vira-lata", pet.getBreed());
 		assertEquals(3, pet.getAge());
-		assertArrayEquals(image, pet.getImage());
+		assertArrayEquals(image, pet.getPhoto());
 		assertEquals(person, pet.getPerson());
 	}
 
