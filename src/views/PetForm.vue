@@ -7,6 +7,7 @@
 
     <h3>👤 Etapa 1: Quem está convocando a travessia!?</h3>
     <input v-model="person.name" placeholder="Como prefere que te chame" required />
+
     <select v-model="search.reporterRole" required>
       <option disabled value="" >Qual vai ser seu papel nesta jornada? </option>
       <option value="TUTOR">Tutor</option>
@@ -16,6 +17,7 @@
     </select>
 
     <input v-model="person.phone" placeholder="Seu melhor contato celular" required />
+    <input v-model="person.email" placeholder="O e-mail que você mais acessa" required />
 
     <h3>🐾 Etapa 2: Quem estamos buscando?</h3>
     <input v-model="pet.name" placeholder="atende por..." required />
@@ -24,7 +26,7 @@
     <input v-model.number="pet.age" placeholder="Idade" type="number" required />
     <div>
       <label for="necessidades">Tem necessidades especiais?</label>
-      <textarea id="necessidades" placeholder="Como comorbidades, se toma remédios..."></textarea>
+      <textarea id="necessidades" v-model="search.specialNeed.description" placeholder="Como comorbidades, se toma remédios..."></textarea>
     </div>
     <h3>📍 Etapa 3: Quando e onde foi visto pela última vez?</h3>
     <input v-model="search.disappearanceDate" type="datetime-local" required />
@@ -44,7 +46,7 @@
 
     <div>
   <label for="button">Respira! Vamos juntos?!!?!?</label>
-  <button id="button" type="button" onclick="this.innerText='O caminho se faz caminhando!'">JÁ!</button>
+  <button id="button" type="submitForm" onclick="this.innerText='O caminho se faz caminhando!'">JÁ!</button>
 </div>
   </form>
 </template>
@@ -56,7 +58,8 @@ export default {
     return {
       person: {
         name: "",
-        phone: ""
+        phone: "",
+        email: ""
       },
       pet: {
         name: "",
@@ -68,7 +71,10 @@ export default {
         reporterRole: "",
         disappearanceDate: "",
         location: "",
-        additionalNotes: ""
+        additionalNotes: "",
+        specialNeed: {
+          description: ""  // novo campo para enviar a necessidade especial
+        }        
       },
       image: null,
       preview: null
