@@ -58,7 +58,7 @@ class PersonMapperTest {
     dto.setName("Carol");
     dto.setEmail("carol@email.com");
     dto.setPhone("11977776666");
-    dto.setRole(Role.ADOPTER);
+    dto.setRole(Role.BASTIAN);
 
     Person person = mapper.pwpToEntity(dto);
 
@@ -67,6 +67,6 @@ class PersonMapperTest {
     assertEquals("Carol", person.getName());
     assertEquals("carol@email.com", person.getEmail());
     assertEquals("11977776666", person.getPhone());
-    assertEquals(Role.ADOPTER, person.getRole());
+    assertEquals(Role.BASTIAN, person.getRole());
   }
 }
