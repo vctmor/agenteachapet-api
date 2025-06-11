@@ -1,9 +1,11 @@
 <template>
   <form @submit.prevent="submitForm" class="form-container">
 
-    <h2>🎯 Inicie uma nova Jornada de Busca</h2>
-    <p>Vamos torcer para que ele tenha ido dormir dentro de alguma gaveta, ou esteja dentro do sofá.</p>
-    <p>Enquanto não  temos certeza, seguimoso no encalço! -  <strong>AgenteAchaPet!</strong></p>
+    <h2>🎯 Inicie uma Jornada de Busca</h2>
+
+    <p>Se você está aqui é porque o bichinho infelizmente não está a dormir em alguma gaveta, nem está dentro do sofá.</p>
+    <p>Mas o melhor há de acontecer! vamos criar uma rede de busca! </p>
+    <p>Seguimos no encalço! - <strong>AgenteAchaPet!</strong></p>
 
     <h3>👤 Etapa 1: Quem está convocando a travessia!?</h3>
     <input v-model="person.name" placeholder="Como prefere que te chame" required />
@@ -74,7 +76,7 @@ export default {
         additionalNotes: "",
         specialNeed: {
           description: ""  // novo campo para enviar a necessidade especial
-        }        
+        }
       },
       image: null,
       preview: null
