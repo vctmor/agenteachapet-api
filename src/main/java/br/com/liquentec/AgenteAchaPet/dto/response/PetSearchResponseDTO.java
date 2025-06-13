@@ -28,4 +28,5 @@ public class PetSearchResponseDTO {
     private String location;    
     private byte[] photo;
     private String additionalNotes;
+    private String slug;
 }

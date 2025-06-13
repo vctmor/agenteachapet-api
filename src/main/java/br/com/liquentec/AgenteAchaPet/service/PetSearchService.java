@@ -1,10 +1,8 @@
 package br.com.liquentec.AgenteAchaPet.service;
 
 import java.io.IOException;
+import java.text.Normalizer;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.core.annotation.MergedAnnotations.Search;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,6 +20,7 @@ import br.com.liquentec.AgenteAchaPet.mapper.PetSearchMapper;
 import br.com.liquentec.AgenteAchaPet.repository.PersonRepository;
 import br.com.liquentec.AgenteAchaPet.repository.PetRepository;
 import br.com.liquentec.AgenteAchaPet.repository.PetSearchRepository;
+import br.com.liquentec.AgenteAchaPet.util.SlugUtil;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +37,7 @@ public class PetSearchService {
     private final PetMapper petMapper;
     private final PersonMapper personMapper;
 
+    
     @Transactional
 public PetSearchResponseDTO registerFullSearch(PetSearchCompositeForm compositeForm, MultipartFile photo) throws IOException {
  
@@ -112,7 +112,15 @@ public PetSearchResponseDTO registerFullSearch(PetSearchCompositeForm compositeF
         return petSearchMapper.toDoList(entities);
        
     }
+    
+    private void  generateSlug(Pet pet, PetSearchRequestForm form){
 
+        PetSearch search = new PetSearch();
+
+        search.setSlug(SlugUtil.toSlug(pet.getName() + "-" + form.getLocation()));
+
+
+    }
 
 
 }

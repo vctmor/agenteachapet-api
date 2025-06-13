@@ -2,8 +2,10 @@ package br.com.liquentec.AgenteAchaPet.mapper;
 
 import java.util.List;
 
+import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 
 import br.com.liquentec.AgenteAchaPet.dto.response.PetSearchResponseDTO;
 import br.com.liquentec.AgenteAchaPet.model.PetSearch;
@@ -29,7 +31,32 @@ public interface PetSearchMapper {
     @Mapping(target = "photo", source = "pet.photo")
     @Mapping(target = "additionalNotes", source = "additionalNotes")
     
+    @Named("toResponseDto")
     PetSearchResponseDTO toResponseDto(PetSearch entity);
 
+    @IterableMapping(qualifiedByName = "toDto")
     List<PetSearchResponseDTO> toDoList(List<PetSearch> entities);
+
+    @Named("toDto")
+    public static PetSearchResponseDTO toDto(PetSearch search) {
+
+        PetSearchResponseDTO dto = new PetSearchResponseDTO();
+
+        dto.setId(search.getId());
+        dto.setPetId(search.getPet().getId());
+        dto.setPersonId(search.getRegisteredBy().getId());
+        dto.setPetName(search.getPet().getName());
+        dto.setPersonName(search.getRegisteredBy().getName());
+        dto.setReporterRole(search.getReporterRole());
+        dto.setDisappearanceDate(search.getDisappearanceDate());
+        dto.setLocation(search.getLocation());
+        dto.setAdditionalNotes(search.getAdditionalNotes());
+        dto.setSlug(search.getSlug());
+
+        // Se você quiser incluir a imagem (caso exista):
+        dto.setPhoto(search.getPet().getPhoto()); // ajuste conforme o seu model
+
+        return dto;
+    }
+
 }

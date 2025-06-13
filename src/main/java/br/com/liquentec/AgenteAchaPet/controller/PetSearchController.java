@@ -15,9 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import br.com.liquentec.AgenteAchaPet.dto.PetSearchCompositeForm;
 import br.com.liquentec.AgenteAchaPet.dto.response.PetSearchResponseDTO;
+import br.com.liquentec.AgenteAchaPet.mapper.PetSearchMapper;
+import br.com.liquentec.AgenteAchaPet.model.PetSearch;
+import br.com.liquentec.AgenteAchaPet.repository.PetSearchRepository;
 import br.com.liquentec.AgenteAchaPet.service.PetSearchService;
 import lombok.RequiredArgsConstructor;
 
@@ -27,7 +31,8 @@ import lombok.RequiredArgsConstructor;
 public class PetSearchController {
 
     private final PetSearchService service;
-
+    private final PetSearchRepository petSearchRepository;
+    
     @PostMapping(value = "/pet-searches", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<PetSearchResponseDTO> register(
             @RequestPart("data") @Validated PetSearchCompositeForm compositeform,
@@ -58,4 +63,18 @@ public class PetSearchController {
 
         return new ResponseEntity<>(imageData, headers, HttpStatus.OK);
     }
+
+    @GetMapping("/pet-searches/slug/{slug}")
+    public ResponseEntity<PetSearchResponseDTO> getBySlug(@PathVariable String slug) {
+    PetSearch search = petSearchRepository.findBySlug(slug)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Jornada não encontrada"));
+    
+            
+        return ResponseEntity.ok(PetSearchMapper.toDto(search));
+
+    }
+
+
+
+
 }

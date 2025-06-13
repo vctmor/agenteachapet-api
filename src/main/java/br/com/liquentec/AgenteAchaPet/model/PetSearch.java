@@ -46,6 +46,9 @@ public class PetSearch {
  
     private String location;
 
+    @Column(unique = true, nullable = false)
+    private String slug;
+
     @Embedded
     @AttributeOverrides({
         @AttributeOverride(name = "description", column = @Column(name = "special_need_description", length = 700))
