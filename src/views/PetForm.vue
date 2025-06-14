@@ -13,7 +13,7 @@
     <select v-model="search.reporterRole" required>
       <option disabled value="" >Qual vai ser seu papel nesta jornada? </option>
       <option value="TUTOR">Tutor</option>
-      <option value="BASTIAN">Bastiã: estou contigo, mobilizado na busca ativa </option>
+      <option value="BASTIAN">Bastião: estou contigo, mobilizado na busca ativa </option>
       <option value="SENTINEL">Sentinela: este bichinho parece perdido, não posso acolher, estou vigilante!</option>
       <option value="RESCUER">Guardião: ele está comigo, morrendo de saudades da sua pessoa Tutora</option>
     </select>
@@ -114,6 +114,7 @@ export default {
       formData.append("photo", this.image);
 
       try {
+
         const response = await fetch("http://localhost:8080/api/pet-searches", {
           method: "POST",
           body: formData,
@@ -123,15 +124,25 @@ export default {
         });
 
         if (!response.ok) {
+
           const errText = await response.text();
           throw new Error("Erro ao cadastrar: " + errText);
         }
 
-        alert("Anúncio cadastrado com sucesso!");
+        const result = await response.json();
+        console.log("Resposta da API:", result);
+
+        console.log("Redirecionando para:", `/cartaz/${result.slug}`);
+        this.$router.push(`/cartaz/${result.slug}`);
+
+
       } catch (error) {
+
         console.error(error);
         alert("Erro ao cadastrar anúncio.");
       }
+
+
     }
   }
 };

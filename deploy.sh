@@ -13,7 +13,7 @@ echo "Realizando a complinação dos binários"
 npm run build
 
 echo "Apagando branch '$BRANCH_NAME' "
-git -d $BRANCH_NAME
+git branch -D $BRANCH_NAME 2>/dev/null || true 
 
 echo "🔹 Criando a branch órfã '$BRANCH_NAME'..."
 git checkout --orphan $BRANCH_NAME
