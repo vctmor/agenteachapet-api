@@ -46,7 +46,7 @@ public class PetSearch {
  
     private String location;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
     private String slug;
 
     @Embedded

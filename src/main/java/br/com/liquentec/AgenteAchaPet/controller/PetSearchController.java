@@ -42,7 +42,10 @@ public class PetSearchController {
                 if (photo != null) System.out.println("Foto: " + photo.getOriginalFilename());
             
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.registerFullSearch(compositeform, photo));
+        return ResponseEntity
+        .status(HttpStatus.CREATED)
+        .contentType(MediaType.APPLICATION_JSON)
+        .body(service.registerFullSearch(compositeform, photo));
     }
 
     @GetMapping("/pet-searches")

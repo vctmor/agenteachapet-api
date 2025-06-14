@@ -14,8 +14,6 @@ import br.com.liquentec.AgenteAchaPet.dto.request.PetSearchRequestForm;
 import br.com.liquentec.AgenteAchaPet.dto.response.PetSearchResponseDTO;
 import br.com.liquentec.AgenteAchaPet.mapper.PersonMapper;
 import br.com.liquentec.AgenteAchaPet.mapper.PetMapper;
-// import br.com.liquentec.AgenteAchaPet.dto.PetSearchRequestForm;
-// import br.com.liquentec.AgenteAchaPet.dto.PetSearchResponseDTO;
 import br.com.liquentec.AgenteAchaPet.mapper.PetSearchMapper;
 import br.com.liquentec.AgenteAchaPet.repository.PersonRepository;
 import br.com.liquentec.AgenteAchaPet.repository.PetRepository;
@@ -26,9 +24,13 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
+
+
 @RequiredArgsConstructor
+
 public class PetSearchService {
 
+    // private final PetSearch responseDTO;
     private final PetSearchRepository repository;
     private final PetRepository petRepository;
     private final PetSearchRepository petSearchRepository;
@@ -36,6 +38,7 @@ public class PetSearchService {
     private final PetSearchMapper petSearchMapper;
     private final PetMapper petMapper;
     private final PersonMapper personMapper;
+    private PetSearch responseDTO;  
 
     
     @Transactional
@@ -62,8 +65,10 @@ public PetSearchResponseDTO registerFullSearch(PetSearchCompositeForm compositeF
     if (photo != null && !photo.isEmpty()) {
         pet.setPhoto(photo.getBytes());
         
-    }
- 
+    }   
+    
+    // System.out.println("Slug gerado: " + responseDTO.getSlug());
+
     petSearchRepository.save(search);
     return petSearchMapper.toResponseDto(search);
 }
