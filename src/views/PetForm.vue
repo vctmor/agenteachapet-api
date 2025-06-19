@@ -104,7 +104,8 @@ export default {
           disappearanceDate: this.search.disappearanceDate,
           location: this.search.location,
           additionalNotes: this.search.additionalNotes
-  }
+
+          }
 };
 
       formData.append("data", new Blob([JSON.stringify(data)], {
@@ -113,9 +114,14 @@ export default {
 
       formData.append("photo", this.image);
 
+      let response = null;
+
+
+
       try {
 
-        const response = await fetch("http://localhost:8080/api/pet-searches", {
+        response = await fetch("http://localhost:8080/api/pet-searches", {
+
           method: "POST",
           body: formData,
           headers: {
@@ -123,23 +129,46 @@ export default {
           }
         });
 
+
+
         if (!response.ok) {
 
           const errText = await response.text();
           throw new Error("Erro ao cadastrar: " + errText);
         }
 
-        const result = await response.json();
-        console.log("Resposta da API:", result);
 
-        console.log("Redirecionando para:", `/cartaz/${result.slug}`);
-        this.$router.push(`/cartaz/${result.slug}`);
 
 
       } catch (error) {
 
         console.error(error);
         alert("Erro ao cadastrar anúncio.");
+
+      } finally {
+
+         alert("Response: ", response);
+         const result = await response.json();
+            alert("Resposta da API:", result);
+            alert("Redirecionando para: ", `/cartaz/${result.slug}`);
+
+        if (response){
+
+          try {
+
+            const result = await response.json();
+            alert("Resposta da API:", result);
+
+            alert("Redirecionando para: ", `/cartaz/${result.slug}`);
+            this.$router.push(`/cartaz/${result.slug}`);
+
+          } catch (jsonError){
+
+            console.warn("Erro ao interpretar JSON ou redirecionar: ", jsonError)
+
+          }
+        }
+
       }
 
 

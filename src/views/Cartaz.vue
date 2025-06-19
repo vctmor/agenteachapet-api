@@ -1,13 +1,13 @@
 <template>
-  <div v-if="data">
+  <!-- <div v-if="data"> -->
     <h1>🧭 Uma Jornada Começa!</h1>
     <h2>{{ data.petName }} sumiu em {{ data.location }}</h2>
     <p>Convocamos todas as forças para ajudar {{ data.personName }}.</p>
-    <img :src="photoUrl" alt="Pet desaparecido" v-if="data.photo"/>
+    <!-- <img :src="photoUrl" alt="Pet desaparecido" v-if="data.photo"/> -->
     <p><strong>Data do desaparecimento:</strong> {{ formatDate(data.disappearanceDate) }}</p>
 
     <button @click="shareOnWhatsApp">Compartilhar via WhatsApp</button>
-  </div>
+  <!-- </div> -->
 </template>
 
 <script>
@@ -31,8 +31,9 @@ export default {
   methods: {
     async fetchData() {
       const slug = this.$route.params.slug;
-      const res = await fetch(`https://.../api/pet-searches/slug/${slug}`);
+      const res = await fetch(`/api/pet-searches/slug/${slug}`);
       this.data = await res.json();
+      console.log(this.data)
     },
     formatDate(dateString) {
       return new Date(dateString).toLocaleString();
@@ -45,6 +46,10 @@ export default {
   },
   mounted() {
     this.fetchData();
+    alert(this.fetchData.slug)
+    alert(this.fetchData.res)
+    alert(this.fetchData.data)
+    console.log(this.fetchData.slug)
     console.log("Slug recebido:", this.$route.params.slug);
   }
 };
