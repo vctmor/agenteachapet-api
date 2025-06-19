@@ -5,7 +5,7 @@
     <div v-if="pets.length === 0">Nenhum pet encontrado.</div>
     <ul>
       <li v-for="pet in pets" :key="pet.id">
-        <strong>{{ pet.breed }}</strong> - {{ pet.breed }} - {{ pet.color }}<br />
+        <strong>{{ pet.id }}</strong> - {{ pet.slug }} - {{ pet.color }}<br />
         <img :src="`/api/${pet.id}/image/`" class="pet-image" />
       </li>
     </ul>
@@ -22,10 +22,14 @@ const pets = ref([])
 onMounted(async () => {
   try {
     const res = await axios.get('/api/pet-searches')
-
+alert(res)
     pets.value = res.data
+    alert(pets.value)
+    console.log(pets.value)
 
   } catch (error) {
+
+    alert('Erro ao buscar pets:', error)
     console.error('Erro ao buscar pets:', error)
   }
 })
