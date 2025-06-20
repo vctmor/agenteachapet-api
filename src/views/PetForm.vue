@@ -90,6 +90,13 @@ export default {
         this.preview = URL.createObjectURL(file);
       }
     },
+     async openCartaz(response) {
+
+      const result = await response.json();
+      const url = `/cartaz/${result.slug}`;
+
+      window.open(url, "_blank");
+    },
       async submitForm() {
 
         document.getElementById('button').innerText = 'O caminho se faz caminhando!';
@@ -115,13 +122,9 @@ export default {
 
       formData.append("photo", this.image);
 
-      let response = null;
-
-
-
       try {
 
-        response = await fetch("http://localhost:8080/pet-searches", {
+      const  response = await fetch("http://localhost:8080/pet-searches", {
 
           method: "POST",
           body: formData,
@@ -136,10 +139,8 @@ export default {
           throw new Error("Erro ao cadastrar: " + errText);
         }
 
-         const result = await response.json();
-            alert("Cadastro realizado com sucesso");
-            alert("Redirecionando para: ", `/cartaz/${result.slug}`);
-            this.$router.push(result.slug)
+        alert("Cadastro realizado com sucesso");
+        this.openCartaz(response);
 
       } catch (error) {
 
