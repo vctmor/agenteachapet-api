@@ -1,9 +1,11 @@
 <template>
   <form @submit.prevent="submitForm" class="form-container">
 
-    <h2>🎯 Inicie uma nova Jornada de Busca</h2>
-    <p>Vamos torcer para que ele tenha ido dormir dentro de alguma gaveta, ou esteja dentro do sofá.</p>
-    <p>Enquanto não  temos certeza, seguimoso no encalço! -  <strong>AgenteAchaPet!</strong></p>
+    <h2>🎯 Inicie uma Jornada de Busca</h2>
+
+    <p>Se você está aqui é porque o bichinho infelizmente não está a dormir em alguma gaveta, nem está dentro do sofá.</p>
+    <p>Mas o melhor há de acontecer! vamos criar uma rede de busca! </p>
+    <p>Seguimos no encalço! - <strong>AgenteAchaPet!</strong></p>
 
     <h3>👤 Etapa 1: Quem está convocando a travessia!?</h3>
     <input v-model="person.name" placeholder="Como prefere que te chame" required />
@@ -11,7 +13,7 @@
     <select v-model="search.reporterRole" required>
       <option disabled value="" >Qual vai ser seu papel nesta jornada? </option>
       <option value="TUTOR">Tutor</option>
-      <option value="BASTIAN">Bastiã: estou contigo, mobilizado na busca ativa </option>
+      <option value="BASTIAN">Bastião: estou contigo, mobilizado na busca ativa </option>
       <option value="SENTINEL">Sentinela: este bichinho parece perdido, não posso acolher, estou vigilante!</option>
       <option value="RESCUER">Guardião: ele está comigo, morrendo de saudades da sua pessoa Tutora</option>
     </select>
@@ -74,7 +76,7 @@ export default {
         additionalNotes: "",
         specialNeed: {
           description: ""  // novo campo para enviar a necessidade especial
-        }        
+        }
       },
       image: null,
       preview: null
@@ -101,8 +103,10 @@ export default {
           reporterRole: this.search.reporterRole,
           disappearanceDate: this.search.disappearanceDate,
           location: this.search.location,
+          specialNeed: this.search.specialNeed,
           additionalNotes: this.search.additionalNotes
-  }
+
+          }
 };
 
       formData.append("data", new Blob([JSON.stringify(data)], {
@@ -111,8 +115,14 @@ export default {
 
       formData.append("photo", this.image);
 
+      let response = null;
+
+
+
       try {
-        const response = await fetch("http://localhost:8080/api/pet-searches", {
+
+        response = await fetch("http://localhost:8080/pet-searches", {
+
           method: "POST",
           body: formData,
           headers: {
@@ -121,15 +131,23 @@ export default {
         });
 
         if (!response.ok) {
+
           const errText = await response.text();
           throw new Error("Erro ao cadastrar: " + errText);
         }
 
-        alert("Anúncio cadastrado com sucesso!");
+         const result = await response.json();
+            alert("Cadastro realizado com sucesso");
+            alert("Redirecionando para: ", `/cartaz/${result.slug}`);
+            this.$router.push(result.slug)
+
       } catch (error) {
+
         console.error(error);
         alert("Erro ao cadastrar anúncio.");
+
       }
+
     }
   }
 };
