@@ -5,8 +5,8 @@
     <div v-if="pets.length === 0">Nenhum pet encontrado.</div>
     <ul>
       <li v-for="pet in pets" :key="pet.id">
-        <strong>{{ pet.id }}</strong> - {{ pet.slug }} - {{ pet.color }}<br />
-        <img :src="`/api/${pet.id}/image/`" class="pet-image" />
+        <strong>{{ pet.petName }}</strong> - {{ pet.slug }} - {{ pet.color }}- {{ pet.breed }}<br />
+        <img :src="`data:image/jpeg;base64,${pet.photo}`" class="pet-image" />
       </li>
     </ul>
   </div>
@@ -20,19 +20,34 @@ import axios from 'axios'
 const pets = ref([])
 
 onMounted(async () => {
+
+   try {
+    const res = await axios.get('/api/pet-searches')
+    console.log('Resposta completa:', res.data)
+  } catch (error) {
+    console.error('Erro ao buscar pets:', error)
+  }
+
   try {
     const res = await axios.get('/api/pet-searches')
-alert(res)
-    pets.value = res.data
-    alert(pets.value)
-    console.log(pets.value)
+    console.log('Tipo de res.data:', Array.isArray(res.data))  // deve ser true
+console.log('Conteúdo de res.data:', res.data)
+
+
+    // Teste se é array
+    if (Array.isArray(res.data)) {
+      pets.value = res.data
+    } else if (Array.isArray(res.data.content)) {
+      pets.value = res.data.content
+    } else {
+      console.warn('Formato inesperado:', res.data)
+    }
 
   } catch (error) {
-
-    alert('Erro ao buscar pets:', error)
     console.error('Erro ao buscar pets:', error)
   }
 })
+
 </script>
 
 <style scoped>
