@@ -15,7 +15,7 @@ public interface PetSearchMapper {
 
     @Mapping(target = "id", source = "id")
     @Mapping(target = "petId", source = "pet.id")
-    @Mapping(target = "personId", source = "registeredBy.id")
+    @Mapping(target = "personId", source = "registeredBy.id") 
     @Mapping(target = "petName", source = "pet.name")
     @Mapping(target = "personName", source = "registeredBy.name")
     @Mapping(target = "email", source = "registeredBy.email")
@@ -46,6 +46,8 @@ public interface PetSearchMapper {
         dto.setPetId(search.getPet().getId());
         dto.setPersonId(search.getRegisteredBy().getId());
         dto.setPetName(search.getPet().getName());
+        dto.setBreed(search.getPet().getBreed());
+        dto.setColor(search.getPet().getColor());
         dto.setPersonName(search.getRegisteredBy().getName());
         dto.setReporterRole(search.getReporterRole());
         dto.setDisappearanceDate(search.getDisappearanceDate());

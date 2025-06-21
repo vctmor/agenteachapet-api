@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +27,8 @@ import br.com.liquentec.AgenteAchaPet.service.PetSearchService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api")
+// @RequestMapping("/pet-searches")
+@CrossOrigin(origins = "http://localhost:5173")
 @RequiredArgsConstructor
 public class PetSearchController {
 
@@ -47,7 +49,7 @@ public class PetSearchController {
         .contentType(MediaType.APPLICATION_JSON)
         .body(service.registerFullSearch(compositeform, photo));
     }
-
+   
     @GetMapping("/pet-searches")
     public ResponseEntity<List<PetSearchResponseDTO>> listAll(){
 
@@ -56,8 +58,17 @@ public class PetSearchController {
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/{id}/image")
+    @GetMapping("/pet-s")
+    public List<PetSearchResponseDTO> list() {
+
+        // List<PetSearchResponseDTO> result = service.listAll();
+
+        return service.listAll();
+    }
+
+    @GetMapping("/{id}")
     public ResponseEntity<byte[]> getImage(@PathVariable Long id) {
+
         byte[] imageData = (byte[]) service.getPhotoById(id);
 
         HttpHeaders headers = new HttpHeaders();
@@ -69,6 +80,7 @@ public class PetSearchController {
 
     @GetMapping("/pet-searches/slug/{slug}")
     public ResponseEntity<PetSearchResponseDTO> getBySlug(@PathVariable String slug) {
+
     PetSearch search = petSearchRepository.findBySlug(slug)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Jornada não encontrada"));
     

@@ -31,9 +31,8 @@ import lombok.RequiredArgsConstructor;
 public class PetSearchService {
 
     // private final PetSearch responseDTO;
-    private final PetSearchRepository repository;
-    private final PetRepository petRepository;
     private final PetSearchRepository petSearchRepository;
+    private final PetRepository petRepository;
     private final PersonRepository personRepository;
     private final PetSearchMapper petSearchMapper;
     private final PetMapper petMapper;
@@ -55,12 +54,16 @@ public PetSearchResponseDTO registerFullSearch(PetSearchCompositeForm compositeF
     // 3. Criar a busca
     PetSearchRequestForm form = compositeForm.getSearch();
     PetSearch search = new PetSearch();
+
     search.setPet(pet);
     search.setRegisteredBy(person);
+    
     search.setLocation(form.getLocation());
     search.setDisappearanceDate(form.getDisappearanceDate());
     search.setAdditionalNotes(form.getAdditionalNotes());
     search.setReporterRole(form.getReporterRole());
+    search.setSlug(SlugUtil.toSlug(search.getPet().getName()));
+    search.setSpecialNeed(form.getSpecialNeed());
  
     if (photo != null && !photo.isEmpty()) {
         pet.setPhoto(photo.getBytes());
@@ -70,6 +73,7 @@ public PetSearchResponseDTO registerFullSearch(PetSearchCompositeForm compositeF
     // System.out.println("Slug gerado: " + responseDTO.getSlug());
 
     petSearchRepository.save(search);
+
     return petSearchMapper.toResponseDto(search);
 }
 
@@ -84,35 +88,32 @@ public PetSearchResponseDTO registerFullSearch(PetSearchCompositeForm compositeF
         PetSearch entity = PetSearch.builder()
                 .pet(pet)
                 .registeredBy(person)
+    
                 .reporterRole(form.getReporterRole())
                 .disappearanceDate(form.getDisappearanceDate())
                 .location(form.getLocation())
                 .additionalNotes(form.getAdditionalNotes())
+                .specialNeed(form.getSpecialNeed())
                 .build();
 
-        return petSearchMapper.toResponseDto(repository.save(entity));
+        return petSearchMapper.toResponseDto(petSearchRepository.save(entity));
     }
 
     public byte[] getPhotoById(Long id) {
 
        PetSearch compositeForm = petSearchRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("PetSearch not found"));
-        // Verifica se o pet está associado à busca
-
-        // Pet pet = petMapper.toEntity(compositeForm.getPet());
-
-        PetSearch search = repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("PetSearch not found"));
-        Pet pet = null;
-        if (pet.getPhoto() == null) {
+       
+        byte[] petPhoto = compositeForm.getPet().getPhoto();
+        if (petPhoto == null) {
             throw new EntityNotFoundException("No photo available for this record");
         }
-        return pet.getPhoto();
+        return petPhoto;
     }
 
     public List<PetSearchResponseDTO> listAll(){
 
-        List<PetSearch> entities = repository.findAll();
+        List<PetSearch> entities = petSearchRepository.findAll();
 
         return petSearchMapper.toDoList(entities);
        
