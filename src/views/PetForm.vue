@@ -1,11 +1,9 @@
 <template>
   <form @submit.prevent="submitForm" class="form-container">
 
-    <h2>🎯 Inicie uma Jornada de Busca</h2>
+    <h2>🎯 Ative uma Jornada de Busca</h2>
 
-    <p>Se você está aqui é porque o bichinho infelizmente não está a dormir em alguma gaveta, nem está dentro do sofá.</p>
-    <p>Mas o melhor há de acontecer! vamos criar uma rede de busca! </p>
-    <p>Seguimos no encalço! - <strong>AgenteAchaPet!</strong></p>
+      <p>Seguimos no encalço! - <strong>AgenteAchaPet!</strong></p>
 
     <h3>👤 Etapa 1: Quem está convocando a travessia!?</h3>
     <input v-model="person.name" placeholder="Como prefere que te chame" required />
@@ -13,8 +11,8 @@
     <select v-model="search.reporterRole" required>
       <option disabled value="" >Qual vai ser seu papel nesta jornada? </option>
       <option value="TUTOR">Tutor</option>
-      <option value="BASTIAN">Bastião: estou contigo, mobilizado na busca ativa </option>
-      <option value="SENTINEL">Sentinela: este bichinho parece perdido, não posso acolher, estou vigilante!</option>
+      <!-- <option value="BASTIAN">Bastião: estou contigo, mobilizado ativamente na busca </option> -->
+      <option value="SENTINEL">Sentinela: este bichinho que avistei parece perdido, não posso acolher, mas estou vigilante!</option>
       <option value="RESCUER">Guardião: ele está comigo, morrendo de saudades da sua pessoa Tutora</option>
     </select>
 
