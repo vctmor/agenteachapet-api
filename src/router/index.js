@@ -1,14 +1,14 @@
 
 import { createRouter, createWebHistory} from 'vue-router'
-import FormPet from '@/views/PetForm.vue'
+import PetForm from '@/views/PetForm.vue'
 import PetList from '@/views/PetList.vue'
 import Cartaz from '@/views/Cartaz.vue'
 import Testes from '@/views/Testes.vue'
 
 const routes = [
   { path: '/',
-    name: 'FormPet',
-    component: FormPet },
+    name: 'PetForm',
+    component: PetForm },
 
   { path: '/pets',
     name: 'PetList',
@@ -16,7 +16,7 @@ const routes = [
 
   { path: '/cartaz/:slug',
     name: 'Cartaz',
-    component: Cartaz},
+    component: Cartaz,},
 
   { path: '/testes',
     name: 'testes',
