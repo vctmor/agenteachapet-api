@@ -1,0 +1,24 @@
+spring.application.name=AgenteAchaPet
+# # jdbc:postgresql://<HOST>:<PORT>/<DB_NAME>
+# spring.datasource.url=<DATABASE_URL>
+# spring.datasource.username=<USERNAME>
+# spring.datasource.password=<PASSWORD>
+# spring.jpa.hibernate.ddl-auto=update
+# spring.jpa.show-sql=true
+# spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+
+
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+spring.datasource.username=${DATABASE_USERNAME}
+spring.datasource.password=${DATABASE_PASSWORD}
+spring.datasource.url=${DATABASE_URL}
+spring.jpa.generate-ddl=true
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+server.port=8080
+
+# application-dev.properties
+app.cors.allowedOrigin=http://localhost:5173
+
+# application-prod.properties
+app.cors.allowedOrigin=https://gold-eagle-793639.hostingersite.com
