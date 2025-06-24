@@ -6,7 +6,7 @@
     <li v-for="pet in list" :key="pet.id">
       <img :src="pet.image" class="preview-img" />
       <p><strong>{{ pet.name }}</strong> - {{ pet.phone }}</p>
-      <router-link :to="`/prototipo/cartaz/${pet.id}`">Ver Cartaz</router-link>
+      <router-link :to="`/cartaz/${pet.id}`">Ver Cartaz</router-link>
 
       <button @click="remove(pet.id)">❌ Apagar</button>
     </li>
