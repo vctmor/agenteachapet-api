@@ -5,6 +5,10 @@ import PetList from '@/views/PetList.vue'
 import Cartaz from '@/views/Cartaz.vue'
 import Testes from '@/views/Testes.vue'
 
+import FormView from '@/views/prototipo/FormView.vue'
+import CartazView from '@/views/prototipo/CartazView.vue'
+import ListView from '@/views/prototipo/ListView.vue'
+
 const routes = [
   { path: '/',
     name: 'PetForm',
@@ -15,12 +19,24 @@ const routes = [
     component: PetList},
 
   { path: '/cartaz/:slug',
-    name: 'Cartaz',
+    name: 'cartaz',
     component: Cartaz,},
 
   { path: '/testes',
     name: 'testes',
-    component: Testes }
+    component: Testes },
+
+  { path: '/prototipo',
+    name: 'prototipo',
+    component: FormView },
+
+  { path: '/prototipo/cartaz/:id',
+    name: 'cartaz',
+    component: CartazView },
+
+  { path: '/prototipo/listar',
+    name: 'listar',
+    component: ListView },
 ]
 
 export default createRouter({
