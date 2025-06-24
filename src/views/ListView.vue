@@ -8,7 +8,7 @@
       <p><strong>{{ pet.name }}</strong> - {{ pet.phone }}</p>
       <router-link :to="`/cartaz/${pet.id}`">Ver Cartaz</router-link>
 
-      <button @click="remove(pet.id)">❌ Apagar</button>
+      <button @clsick="remove(pet.id)">❌ Apagar</button>
     </li>
   </ul>
 </div>
