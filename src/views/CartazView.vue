@@ -2,8 +2,8 @@
   <div class="cartaz">
     <h2>Cartaz de Busca Ativa</h2>
     <div v-if="data">
-      <h3>{{ data.name }}</h3>
-      <img :src="data.image" class="preview-img"/>
+      <h3>{{ data.pet.petName }}</h3>
+      <img :src="data.pet.photo" class="preview-img"/>
       <p> {{ data.phone }}</p>
     </div>
     <div v-else>
