@@ -1,12 +1,12 @@
 <template>
-  <div class="form">
+  <div class="form-container">
 
     <h2>🎯 Ative uma Jornada de Busca</h2>
 
-      <p>Seguimos no encalço! - <strong>AgenteAchaPet!</strong></p>
+      <p>Sigamos no encalço! - <strong>AgenteAchaPet!</strong></p>
     <form @submit.prevent="register">
 
-     <h3>👤 Etapa 1: Quem está convocando a travessia!?</h3>
+     <h3>👤 Etapa 1: Quem está convocando a busca!?</h3>
 
       <input type="text" v-model="personName" placeholder="Seu nome" required />
 
@@ -29,16 +29,19 @@
       <div>
         <label for="necessidades">Tem necessidades especiais?</label>
         <textarea id="necessidades" v-model="specialNeedDescription"
-          placeholder="Como comorbidades, se toma remédios..."></textarea>
+          placeholder="Por exemplo comorbidades, se toma remédios..."></textarea>
       </div>
 
       <h3>📍 Etapa 3: Quando e onde foi visto pela última vez?</h3>
       <input v-model="disappearanceDate" type="datetime-local" required />
       <input v-model="location" placeholder="Endereço aproximado." required />
 
-      <label for="additionalNotes">Mais detalhes que possam ajudar</label>
+      <div>
+        <label for="additionalNotes">Mais detalhes que possam ajudar na busca</label>
       <textarea id="additionalNotes" v-model="additionalNotes"
         placeholder="Mas com empatia, não vamos impressionar nem angustiars a pessoa tutora, certo!?"></textarea>
+
+      </div>
 
       <input type="file" @change="loadImage" accept="image/*"  />
       <img v-if="preview" :src="preview" alt="Prévie da imagem" class="preview-img" />
@@ -130,9 +133,86 @@ function register() {
 
 </script>
 
+
+
 <style scoped>
-.preview-img {
-  max-width: 200px;
-  margin-top: 1rem;
+/* Centraliza o formulário na página */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 600px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background-color: #e6f0e6; /* Verde claro (Oxóssi) */
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0, 64, 0, 0.2);
+  font-family: sans-serif;
+}
+
+h3{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Estilização dos blocos de entrada */
+.form-container div {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+/* Label com destaque */
+label {
+  margin-bottom: 0.5rem;
+  font-size: 15px;
+  font-weight: bold;
+  color: #2f4f2f;
+}
+
+/* Estilo unificado para inputs e selects */
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #709775; /* tom de folha */
+  border-radius: 6px;
+  background-color: #f8fff8;
+  box-sizing: border-box;
+}
+
+/* Textarea com altura aumentada */
+textarea {
+  height: 150px;
+  resize: vertical;
+}
+
+/* Botão de envio */
+button {
+  align-self: flex-start;
+  padding: 10px 20px;
+  background-color: #49795c; /* verde profundo Oxóssi */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Hover no botão */
+button:hover {
+  background-color: #35684c;
+}
+
+/* Pré-visualização da imagem */
+.image-preview img {
+  max-width: 100%;
+  border-radius: 10px;
+  margin-top: 10px;
 }
 </style>
+
