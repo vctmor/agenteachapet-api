@@ -8,7 +8,7 @@
         </button>
         <div :class="['links', { show: menuOpen }]">
           <RouterLink to="/">Registrar uma busca</RouterLink>
-          <!-- <RouterLink to="`/cartaz/${id}`">Cartaz de Busca Ativa</RouterLink> -->
+          <!-- <RouterLink to="`/cartaz/${id}`">Cartaz de Busca AtivA</RouterLink> -->
           <RouterLink to="/listar">Listar Buscas Ativas</RouterLink>
         </div>
       </div>
@@ -31,8 +31,6 @@ const menuOpen = ref(false);
 const toggleMenu = () => {
 
   menuOpen.value = !menuOpen.value;
-  console.log("Menu aberto?", menuOpen.value);
-  alert("Menu aberto?", menuOpen.value);
 };
 
 </script>

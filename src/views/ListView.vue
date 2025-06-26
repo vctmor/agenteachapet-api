@@ -27,7 +27,7 @@
 import { computed } from 'vue'
 import { useRegister } from '@/composables/useRegister';
 
-const { listing, remove } = useRegister()
+const { listing} = useRegister()
 const list = computed(() => listing())
 
 function formatDate(dateString) {
