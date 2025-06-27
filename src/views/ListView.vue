@@ -8,14 +8,14 @@
 
       <div class="info">
         <p><strong>Nome do pet:</strong> {{ data.pet.petName }}</p>
-        <p><strong>Nome do tutor/relator:</strong> {{ data.person.personName }}</p>
+        <p><strong>Quem convoca a busca:</strong> {{ data.person.personName }}</p>
         <p><strong>Papel do relator:</strong> {{ data.search.reporterRole }}</p>
         <p><strong>Data do último avistamento:</strong> {{ formatDate(data.search.disappearanceDate) }}</p>
         <p><strong>Local do último avistamento:</strong> {{ data.search.location }}</p>
       </div>
 
       <div class="acoes">
-        <router-link :to="`/cartaz/${data.id}`">📄 Visualizar Cartaz de Busca</router-link>
+        <router-link :to="`/cartaz/${data.id}`">📄 Visusalizar Cartaz</router-link>
         <button @click="remove(data.id, data.pet.petName)">❌ Apagar</button>
       </div>
     </div>

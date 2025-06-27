@@ -14,7 +14,7 @@
 
       <div class="share-row">
         <p class="share-link">
-          📣 Compartilhe: <a :href="link" target="_blank">{{ link }}</a>
+          📣 Compartilhe o cartaz em todas as suas redes: <a :href="link" target="_blank">{{ link }}</a>
         </p>
         <button @click="linkCopy">{{ copied ? 'Copiado!' : 'Copiar Link' }}</button>
       </div>

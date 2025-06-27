@@ -48,7 +48,7 @@
 
       <button type="button" @click="exampleRegistration">Preencher com Exemplo</button>
       <button type="button" @click="resetForm">Limpar Formulário</button>
-      <button type="submit">Cadastrar</button>
+      <button type="submit">Convocar Busca</button>
     </form>
   </div>
 </template>
@@ -142,7 +142,9 @@ function register() {
     }
 
     const id = save(newRegister)
-    router.push({ name: 'cartaz', params: { id } })
+    const route = router.resolve({name: 'cartaz', params: { id }});
+
+    window.open(route.href, '_blank');
   }
 
   if (image.value){
