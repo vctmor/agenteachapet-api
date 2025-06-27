@@ -47,7 +47,7 @@
       <img v-if="preview" :src="preview" alt="Prévie da imagem" class="preview-img" />
 
       <button type="button" @click="exampleRegistration">Preencher com Exemplo</button>
-
+      <button type="button" @click="resetForm">Limpar Formulário</button>
       <button type="submit">Cadastrar</button>
     </form>
   </div>
@@ -76,6 +76,24 @@ import {
 } from '@/composables/formState'
 
 import { exampleRegistration } from '@/composables/exampleRegistration'
+import { useFormReset } from '@/composables/useFormReset'
+
+const { resetForm } = useFormReset({
+  personName,
+  phone,
+  email,
+  reporterRole,
+  disappearanceDate,
+  location,
+  additionalNotes,
+  specialNeedDescription,
+  petName,
+  breed,
+  color,
+  age,
+  image,
+  preview
+})
 
 const { save } = useRegister()
 const router = useRouter()
@@ -214,7 +232,7 @@ button:hover {
 
 /* Pré-visualização da imagem */
 .image-preview img {
-  max-width:600px;
+  max-width:300px;
   border-radius: 10px;
   margin-top: 10px;
 
