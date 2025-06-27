@@ -46,6 +46,8 @@
       <input type="file" @change="loadImage" accept="image/*"  />
       <img v-if="preview" :src="preview" alt="Prévie da imagem" class="preview-img" />
 
+      <button type="button" @click="exampleRegistration">Preencher com Exemplo</button>
+
       <button type="submit">Cadastrar</button>
     </form>
   </div>
@@ -53,29 +55,27 @@
 
 <script setup>
 
-import {ref} from 'vue'
+
 import { useRouter } from 'vue-router'
 import { useRegister } from '@/composables/useRegister'
+import {
+  personName,
+  phone,
+  email,
+  reporterRole,
+  disappearanceDate,
+  location,
+  additionalNotes,
+  specialNeedDescription,
+  petName,
+  breed,
+  color,
+  age,
+  image,
+  preview
+} from '@/composables/formState'
 
-// Variáveis reativas
-const personName = ref('')
-const phone = ref('')
-const email = ref('')
-
-const reporterRole = ref('')
-const disappearanceDate = ref('')
-const location = ref('')
-const additionalNotes = ref('')
-const specialNeedDescription = ref('')
-
-const petName = ref('')
-const breed = ref('')
-const color = ref('')
-const age = ref(null)
-
-
-const image = ref(null)
-const preview = ref(null)
+import { exampleRegistration } from '@/composables/exampleRegistration'
 
 const { save } = useRegister()
 const router = useRouter()
@@ -90,44 +90,47 @@ function loadImage(event) {
   }
 }
 
-function register() {
 
-  const reader = new FileReader()
+// exampleRegistration()
 
-  reader.onload = () => {
-    const newRegister = {
-      search: {
-      reporterRole: reporterRole.value,
-      disappearanceDate: disappearanceDate.value,
-      location: location.value,
-      additionalNotes: additionalNotes.value,
-      specialNeed: {
-        description: specialNeedDescription.value
-        }
-      },
-      person: {
-        personName: personName.value,
-        phone: phone.value,
-        email: email.value
-      },
-      pet: {
-        petName: petName.value,
-        breed: breed.value,
-        color: color.value,
-        age: age.value,
-        photo: reader.result
-      }
-    }
+// function register() {
 
-    const id = save(newRegister)
-    router.push({ name: 'cartaz', params: { id } })
-  }
+//   const reader = new FileReader()
 
-  if (image.value){
+//   reader.onload = () => {
+//     const newRegister = {
+//       search: {
+//       reporterRole: reporterRole.value,
+//       disappearanceDate: disappearanceDate.value,
+//       location: location.value,
+//       additionalNotes: additionalNotes.value,
+//       specialNeed: {
+//         description: specialNeedDescription.value
+//         }
+//       },
+//       person: {
+//         personName: personName.value,
+//         phone: phone.value,
+//         email: email.value
+//       },
+//       pet: {
+//         petName: petName.value,
+//         breed: breed.value,
+//         color: color.value,
+//         age: age.value,
+//         photo: reader.result
+//       }
+//     }
 
-    reader.readAsDataURL(image.value)
-  }
-}
+//     const id = save(newRegister)
+//     router.push({ name: 'cartaz', params: { id } })
+//   }
+
+//   if (image.value){
+
+//     reader.readAsDataURL(image.value)
+//   }
+// }
 
 
 
