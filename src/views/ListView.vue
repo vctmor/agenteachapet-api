@@ -16,7 +16,7 @@
 
       <div class="acoes">
         <router-link :to="`/cartaz/${data.id}`">📄 Visualizar Cartaz de Busca</router-link>
-        <!-- <button @click="remove(data.id, data.pet.petName)">❌ Apagar</button> -->
+        <button @click="remove(data.id, data.pet.petName)">❌ Apagar</button>
       </div>
     </div>
   </div>
@@ -27,7 +27,7 @@
 import { computed } from 'vue'
 import { useRegister } from '@/composables/useRegister';
 
-const { listing} = useRegister()
+const { listing, remove} = useRegister()
 const list = computed(() => listing())
 
 function formatDate(dateString) {

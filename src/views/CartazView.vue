@@ -98,7 +98,7 @@ function formatDate(dateString) {
 }
 
 .pet-image {
-  max-width: 750px;
+  max-width: 700px;
   margin: 1rem auto;
   display: block;
   border-radius: 10px;

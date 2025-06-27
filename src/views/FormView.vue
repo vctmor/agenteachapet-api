@@ -82,7 +82,8 @@ const router = useRouter()
 
 function loadImage(event) {
 
-  const file = event.target.files[0]
+  let file = event.target.files[0]
+  file = image.value
 
   if (file){
     image.value = file
@@ -93,44 +94,44 @@ function loadImage(event) {
 
 // exampleRegistration()
 
-// function register() {
+function register() {
 
-//   const reader = new FileReader()
+  const reader = new FileReader()
 
-//   reader.onload = () => {
-//     const newRegister = {
-//       search: {
-//       reporterRole: reporterRole.value,
-//       disappearanceDate: disappearanceDate.value,
-//       location: location.value,
-//       additionalNotes: additionalNotes.value,
-//       specialNeed: {
-//         description: specialNeedDescription.value
-//         }
-//       },
-//       person: {
-//         personName: personName.value,
-//         phone: phone.value,
-//         email: email.value
-//       },
-//       pet: {
-//         petName: petName.value,
-//         breed: breed.value,
-//         color: color.value,
-//         age: age.value,
-//         photo: reader.result
-//       }
-//     }
+  reader.onload = () => {
+    const newRegister = {
+      search: {
+      reporterRole: reporterRole.value,
+      disappearanceDate: disappearanceDate.value,
+      location: location.value,
+      additionalNotes: additionalNotes.value,
+      specialNeed: {
+        description: specialNeedDescription.value
+        }
+      },
+      person: {
+        personName: personName.value,
+        phone: phone.value,
+        email: email.value
+      },
+      pet: {
+        petName: petName.value,
+        breed: breed.value,
+        color: color.value,
+        age: age.value,
+        photo: reader.result
+      }
+    }
 
-//     const id = save(newRegister)
-//     router.push({ name: 'cartaz', params: { id } })
-//   }
+    const id = save(newRegister)
+    router.push({ name: 'cartaz', params: { id } })
+  }
 
-//   if (image.value){
+  if (image.value){
 
-//     reader.readAsDataURL(image.value)
-//   }
-// }
+    reader.readAsDataURL(image.value)
+  }
+}
 
 
 
@@ -213,9 +214,13 @@ button:hover {
 
 /* Pré-visualização da imagem */
 .image-preview img {
-  max-width: 100%;
+  max-width:600px;
   border-radius: 10px;
   margin-top: 10px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>
 
