@@ -1,26 +1,11 @@
-<!-- <template>
-  <div class="container">
-    <h1>AgenteAchaPet</h1>
-    <router-link to="/">Anunciar Desaparecimento</router-link> |
-    <router-link to="/pets">Lista de Pets Desaparecidos</router-link>
-    <hr />
-    <router-view />
-  </div>
-</template> -->
 
 <template>
-  <router-view />
+
+  <NavBar />
+  <!-- <router-view /> // Por qual motivo duplica se ele estiver ativo? \\ -->
+
 </template>
 
 <script setup>
-// import FormPet from './components/FormPet.vue'
-// import PetList from './components/PetList.vue'
+import NavBar from './composables/NavBar.vue';
 </script>
-
-<style>
-.container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-}
-</style>
