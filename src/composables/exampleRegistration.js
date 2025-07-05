@@ -245,7 +245,7 @@ export async function exampleRegistration() {
     ]
 
     const index = Math.floor(Math.random() * roles.length)
-    console.log(roles[index].label)
+
     return roles[index].key
   }
 

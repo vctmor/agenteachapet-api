@@ -43,8 +43,8 @@
 
       </div>
 
-      <input type="file" @change="loadImage" accept="image/*"  />
-      <img v-if="preview" :src="preview" alt="Prévie da imagem" class="preview-img" />
+      <input type="file" @change="loadImage" accept="image/*" required />
+      <img v-if="preview" :src="preview" alt="Prévia da imagem" class="preview-img" />
 
       <button type="button" @click="exampleRegistration">Preencher com Exemplo</button>
       <button type="button" @click="resetForm">Limpar Formulário</button>
@@ -101,7 +101,6 @@ const router = useRouter()
 function loadImage(event) {
 
   let file = event.target.files[0]
-  file = image.value
 
   if (file){
     image.value = file
@@ -114,9 +113,8 @@ function loadImage(event) {
 
 function register() {
 
-  const reader = new FileReader()
+  const saveRegister = (photoData) => {
 
-  reader.onload = () => {
     const newRegister = {
       search: {
       reporterRole: reporterRole.value,
@@ -137,7 +135,7 @@ function register() {
         breed: breed.value,
         color: color.value,
         age: age.value,
-        photo: reader.result
+        photo: photoData
       }
     }
 
@@ -148,6 +146,13 @@ function register() {
   }
 
   if (image.value){
+
+    const reader = new FileReader()
+
+    reader.onload =() =>{
+
+      saveRegister(reader.result)
+    }
 
     reader.readAsDataURL(image.value)
   }

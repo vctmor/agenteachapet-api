@@ -1,0 +1,11 @@
+## 🐾 AgenteAchaPet: Um Risoma de Busca, Cuidado e Esperança
+
+Quando um ser de afetividade desaparece, não é apenas um pet que some - é um laço, um afeto, uma presença que esvanesse. Sabemos a ferida abismal que se abre e a ansiedade alucinante que isso traz, porque já passamos por isso. Por este motivo elaboramos e estamos colaborando esta plataforma pensada e sentida no intúito de reunir quem precisa de apoio e quem deseja apoiar.
+
+Aqui, você pode agir no papel **Pessoa Tutora e, com poucos cliques, **iniciar a jornada de busca pelo seu companheiro**. Ou, se sentir, pode se tornar parte dessa rede como **Pessoa Bastiã*** e ser sustentáculo de uma busca; Caso você se depare com um bichinho que aparente estar perdido mas não pode ficar com ele, não tem pfoblema: você pode apoiar como **Vigilante** e anúnciar o avistamento. Aliás, esse seu ato será de suma importância, porque pode contribuir seja no sentido de uma pessoa tutora encontrar seu motivinho de viver, ou que ele seja notado por uma pessoa guardiã. A **Pessoa Guardiã** completa noss ecosistema de solidariedade. A pessoa neste papel vai dar abrigo, alimentação e afetividade para um bichinho até que ele encontre algum outro lar permanete, seja do seu tutor ou adotante.
+Neste sentido, do mesmo modo que no liquen, a alga e o fungo compõe um sistema de poio mútuo onde juntos ambos sobrevivem;  do mesmo modo que o lobo guará se alimenta da lobeira (Solanum lycocarpum) e ela o protege contra parasitas letais, quando a semente passa pelo intestino do lobo ela fica mais fértil. Com isto, o lobo guará dispersa as sementes e contribui pra exstência daquele ecossistema.
+
+Se a alga e o fungo conseguem compor um ecossistema [ainda que micro], se o lobo guará, o Jardineiro do Cerrado praticamente é responsável pela fertilidade do cerrado...  Por que com a gente poderia ser diferente? Proporcionamos a base material para seres de outra espécie que retribuem com afetividade praticamente incondicional.
+E por que não podemos ir além e construir um ecossistema de apoio e afetividade mútua tanto na prevenção quanto ativamente no sentido de que contribuir para que animais voltem aos seus lares ou sejam adotados?
+
+-O papel de Bastição é uma funcionalidade que será lançada em uma das próximas versões do projeto.
