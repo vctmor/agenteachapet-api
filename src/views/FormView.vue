@@ -43,7 +43,7 @@
 
       </div>
 
-      <input type="file" @change="loadImage" accept="image/*" required />
+      <input type="file" @change="loadImage" accept="image/*" />
       <img v-if="preview" :src="preview" alt="Prévia da imagem" class="preview-img" />
 
       <button type="button" @click="exampleRegistration">Preencher com Exemplo</button>
