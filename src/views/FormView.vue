@@ -44,7 +44,15 @@
       </div>
 
       <input type="file" @change="loadImage" accept="image/*" />
-      <img v-if="preview" :src="preview" alt="Prévia da imagem" class="preview-img" />
+
+      <div class="image-wrapper">
+        <img
+          v-if="preview"
+          :src="preview"
+          alt="Prévia da imagem"
+        />
+        <p v-else>Nenhuma foto selecionada</p>
+      </div>
 
       <button type="button" @click="exampleRegistration">Preencher com Exemplo</button>
       <button type="button" @click="resetForm">Limpar Formulário</button>
@@ -238,14 +246,17 @@ button:hover {
 }
 
 /* Pré-visualização da imagem */
-.image-preview img {
-  max-width:300px;
-  border-radius: 10px;
-  margin-top: 10px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.image-wrapper {
+  width: 200px;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
 }
+
+.image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 </style>
 
