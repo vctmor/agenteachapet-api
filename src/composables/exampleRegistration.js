@@ -15,31 +15,21 @@ import {
   preview
 } from '@/composables/formState'
 
-import { breedRandom, rolesRandon, dateNow } from '@/utils/registrationUtils'
+import { breedRandom, rolesRandon, dateNow, getRandomDogImageFile } from '@/utils/registrationUtils'
 
 export async function exampleRegistration() {
 
   try {
 
-    const [key, value] = breedRandom()
     const role = rolesRandon()
     const date_now = dateNow()
+    const [key, value] = breedRandom()
 
-
-    const URL_DOGS = `https://dog.ceo/api/breed/${value}/images/random`
+    const file = await getRandomDogImageFile(value)
 
     const res = await fetch('https://randomuser.me/api/')
     const data = await res.json()
     const user = data.results[0]
-
-    const res2 = await fetch(URL_DOGS)
-    const data2 = await res2.json()
-    const imageUrl = data2.message
-
-    // converte a url em arquivo tipo File
-    const blob = await fetch(imageUrl).then(r => r.blob())
-    const fileName = `dog-${Date.now()}.jpg`
-    const file = new File([blob], fileName, {type: blob.type})
 
     personName.value = `${user.name.first} ${user.name.last}`
     phone.value = user.cell
@@ -54,6 +44,8 @@ export async function exampleRegistration() {
     location.value = `${user.location.street.name}, ${user.location.street.number} - ${user.location.city}, ${user.location.state}`
     additionalNotes.value = ''
 
+    console.log('File:', file)
+    console.log('Preview:', URL.createObjectURL(file))
     image.value = file
     preview.value = URL.createObjectURL(file)
 

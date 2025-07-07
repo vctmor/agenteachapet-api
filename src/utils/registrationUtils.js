@@ -1,3 +1,59 @@
+
+
+export async function getRandomDogImageFile(breedValue, tries = 0) {
+
+
+  if (tries > 5) {
+    throw new Error('Falhou após múltiplas tentativas de obter imagem real.')
+  }
+
+  const URL_DOGS = `https://dog.ceo/api/breed/${breedValue}/images/random`
+
+  try {
+    const res = await fetch(URL_DOGS)
+    const data = await res.json()
+    const imageUrl = data.message
+
+    if (!imageUrl) {
+      console.warn('Nenhuma imagem retornada para ${breedValue}. Tentando outra raça...')
+
+      const[newKey, newValue] = breedRandom()
+      return await getRandomDogImageFile(newValue, tries + 1)
+    }
+
+    const blobResponse = await fetch(imageUrl)
+
+    if (!blobResponse.ok) {
+      console.warn('Falha ao baixar imagem. Tentando novamente...')
+
+      const [newKey, newValue] = breedRandom()
+      return await getRandomDogImageFile(newValue, tries + 1)
+    }
+
+    const blob = await blobResponse.blob()
+
+    console.log('Blob type:', blob.type)
+
+    if (!blob || blob.size === 0 || !blob.type.startsWith('image/')) {
+      console.warn('Blob inválido ou não é imagem. Tentando novamente...')
+
+      const [newKey, newValue] = breedRandom()
+      return await getRandomDogImageFile(newValue, tries + 1)
+
+    }
+
+    const fileName = `dog-${Date.now()}.jpg`
+    return new File([blob], fileName, { type: blob.type })
+
+  } catch (error) {
+    console.error('Erro ao obter imagem de cachorro:', error)
+
+    const [newKey, newValue] = breedRandom()
+    return await getRandomDogImageFile(newValue, tries + 1)
+  }
+}
+
+
 export function dateNow() {
 
   const now = new Date()
