@@ -43,8 +43,16 @@
 
       </div>
 
-      <input type="file" @change="loadImage" accept="image/*"  />
-      <img v-if="preview" :src="preview" alt="Prévie da imagem" class="preview-img" />
+      <input type="file" @change="loadImage" accept="image/*" />
+
+      <div class="image-wrapper">
+        <img
+          v-if="preview"
+          :src="preview"
+          alt="Prévia da imagem"
+        />
+        <p v-else>Nenhuma foto selecionada</p>
+      </div>
 
       <button type="button" @click="exampleRegistration">Preencher com Exemplo</button>
       <button type="button" @click="resetForm">Limpar Formulário</button>
@@ -101,7 +109,6 @@ const router = useRouter()
 function loadImage(event) {
 
   let file = event.target.files[0]
-  file = image.value
 
   if (file){
     image.value = file
@@ -114,9 +121,8 @@ function loadImage(event) {
 
 function register() {
 
-  const reader = new FileReader()
+  const saveRegister = (photoData) => {
 
-  reader.onload = () => {
     const newRegister = {
       search: {
       reporterRole: reporterRole.value,
@@ -137,7 +143,7 @@ function register() {
         breed: breed.value,
         color: color.value,
         age: age.value,
-        photo: reader.result
+        photo: photoData
       }
     }
 
@@ -148,6 +154,13 @@ function register() {
   }
 
   if (image.value){
+
+    const reader = new FileReader()
+
+    reader.onload =() =>{
+
+      saveRegister(reader.result)
+    }
 
     reader.readAsDataURL(image.value)
   }
@@ -233,14 +246,17 @@ button:hover {
 }
 
 /* Pré-visualização da imagem */
-.image-preview img {
-  max-width:300px;
-  border-radius: 10px;
-  margin-top: 10px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.image-wrapper {
+  width: 200px;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
 }
+
+.image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 </style>
 
