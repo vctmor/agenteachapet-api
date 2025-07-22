@@ -25,7 +25,6 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 
-
 @RequiredArgsConstructor
 
 public class PetSearchService {
@@ -69,12 +68,21 @@ public PetSearchResponseDTO registerFullSearch(PetSearchCompositeForm compositeF
         pet.setPhoto(photo.getBytes());
         
     }   
-    
-    // System.out.println("Slug gerado: " + responseDTO.getSlug());
+    PetSearch saved = petSearchRepository.save(search);
 
-    petSearchRepository.save(search);
+    // Teste antes de mapear
+    if (saved == null) {
+        throw new IllegalStateException("petSearchRepository.save retornou null");
+    }
 
-    return petSearchMapper.toResponseDto(search);
+    PetSearchResponseDTO dto = petSearchMapper.toResponseDto(saved);
+
+    if (dto == null) {
+        throw new IllegalStateException("petSearchMapper.toResponseDto retornou null");
+    }
+
+    return dto;
+
 }
 
     public PetSearchResponseDTO register(PetSearchRequestForm form, MultipartFile photo) throws IOException {

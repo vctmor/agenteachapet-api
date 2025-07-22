@@ -16,8 +16,8 @@ public class RedirectController {
 
         org.springframework.http.HttpHeaders headers = new org.springframework.http.HttpHeaders();
         
-        headers.setLocation(URI.create("https://gold-eagle-793639.hostingersite.com/"));
-        
+        headers.setLocation(URI.create("http://localhost:5173/"));
+        // https://gold-eagle-793639.hostingersite.com/ 
         return new ResponseEntity<>(headers, HttpStatus.FOUND);
     }
     

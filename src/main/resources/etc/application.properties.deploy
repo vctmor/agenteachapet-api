@@ -1,4 +1,8 @@
 spring.application.name=AgenteAchaPet
+
+spring.profiles.active=deploy
+
+
 # # jdbc:postgresql://<HOST>:<PORT>/<DB_NAME>
 # spring.datasource.url=<DATABASE_URL>
 # spring.datasource.username=<USERNAME>
@@ -17,8 +21,6 @@ spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 server.port=8080
 
-# application-dev.properties
-app.cors.allowedOrigin=http://localhost:5173
-
+app.cors.allowedOrigin=https://agenteachapet.vercel.app
 # application-prod.properties
 app.cors.allowedOrigin=https://gold-eagle-793639.hostingersite.com
