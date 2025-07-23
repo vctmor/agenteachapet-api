@@ -1,0 +1,176 @@
+name = "project"
+skipFolders = [ "node_modules", ".vscode", "out", "dist", ".vscode-test" ]
+skipFiles = [ ".gitignore", "package.json" ]
+
+[[processes]]
+id = "process1"
+name = "To Do"
+
+  [[processes.tasks]]
+  id = "p8947u8h66y0q03cs656ers9"
+  title = " Validação de Dados"
+  description = ""
+  tag = "backend"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "qv3g07tobim3v6zqvq0w92cy"
+  title = "Tratamento de Erros Padronizados"
+  description = ""
+  tag = "backend"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task1"
+  title = "mfe"
+  description = "<p></p>"
+  tag = "backlog, backend"
+  linkFiles = [ ]
+  dueDate = ""
+  priority = ""
+  linkCommits = [ ]
+
+    [[processes.tasks.checkList]]
+    id = "wospvkis4rbtxbl7viwozlp5"
+    title = "1"
+    completed = false
+
+  [[processes.tasks]]
+  id = "whe0n5yot7vy1iim5snu5j5m"
+  title = "back-front"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "z1wv9hpyjrmjfy8t4dihcnc3"
+  title = "refatoração"
+  description = ""
+  tag = "backend"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "h6rqk5vk757q2ix6s24plvd6"
+  title = "Documentação [mínima]"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+[[processes]]
+id = "process2"
+name = "In Progress"
+
+  [[processes.tasks]]
+  id = "tyekg7swk7n49i187zeaavfm"
+  title = "Testes unitários"
+  description = "<p></p>"
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  priority = "High"
+  linkCommits = [ ]
+
+    [[processes.tasks.checkList]]
+    id = "hrg6k4agympfyb8lopebfjbw"
+    title = "1. Model"
+    completed = false
+
+    [[processes.tasks.checkList]]
+    id = "njahqdjuwfawb93wkwksya25"
+    title = "1.1 petSearch"
+    completed = false
+
+    [[processes.tasks.checkList]]
+    id = "q766qm9g16a4w8vw7v1nlzjm"
+    title = "1.2 Role"
+    completed = false
+
+    [[processes.tasks.checkList]]
+    id = "vtkuqwmx3rcyg5hkoi5ki3my"
+    title = "1.3 Search Role"
+    completed = false
+
+    [[processes.tasks.checkList]]
+    id = "ptv862lhvug94do66sworjv0"
+    title = "1.4 SpecialNeed"
+    completed = false
+
+    [[processes.tasks.checkList]]
+    id = "yi3q68eavsg0hj4j5x3homh0"
+    title = "2. DTO"
+    completed = false
+
+    [[processes.tasks.checkList]]
+    id = "dbgslxbv80elzlsw5scrx4tz"
+    title = "3. Util"
+    completed = false
+
+    [[processes.tasks.checkList]]
+    id = "eo3xnv67ptsrz4ixmgb77o7j"
+    title = "4. Mapper"
+    completed = false
+
+    [[processes.tasks.checkList]]
+    id = "qdwthfhvl6utn2izwj3vd5ao"
+    title = "5. Service"
+    completed = false
+
+    [[processes.tasks.checkList]]
+    id = "h6w4fo1agq1vpnhkwk4020bl"
+    title = "6. Controller Advice (Exception Handler)"
+    completed = false
+
+    [[processes.tasks.checkList]]
+    id = "y4z7wmbz7k67th3nvsh2srl7"
+    title = "7. Controller"
+    completed = false
+
+    [[processes.tasks.checkList]]
+    id = "ux70qhl7alioxc6t6e0iv4bl"
+    title = "8. Config"
+    completed = false
+
+    [[processes.tasks.checkList]]
+    id = "b38ucv6ge4098os3wnycohy9"
+    title = "9. Repository"
+    completed = false
+
+[[processes]]
+id = "process3"
+name = "Done"
+tasks = [ ]
+
+[[processes]]
+id = "fs23f8rx3avih30zpc5rqwd0"
+name = "backend"
+
+  [[processes.tasks]]
+  id = "wtbeuy3z5o2ce54w6zta1u3f"
+  title = "funcionalidades"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
