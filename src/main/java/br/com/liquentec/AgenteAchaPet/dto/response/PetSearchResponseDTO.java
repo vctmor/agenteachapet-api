@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import br.com.liquentec.AgenteAchaPet.model.SearchRole;
-import br.com.liquentec.AgenteAchaPet.model.SpecialNeed;
+
 import lombok.Data;
 
 @Data
@@ -23,7 +23,7 @@ public class PetSearchResponseDTO {
     private String color;
     private String breed;
     private Integer age;
-    private SpecialNeed specialNeed;
+    private String specialNeed;
     private LocalDateTime disappearanceDate;
     private String location;    
     private byte[] photo;

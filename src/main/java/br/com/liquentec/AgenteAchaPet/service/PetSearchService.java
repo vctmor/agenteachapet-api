@@ -62,7 +62,7 @@ public PetSearchResponseDTO registerFullSearch(PetSearchCompositeForm compositeF
     search.setAdditionalNotes(form.getAdditionalNotes());
     search.setReporterRole(form.getReporterRole());
     search.setSlug(SlugUtil.toSlug(search.getPet().getName()));
-    search.setSpecialNeed(form.getSpecialNeed());
+    // search.setSpecialNeed(form.getSpecialNeed());
  
     if (photo != null && !photo.isEmpty()) {
         pet.setPhoto(photo.getBytes());
@@ -101,7 +101,7 @@ public PetSearchResponseDTO registerFullSearch(PetSearchCompositeForm compositeF
                 .disappearanceDate(form.getDisappearanceDate())
                 .location(form.getLocation())
                 .additionalNotes(form.getAdditionalNotes())
-                .specialNeed(form.getSpecialNeed())
+                // .specialNeed(form.getSpecialNeed())
                 .build();
 
         return petSearchMapper.toResponseDto(petSearchRepository.save(entity));

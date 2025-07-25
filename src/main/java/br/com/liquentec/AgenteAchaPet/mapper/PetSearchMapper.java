@@ -53,6 +53,7 @@ public interface PetSearchMapper {
         dto.setDisappearanceDate(search.getDisappearanceDate());
         dto.setLocation(search.getLocation());
         dto.setAdditionalNotes(search.getAdditionalNotes());
+        dto.setSpecialNeed(search.getSpecialNeed());
         dto.setSlug(search.getSlug());
 
         // Se você quiser incluir a imagem (caso exista):

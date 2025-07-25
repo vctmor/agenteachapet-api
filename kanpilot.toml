@@ -93,27 +93,22 @@ name = "In Progress"
     [[processes.tasks.checkList]]
     id = "hrg6k4agympfyb8lopebfjbw"
     title = "1. Model"
-    completed = false
+    completed = true
 
     [[processes.tasks.checkList]]
     id = "njahqdjuwfawb93wkwksya25"
     title = "1.1 petSearch"
-    completed = false
+    completed = true
 
     [[processes.tasks.checkList]]
     id = "q766qm9g16a4w8vw7v1nlzjm"
     title = "1.2 Role"
-    completed = false
+    completed = true
 
     [[processes.tasks.checkList]]
     id = "vtkuqwmx3rcyg5hkoi5ki3my"
     title = "1.3 Search Role"
-    completed = false
-
-    [[processes.tasks.checkList]]
-    id = "ptv862lhvug94do66sworjv0"
-    title = "1.4 SpecialNeed"
-    completed = false
+    completed = true
 
     [[processes.tasks.checkList]]
     id = "yi3q68eavsg0hj4j5x3homh0"
@@ -155,6 +150,17 @@ name = "In Progress"
     title = "9. Repository"
     completed = false
 
+  [[processes.tasks]]
+  id = "rs15syadna2c1ilo6z9dbqjd"
+  title = "swggar"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
 [[processes]]
 id = "process3"
 name = "Done"
@@ -182,6 +188,17 @@ name = "Bug"
   [[processes.tasks]]
   id = "vy3om81t5g81roxjd1ayvicz"
   title = "model/SpecialNeed_PetSearch"
+  description = "<p>  : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Handler dispatch failed: java.lang.NoClassDefFoundError: SpecialNeed] with root cause</p>"
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "uakvnxmul26r49edh871gw40"
+  title = "classe SpeciealNed def found"
   description = ""
   tag = "backlog"
   linkFiles = [ ]
