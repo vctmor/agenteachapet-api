@@ -150,6 +150,10 @@ name = "In Progress"
     title = "9. Repository"
     completed = false
 
+[[processes]]
+id = "process3"
+name = "Done"
+
   [[processes.tasks]]
   id = "rs15syadna2c1ilo6z9dbqjd"
   title = "swggar"
@@ -160,11 +164,6 @@ name = "In Progress"
   checkList = [ ]
   priority = ""
   linkCommits = [ ]
-
-[[processes]]
-id = "process3"
-name = "Done"
-tasks = [ ]
 
 [[processes]]
 id = "fs23f8rx3avih30zpc5rqwd0"
