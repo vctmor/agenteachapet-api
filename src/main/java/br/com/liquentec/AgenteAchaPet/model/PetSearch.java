@@ -49,11 +49,13 @@ public class PetSearch {
     @Column(unique = true)
     private String slug;
 
-    @Embedded
-    @AttributeOverrides({
-        @AttributeOverride(name = "description", column = @Column(name = "special_need_description", length = 700))
-    })
-     private SpecialNeed specialNeed;
+    // @Embedded
+    // @AttributeOverrides({
+    //     @AttributeOverride(name = "description", column = @Column(name = "special_need_description", length = 700))
+    // })
+    
+    @Column(columnDefinition = "TEXT")
+    private String specialNeed;
  
     // @Lob
     // private byte[] photo; // Pode ser uma URL para o armazenamento externo (como S3)

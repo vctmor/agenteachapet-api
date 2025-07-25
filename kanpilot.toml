@@ -174,3 +174,18 @@ name = "backend"
   checkList = [ ]
   priority = ""
   linkCommits = [ ]
+
+[[processes]]
+id = "behy9ixpdvgca3rlku1dofgr"
+name = "Bug"
+
+  [[processes.tasks]]
+  id = "vy3om81t5g81roxjd1ayvicz"
+  title = "model/SpecialNeed_PetSearch"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
