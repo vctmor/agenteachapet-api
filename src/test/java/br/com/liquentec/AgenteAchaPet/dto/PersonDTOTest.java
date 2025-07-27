@@ -2,12 +2,33 @@ package br.com.liquentec.AgenteAchaPet.dto;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Set;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import br.com.liquentec.AgenteAchaPet.model.Role;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 
 public class PersonDTOTest {
+
+    private Validator validator;
+
+    private PersonDTO dto;
+
+    @BeforeEach
+    void setup(){
+
+        dto = new PersonDTO();
+
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        validator = factory.getValidator(); 
+    }
 
     @Test
     void testAllArgsConstructorAndGetters(){
@@ -25,8 +46,7 @@ public class PersonDTOTest {
     @Test
     void testSetters(){
 
-        PersonDTO dto = new PersonDTO();
-
+      
         dto.setId(2L);
         dto.setName("J");
         dto.setEmail("a@b");
@@ -42,11 +62,49 @@ public class PersonDTOTest {
 
     @Test
     void testNoArgsConstructor() {
-        PersonDTO dto = new PersonDTO();
-        assertNull(dto.getId());
+
+               assertNull(dto.getId());
         assertNull(dto.getName());
         assertNull(dto.getEmail());
         assertNull(dto.getPhone());
         assertNull(dto.getRole());
     }
+
+    @Test
+    void testInvalidRequiredFields(){
+
+        dto.setId(1L);
+        dto.setName("");
+        dto.setEmail("a_b");
+        dto.setPhone("");
+        dto.setRole(null);
+
+        Set<ConstraintViolation<PersonDTO>> violations = validator.validate(dto);
+
+        assertEquals(4, violations.size());
+
+        assertTrue(violations.stream()
+                .anyMatch(v -> v.getPropertyPath()
+                .toString().equals("name")));
+        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("email")));
+        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("phone")));
+        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("role")));
+
+    }
+
+    @Test
+    void testValidFields(){
+
+        dto.setId(1L);
+        dto.setName("Maria");
+        dto.setEmail("maria@email.com");
+        dto.setPhone("11912345678");
+        dto.setRole(Role.TUTOR);
+
+        Set<ConstraintViolation<PersonDTO>> violations = validator.validate(dto);
+
+        assertTrue(violations.isEmpty());
+    }
+
+
 }
