@@ -9,13 +9,62 @@ name = "To Do"
   [[processes.tasks]]
   id = "p8947u8h66y0q03cs656ers9"
   title = " Validação de Dados"
-  description = ""
+  description = "<p></p>"
   tag = "backend"
   linkFiles = [ ]
   dueDate = ""
-  checkList = [ ]
   priority = ""
   linkCommits = [ ]
+
+    [[processes.tasks.checkList]]
+    id = "ye66i96td2xljlvhizkquj8n"
+    title = "PersonDTO"
+    completed = false
+
+    [[processes.tasks.checkList]]
+    id = "vvh3xtlj85dp3j2pcmna39qs"
+    title = "teste"
+    completed = false
+
+    [[processes.tasks.checkList]]
+    id = "tocmhv3p79v1j0dugnj6xgup"
+    title = "PetDTO"
+    completed = false
+
+    [[processes.tasks.checkList]]
+    id = "zkehu18fhax4z8a1zm3efj9f"
+    title = "teste"
+    completed = false
+
+    [[processes.tasks.checkList]]
+    id = "wfm7n4tldjj3oohekt011n59"
+    title = "PersonWithPetsDTO"
+    completed = false
+
+    [[processes.tasks.checkList]]
+    id = "sbqohzzi8dd5tnok1zfx0u1l"
+    title = "teste"
+    completed = false
+
+    [[processes.tasks.checkList]]
+    id = "i5sao98di2y79duzz15iy8fh"
+    title = "PetSearchCompositeForm"
+    completed = false
+
+    [[processes.tasks.checkList]]
+    id = "dt7ljuoprcskneuopc35imos"
+    title = "teste"
+    completed = false
+
+    [[processes.tasks.checkList]]
+    id = "wcxj7umbd6e1p8c0tuetwiq6"
+    title = "PetSearchRequestForm"
+    completed = false
+
+    [[processes.tasks.checkList]]
+    id = "zzwut8oseowkdr1shkvgxuju"
+    title = "teste"
+    completed = false
 
   [[processes.tasks]]
   id = "qv3g07tobim3v6zqvq0w92cy"
@@ -46,7 +95,7 @@ name = "To Do"
   [[processes.tasks]]
   id = "whe0n5yot7vy1iim5snu5j5m"
   title = "back-front"
-  description = ""
+  description = "<p>- Equivaler as funcionalidades</p><p>- Assuir o backend também como protótipo</p>"
   tag = "backlog"
   linkFiles = [ ]
   dueDate = ""
@@ -172,32 +221,6 @@ name = "backend"
   [[processes.tasks]]
   id = "wtbeuy3z5o2ce54w6zta1u3f"
   title = "funcionalidades"
-  description = ""
-  tag = "backlog"
-  linkFiles = [ ]
-  dueDate = ""
-  checkList = [ ]
-  priority = ""
-  linkCommits = [ ]
-
-[[processes]]
-id = "behy9ixpdvgca3rlku1dofgr"
-name = "Bug"
-
-  [[processes.tasks]]
-  id = "vy3om81t5g81roxjd1ayvicz"
-  title = "model/SpecialNeed_PetSearch"
-  description = "<p>  : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Handler dispatch failed: java.lang.NoClassDefFoundError: SpecialNeed] with root cause</p>"
-  tag = "backlog"
-  linkFiles = [ ]
-  dueDate = ""
-  checkList = [ ]
-  priority = ""
-  linkCommits = [ ]
-
-  [[processes.tasks]]
-  id = "uakvnxmul26r49edh871gw40"
-  title = "classe SpeciealNed def found"
   description = ""
   tag = "backlog"
   linkFiles = [ ]

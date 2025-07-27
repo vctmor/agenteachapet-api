@@ -60,7 +60,7 @@ public class PersonTest {
 
         assertNotNull(person.getPets());
         assertEquals(1, person.getPets().size());
-        assertEquals("Rex", person.getPets().get(0).getName())
+        assertEquals("Rex", person.getPets().get(0).getName());
 
     }
 
