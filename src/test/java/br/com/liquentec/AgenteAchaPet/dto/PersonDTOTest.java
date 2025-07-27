@@ -63,7 +63,7 @@ public class PersonDTOTest {
     @Test
     void testNoArgsConstructor() {
 
-               assertNull(dto.getId());
+        assertNull(dto.getId());
         assertNull(dto.getName());
         assertNull(dto.getEmail());
         assertNull(dto.getPhone());
@@ -86,9 +86,18 @@ public class PersonDTOTest {
         assertTrue(violations.stream()
                 .anyMatch(v -> v.getPropertyPath()
                 .toString().equals("name")));
-        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("email")));
-        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("phone")));
-        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("role")));
+
+        assertTrue(violations.stream()
+                .anyMatch(v -> v.getPropertyPath()
+                .toString().equals("email")));
+                
+        assertTrue(violations.stream()        
+                .anyMatch(v -> v.getPropertyPath()
+                .toString().equals("phone")));
+
+        assertTrue(violations.stream()
+                .anyMatch(v -> v.getPropertyPath()
+                .toString().equals("role")));
 
     }
 
