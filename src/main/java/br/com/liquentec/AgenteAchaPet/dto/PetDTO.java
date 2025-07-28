@@ -9,6 +9,10 @@ import lombok.*;
 @AllArgsConstructor
 public class PetDTO {
 
+    public PetDTO(long l, String string, String string2, String string3, String string4, Object object, long m) {
+        //TODO Auto-generated constructor stub
+    }
+
     private Long id;
 
     @NotBlank(message = "o nome é obrigatório")
