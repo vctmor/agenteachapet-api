@@ -3,6 +3,7 @@ package br.com.liquentec.AgenteAchaPet.dto;
 import java.util.List;
 
 import br.com.liquentec.AgenteAchaPet.model.Role;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -26,6 +27,7 @@ public class PersonWithPetsDTO {
     @NotNull(message = "o papel é obrigatório")
     private Role role;
 
+    @Valid
     @NotNull(message = "o pet é obrigatório")
     private List<PetDTO> pets;
 
