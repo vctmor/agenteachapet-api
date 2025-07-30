@@ -7,4 +7,6 @@ import br.com.liquentec.AgenteAchaPet.model.Person;
 
 @Repository
 public interface PersonRepository extends JpaRepository<Person, Long> {
+
+    boolean existsByEmail(String mail);
 }

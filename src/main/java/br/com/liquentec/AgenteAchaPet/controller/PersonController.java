@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import br.com.liquentec.AgenteAchaPet.dto.PersonDTO;
 import br.com.liquentec.AgenteAchaPet.dto.PersonWithPetsDTO;
 import br.com.liquentec.AgenteAchaPet.service.PersonService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api")
@@ -23,7 +24,7 @@ public class PersonController {
     private final PersonService personService;
 
     @PostMapping(value="/persons")
-    public ResponseEntity<PersonDTO> addPersonOnly(@RequestBody PersonDTO personDTO) {
+    public ResponseEntity<PersonDTO> addPersonOnly(@RequestBody @Valid PersonDTO personDTO) {
 
         PersonDTO saved = personService.personAdd(personDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);

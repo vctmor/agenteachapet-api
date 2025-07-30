@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import br.com.liquentec.AgenteAchaPet.dto.PersonWithPetsDTO;
 import br.com.liquentec.AgenteAchaPet.dto.PetDTO;
+import br.com.liquentec.AgenteAchaPet.exception.BusinessException;
 import br.com.liquentec.AgenteAchaPet.mapper.PersonMapper;
 import br.com.liquentec.AgenteAchaPet.mapper.PetMapper;
 import br.com.liquentec.AgenteAchaPet.model.Person;
@@ -35,6 +36,10 @@ public class PersonService {
     // }
     
     public PersonDTO personAdd(PersonDTO personDTO) {
+
+         if (personRepository.existsByEmail(personDTO.getEmail())) {
+        throw new BusinessException("Email já cadastrado!");
+    }
 
         Person person = personMapper.toEntity(personDTO);
 
