@@ -7,124 +7,6 @@ id = "process1"
 name = "To Do"
 
   [[processes.tasks]]
-  id = "qv3g07tobim3v6zqvq0w92cy"
-  title = "Tratamento de Erros Padronizados"
-  description = """
-<p>Ótimas perguntas! Vamos por partes, bem objetivo:</p><hr><h2>a) <strong>Se agora vamos falar de tratamento de erros padronizados, qual seria o nome da etapa anterior?</strong></h2><p>A etapa anterior pode ser chamada de:</p><ul><li><p><strong>Preparação do Terreno para o Tratamento de Erros Padronizados</strong><br>(ou simplesmente “Preparação para Tratamento de Erros”)</p></li></ul><p>Ou, de maneira mais técnica no contexto de TDD e arquitetura de API:</p><ul><li><p><strong>Estruturação dos Casos de Erro e Cenários de Teste</strong></p></li><li><p><strong>Configuração Inicial para TDD em Tratamento de Erros</strong></p></li><li><p><strong>Levantamento e Mapeamento de Casos de Erro</strong></p></li><li><p><strong>Teste Inicial de Integração para Casos de Erro</strong></p></li></ul><p>No fluxo de desenvolvimento, seria aquela etapa em que você <strong>define, documenta e testa o que é esperado em caso de erro</strong>, mas <strong>ainda não implementou o tratamento padronizado</strong>.<br>É a preparação dos pré-requisitos para que o tratamento de erros padronizado possa ser implementado com segurança e cobertura de testes.</p><hr><h2>b) <strong>Passo a passo para implementar o tratamento de erros padronizados, agora que o terreno está preparado</strong></h2><p>Vou partir do ponto em que:</p><ul><li><p>Você já tem o endpoint (por exemplo, <code>/api/pets/{id}</code>)</p></li><li><p>Você já escreveu e rodou o teste de integração esperando a resposta padronizada (e o teste falhou, como esperado)</p></li></ul><p>Agora é hora de implementar o tratamento de erros padronizados!</p><hr><h3><strong>Passo a passo detalhado (pode seguir para qualquer recurso da sua API):</strong></h3><hr><h3><strong>1. Crie a exceção customizada</strong></h3><p>Exemplo: <code>PetNotFoundException</code></p><pre><code class="language-java">package br.com.liquentec.AgenteAchaPet.exception;
-
-public class PetNotFoundException extends RuntimeException {
-    public PetNotFoundException(String message) {
-        super(message);
-    }
-}
-</code></pre><hr><h3><strong>2. Altere o Controller para lançar a exceção customizada</strong></h3><p>No método do seu controller, sempre que o recurso não existir, lance a exceção:</p><pre><code class="language-java">@GetMapping("/{id}")
-public PetDTO buscarPetPorId(@PathVariable Long id) {
-    // Suponha que o service retorna Optional&lt;PetDTO&gt;
-    return petService.buscarPorId(id)
-        .orElseThrow(() -&gt; new PetNotFoundException("Pet com id " + id + " não encontrado"));
-}
-</code></pre><hr><h3><strong>3. Crie a classe de resposta padronizada</strong></h3><p>Exemplo: <code>ApiError</code></p><pre><code class="language-java">package br.com.liquentec.AgenteAchaPet.exception;
-
-import java.time.LocalDateTime;
-
-public class ApiError {
-    private LocalDateTime timestamp;
-    private int status;
-    private String error;
-    private String message;
-    private String path;
-
-    // Construtor, getters e setters
-
-    public ApiError(LocalDateTime timestamp, int status, String error, String message, String path) {
-        this.timestamp = timestamp;
-        this.status = status;
-        this.error = error;
-        this.message = message;
-        this.path = path;
-    }
-    // getters e setters omitidos para brevidade
-}
-</code></pre><hr><h3><strong>4. Implemente o handler global de exceções</strong></h3><p>No pacote <code>controller</code>, crie uma classe anotada com <code>@RestControllerAdvice</code>:</p><pre><code class="language-java">package br.com.liquentec.AgenteAchaPet.controller;
-
-import br.com.liquentec.AgenteAchaPet.exception.ApiError;
-import br.com.liquentec.AgenteAchaPet.exception.PetNotFoundException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import jakarta.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
-
-@RestControllerAdvice
-public class ExceptionHandlerAdvice {
-
-    @ExceptionHandler(PetNotFoundException.class)
-    public ResponseEntity&lt;ApiError&gt; handlePetNotFound(
-            PetNotFoundException ex, HttpServletRequest request) {
-        ApiError apiError = new ApiError(
-                LocalDateTime.now(),
-                HttpStatus.NOT_FOUND.value(),
-                "Not Found",
-                ex.getMessage(),
-                request.getRequestURI()
-        );
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiError);
-    }
-
-    // (Opcional) Handler genérico para outras exceções
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity&lt;ApiError&gt; handleAllExceptions(
-            Exception ex, HttpServletRequest request) {
-        ApiError apiError = new ApiError(
-                LocalDateTime.now(),
-                HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                "Internal Server Error",
-                "Erro interno no servidor.",
-                request.getRequestURI()
-        );
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(apiError);
-    }
-}
-</code></pre><hr><h3><strong>5. Rode o teste de integração</strong></h3><ul><li><p>Execute o teste que você escreveu na etapa anterior.</p></li><li><p>Se precisar, ajuste mensagens, status, ou campos até o teste passar.</p></li></ul><hr><h3><strong>6. (Opcional, mas recomendável) Refatore e Generalize</strong></h3><ul><li><p>Crie handlers para outras exceções customizadas.</p></li><li><p>Padronize mensagens, se necessário.</p></li><li><p>Adicione tratamento para validações (<code>MethodArgumentNotValidException</code>) etc.</p></li></ul><hr><h2><strong>Fluxo resumido</strong></h2><ol><li><p>Exceção customizada criada</p></li><li><p>Controller lança a exceção</p></li><li><p>Classe de erro padronizado criada</p></li><li><p>Handler global implementado</p></li><li><p>Teste de integração passa</p></li><li><p>Refatore e generalize</p></li></ol><hr><p>Pronto!<br>Com isso, seu tratamento de erros padronizado está implementado para esse cenário — agora é só repetir/adaptar o fluxo para outros erros e endpoints!</p><p>Se quiser, posso te ajudar a escrever um handler para erros de validação, ou criar um exemplo para outro cenário específico!</p>"""
-  tag = "backend"
-  linkFiles = [ ]
-  dueDate = ""
-  priority = ""
-  linkCommits = [ ]
-
-    [[processes.tasks.checkList]]
-    id = "qjvfpv8jwikxzhrgypajzaga"
-    title = "Exceção customizada criada  "
-    completed = false
-
-    [[processes.tasks.checkList]]
-    id = "hu7x8c8guduhwdf983zbfi9w"
-    title = "Controller lança a exceção "
-    completed = false
-
-    [[processes.tasks.checkList]]
-    id = "ptmgc4ysqiz7ms7p66rpeehw"
-    title = " Classe de erro padronizado criada "
-    completed = false
-
-    [[processes.tasks.checkList]]
-    id = "rgd197rg6buic1ywmn2hmdey"
-    title = " Handler global implementado  "
-    completed = false
-
-    [[processes.tasks.checkList]]
-    id = "ss2glgn8hnkzseq2cdsf0liu"
-    title = "Teste de integração passa "
-    completed = false
-
-    [[processes.tasks.checkList]]
-    id = "a5i0uogmjh3ymia4qwiuedgw"
-    title = " Refatore e generalize"
-    completed = false
-
-  [[processes.tasks]]
   id = "qe3t3kzvw1asjz8brldyhhv1"
   title = "Configuração Inicial para TDD em Tratamento de Erros"
   description = """
@@ -432,6 +314,134 @@ name = "In Progress"
   checkList = [ ]
   priority = ""
   linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "qv3g07tobim3v6zqvq0w92cy"
+  title = "Tratamento de Erros Padronizados"
+  description = """
+<p>Ótimas perguntas! Vamos por partes, bem objetivo:</p><hr><h2>a) <strong>Se agora vamos falar de tratamento de erros padronizados, qual seria o nome da etapa anterior?</strong></h2><p>A etapa anterior pode ser chamada de:</p><ul><li><p><strong>Preparação do Terreno para o Tratamento de Erros Padronizados</strong><br>(ou simplesmente “Preparação para Tratamento de Erros”)</p></li></ul><p>Ou, de maneira mais técnica no contexto de TDD e arquitetura de API:</p><ul><li><p><strong>Estruturação dos Casos de Erro e Cenários de Teste</strong></p></li><li><p><strong>Configuração Inicial para TDD em Tratamento de Erros</strong></p></li><li><p><strong>Levantamento e Mapeamento de Casos de Erro</strong></p></li><li><p><strong>Teste Inicial de Integração para Casos de Erro</strong></p></li></ul><p>No fluxo de desenvolvimento, seria aquela etapa em que você <strong>define, documenta e testa o que é esperado em caso de erro</strong>, mas <strong>ainda não implementou o tratamento padronizado</strong>.<br>É a preparação dos pré-requisitos para que o tratamento de erros padronizado possa ser implementado com segurança e cobertura de testes.</p><hr><h2>b) <strong>Passo a passo para implementar o tratamento de erros padronizados, agora que o terreno está preparado</strong></h2><p>Vou partir do ponto em que:</p><ul><li><p>Você já tem o endpoint (por exemplo, <code>/api/pets/{id}</code>)</p></li><li><p>Você já escreveu e rodou o teste de integração esperando a resposta padronizada (e o teste falhou, como esperado)</p></li></ul><p>Agora é hora de implementar o tratamento de erros padronizados!</p><hr><h3><strong>Passo a passo detalhado (pode seguir para qualquer recurso da sua API):</strong></h3><hr><h3><strong>1. Crie a exceção customizada</strong></h3><p>Exemplo: <code>PetNotFoundException</code></p><pre><code class="language-java">package br.com.liquentec.AgenteAchaPet.exception;
+
+public class PetNotFoundException extends RuntimeException {
+    public PetNotFoundException(String message) {
+        super(message);
+    }
+}
+</code></pre><hr><h3><strong>2. Altere o Controller para lançar a exceção customizada</strong></h3><p>No método do seu controller, sempre que o recurso não existir, lance a exceção:</p><pre><code class="language-java">@GetMapping("/{id}")
+public PetDTO buscarPetPorId(@PathVariable Long id) {
+    // Suponha que o service retorna Optional&lt;PetDTO&gt;
+    return petService.buscarPorId(id)
+        .orElseThrow(() -&gt; new PetNotFoundException("Pet com id " + id + " não encontrado"));
+}
+</code></pre><hr><h3><strong>3. Crie a classe de resposta padronizada</strong></h3><p>Exemplo: <code>ApiError</code></p><pre><code class="language-java">package br.com.liquentec.AgenteAchaPet.exception;
+
+import java.time.LocalDateTime;
+
+public class ApiError {
+    private LocalDateTime timestamp;
+    private int status;
+    private String error;
+    private String message;
+    private String path;
+
+    // Construtor, getters e setters
+
+    public ApiError(LocalDateTime timestamp, int status, String error, String message, String path) {
+        this.timestamp = timestamp;
+        this.status = status;
+        this.error = error;
+        this.message = message;
+        this.path = path;
+    }
+    // getters e setters omitidos para brevidade
+}
+</code></pre><hr><h3><strong>4. Implemente o handler global de exceções</strong></h3><p>No pacote <code>controller</code>, crie uma classe anotada com <code>@RestControllerAdvice</code>:</p><pre><code class="language-java">package br.com.liquentec.AgenteAchaPet.controller;
+
+import br.com.liquentec.AgenteAchaPet.exception.ApiError;
+import br.com.liquentec.AgenteAchaPet.exception.PetNotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import jakarta.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
+
+@RestControllerAdvice
+public class ExceptionHandlerAdvice {
+
+    @ExceptionHandler(PetNotFoundException.class)
+    public ResponseEntity&lt;ApiError&gt; handlePetNotFound(
+            PetNotFoundException ex, HttpServletRequest request) {
+        ApiError apiError = new ApiError(
+                LocalDateTime.now(),
+                HttpStatus.NOT_FOUND.value(),
+                "Not Found",
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiError);
+    }
+
+    // (Opcional) Handler genérico para outras exceções
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity&lt;ApiError&gt; handleAllExceptions(
+            Exception ex, HttpServletRequest request) {
+        ApiError apiError = new ApiError(
+                LocalDateTime.now(),
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                "Internal Server Error",
+                "Erro interno no servidor.",
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(apiError);
+    }
+}
+</code></pre><hr><h3><strong>5. Rode o teste de integração</strong></h3><ul><li><p>Execute o teste que você escreveu na etapa anterior.</p></li><li><p>Se precisar, ajuste mensagens, status, ou campos até o teste passar.</p></li></ul><hr><h3><strong>6. (Opcional, mas recomendável) Refatore e Generalize</strong></h3><ul><li><p>Crie handlers para outras exceções customizadas.</p></li><li><p>Padronize mensagens, se necessário.</p></li><li><p>Adicione tratamento para validações (<code>MethodArgumentNotValidException</code>) etc.</p></li></ul><hr><h2><strong>Fluxo resumido</strong></h2><ol><li><p>Exceção customizada criada</p></li><li><p>Controller lança a exceção</p></li><li><p>Classe de erro padronizado criada</p></li><li><p>Handler global implementado</p></li><li><p>Teste de integração passa</p></li><li><p>Refatore e generalize</p></li></ol><hr><p>Pronto!<br>Com isso, seu tratamento de erros padronizado está implementado para esse cenário — agora é só repetir/adaptar o fluxo para outros erros e endpoints!</p><p>Se quiser, posso te ajudar a escrever um handler para erros de validação, ou criar um exemplo para outro cenário específico!</p>"""
+  tag = "backend"
+  linkFiles = [ ]
+  dueDate = ""
+  priority = ""
+  linkCommits = [ ]
+
+    [[processes.tasks.checkList]]
+    id = "qjvfpv8jwikxzhrgypajzaga"
+    title = "Exceção customizada criada  "
+    completed = true
+
+    [[processes.tasks.checkList]]
+    id = "hu7x8c8guduhwdf983zbfi9w"
+    title = "Controller lança a exceção "
+    completed = true
+
+    [[processes.tasks.checkList]]
+    id = "ptmgc4ysqiz7ms7p66rpeehw"
+    title = " Classe de erro padronizado criada "
+    completed = true
+
+    [[processes.tasks.checkList]]
+    id = "rgd197rg6buic1ywmn2hmdey"
+    title = " Handler global implementado  "
+    completed = true
+
+    [[processes.tasks.checkList]]
+    id = "ss2glgn8hnkzseq2cdsf0liu"
+    title = "Teste de integração passa "
+    completed = false
+
+    [[processes.tasks.checkList]]
+    id = "a5i0uogmjh3ymia4qwiuedgw"
+    title = " Refatore e generalize"
+    completed = false
+
+    [[processes.tasks.checkList]]
+    id = "e099nlwjxq7k8iohmnfzxexn"
+    title = "Person Controller e Service"
+    completed = true
+
+    [[processes.tasks.checkList]]
+    id = "o9s4o0pyfa5hubqnwo6xzdpo"
+    title = "PetSearchController e Service"
+    completed = true
 
 [[processes]]
 id = "process3"
