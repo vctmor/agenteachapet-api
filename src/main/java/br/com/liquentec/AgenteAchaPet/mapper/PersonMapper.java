@@ -18,5 +18,5 @@ public interface PersonMapper {
     Person toEntity(PersonDTO dto);
 
     // Mapeamento de DTO com pets (não mapeando os pets ainda)
-    Person pwpToEntity(PersonWithPetsDTO dto);
+    Person pwpToEntity(PersonDTO dto);
 }
