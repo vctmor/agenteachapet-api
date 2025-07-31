@@ -38,7 +38,8 @@ public class PersonService {
     public PersonDTO personAdd(PersonDTO personDTO) {
 
          if (personRepository.existsByEmail(personDTO.getEmail())) {
-        throw new BusinessException("Email já cadastrado!");
+
+            throw new BusinessException("Email já cadastrado!");
     }
 
         Person person = personMapper.toEntity(personDTO);
