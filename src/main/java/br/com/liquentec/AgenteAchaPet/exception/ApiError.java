@@ -3,6 +3,7 @@ package br.com.liquentec.AgenteAchaPet.exception;
 import java.time.LocalDateTime;
 
 public class ApiError {
+    
     private LocalDateTime timestamp;
     private int status;
     private String error;
