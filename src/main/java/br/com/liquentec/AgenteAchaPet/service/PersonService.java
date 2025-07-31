@@ -37,10 +37,10 @@ public class PersonService {
     
     public PersonDTO personAdd(PersonDTO personDTO) {
 
-         if (personRepository.existsByEmail(personDTO.getEmail())) {
+        if (personRepository.existsByEmail(personDTO.getEmail())) {
 
             throw new BusinessException("Email já cadastrado!");
-    }
+        }
 
         Person person = personMapper.toEntity(personDTO);
 
@@ -52,6 +52,12 @@ public class PersonService {
 
     @Transactional
     public PersonDTO addPersonWithPets(PersonWithPetsDTO dto, MultipartFile image) {
+
+        if (personRepository.existsByEmail(dto.getEmail())) {
+
+            throw new BusinessException("Email já cadastrado!");
+        }
+
         // Converte o DTO para a entidade usando o PersonMapper
         Person person = personMapper.pwpToEntity(dto);
 
@@ -60,6 +66,7 @@ public class PersonService {
 
         // Mapeia e salva os pets associados
         if (dto.getPets() != null && !dto.getPets().isEmpty()) {
+            
             for (PetDTO petDTO : dto.getPets()) {
                 Pet pet = PetMapper.toEntity(petDTO);
                 pet.setPerson(savedPerson); // associa o pet à pessoa recém salva

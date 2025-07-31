@@ -8,11 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +22,7 @@ import br.com.liquentec.AgenteAchaPet.mapper.PetSearchMapper;
 import br.com.liquentec.AgenteAchaPet.model.PetSearch;
 import br.com.liquentec.AgenteAchaPet.repository.PetSearchRepository;
 import br.com.liquentec.AgenteAchaPet.service.PetSearchService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -37,6 +36,7 @@ public class PetSearchController {
     
     @PostMapping(value = "/pet-searches", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<PetSearchResponseDTO> register(
+            @Valid
             @RequestPart("data") @Validated PetSearchCompositeForm compositeform,
             @RequestPart(value = "photo", required = false) MultipartFile photo) throws IOException {
 
@@ -67,7 +67,7 @@ public class PetSearchController {
     // }
 
     @GetMapping("/{id}")
-    public ResponseEntity<byte[]> getImage(@PathVariable Long id) {
+    public ResponseEntity<byte[]> getImage(@Valid @PathVariable Long id) {
 
         byte[] imageData = (byte[]) service.getPhotoById(id);
 
@@ -79,7 +79,7 @@ public class PetSearchController {
     }
 
     @GetMapping("/pet-searches/slug/{slug}")
-    public ResponseEntity<PetSearchResponseDTO> getBySlug(@PathVariable String slug) {
+    public ResponseEntity<PetSearchResponseDTO> getBySlug(@Valid @PathVariable String slug) {
 
     PetSearch search = petSearchRepository.findBySlug(slug)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Jornada não encontrada"));

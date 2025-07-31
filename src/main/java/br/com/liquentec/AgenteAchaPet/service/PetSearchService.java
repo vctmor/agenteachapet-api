@@ -12,6 +12,9 @@ import br.com.liquentec.AgenteAchaPet.model.PetSearch;
 import br.com.liquentec.AgenteAchaPet.dto.PetSearchCompositeForm;
 import br.com.liquentec.AgenteAchaPet.dto.request.PetSearchRequestForm;
 import br.com.liquentec.AgenteAchaPet.dto.response.PetSearchResponseDTO;
+import br.com.liquentec.AgenteAchaPet.exception.BusinessException;
+import br.com.liquentec.AgenteAchaPet.exception.EntityCreationException;
+import br.com.liquentec.AgenteAchaPet.exception.MapperException;
 import br.com.liquentec.AgenteAchaPet.mapper.PersonMapper;
 import br.com.liquentec.AgenteAchaPet.mapper.PetMapper;
 import br.com.liquentec.AgenteAchaPet.mapper.PetSearchMapper;
@@ -42,11 +45,15 @@ public class PetSearchService {
     @Transactional
 public PetSearchResponseDTO registerFullSearch(PetSearchCompositeForm compositeForm, MultipartFile photo) throws IOException {
  
+    if (personRepository.existsByEmail(compositeForm.getPerson().getEmail())){
+
+        throw new BusinessException("Email já cadastrado");
+    }
     // 1. Salvar a pessoa
     Person person = personRepository.save(personMapper.toEntity(compositeForm.getPerson()));
  
     // 2. Salvar o pet
-    Pet pet = petMapper.toEntity(compositeForm.getPet());
+    Pet pet = PetMapper.toEntity(compositeForm.getPet());
     pet.setPerson(person);
     pet = petRepository.save(pet);
  
@@ -72,13 +79,13 @@ public PetSearchResponseDTO registerFullSearch(PetSearchCompositeForm compositeF
 
     // Teste antes de mapear
     if (saved == null) {
-        throw new IllegalStateException("petSearchRepository.save retornou null");
+        throw new EntityCreationException("Falha ao salvar busca");
     }
 
     PetSearchResponseDTO dto = petSearchMapper.toResponseDto(saved);
 
     if (dto == null) {
-        throw new IllegalStateException("petSearchMapper.toResponseDto retornou null");
+        throw new MapperException("Falha ao mapear busca para DTO");
     }
 
     return dto;

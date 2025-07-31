@@ -33,7 +33,7 @@ public class PersonController {
     @PostMapping(value = "/withPets", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<PersonDTO> addPersonAndPets(
             @RequestPart("personWithPetsDTO") PersonWithPetsDTO dto,
-            @RequestPart("image") MultipartFile image) {
+            @RequestPart("image") @Valid MultipartFile image) {
 
         PersonDTO saved = personService.addPersonWithPets(dto, image);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
