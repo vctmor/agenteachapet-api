@@ -267,7 +267,7 @@ name = "In Progress"
     [[processes.tasks.checkList]]
     id = "yi3q68eavsg0hj4j5x3homh0"
     title = "2. DTO"
-    completed = false
+    completed = true
 
     [[processes.tasks.checkList]]
     id = "dbgslxbv80elzlsw5scrx4tz"
@@ -303,17 +303,6 @@ name = "In Progress"
     id = "b38ucv6ge4098os3wnycohy9"
     title = "9. Repository"
     completed = false
-
-  [[processes.tasks]]
-  id = "h6rqk5vk757q2ix6s24plvd6"
-  title = "Documentação [mínima]"
-  description = ""
-  tag = "backlog"
-  linkFiles = [ ]
-  dueDate = ""
-  checkList = [ ]
-  priority = ""
-  linkCommits = [ ]
 
   [[processes.tasks]]
   id = "qv3g07tobim3v6zqvq0w92cy"
@@ -517,6 +506,17 @@ name = "Done"
     id = "zzwut8oseowkdr1shkvgxuju"
     title = "teste"
     completed = true
+
+  [[processes.tasks]]
+  id = "h6rqk5vk757q2ix6s24plvd6"
+  title = "Documentação [mínima]"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
 
 [[processes]]
 id = "fs23f8rx3avih30zpc5rqwd0"

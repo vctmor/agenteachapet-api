@@ -6,5 +6,5 @@ public enum Role {
     BASTIAN, 
     SENTINEL, 
     RESCUER
-    // ADOPTER 
+    //ADOPTER 
 }
