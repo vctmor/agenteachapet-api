@@ -1,5 +1,7 @@
 package br.com.liquentec.AgenteAchaPet.model;
 
+import java.util.Optional;
+
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -18,7 +18,6 @@ public class PersonRepositoryTest {
     @Autowired
     private PersonRepository personRepository;
 
-
     @Test
     @DisplayName("Should return true if person exists by mail")
     void shouldReturnTrueWhenPersonExistsByEmail(){

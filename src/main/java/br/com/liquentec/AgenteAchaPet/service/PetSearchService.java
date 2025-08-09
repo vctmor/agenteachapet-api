@@ -1,7 +1,6 @@
 package br.com.liquentec.AgenteAchaPet.service;
 
 import java.io.IOException;
-import java.text.Normalizer;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,11 +36,7 @@ public class PetSearchService {
     private final PetRepository petRepository;
     private final PersonRepository personRepository;
     private final PetSearchMapper petSearchMapper;
-    private final PetMapper petMapper;
     private final PersonMapper personMapper;
-    private PetSearch responseDTO;  
-
-    
     @Transactional
 public PetSearchResponseDTO registerFullSearch(PetSearchCompositeForm compositeForm, MultipartFile photo) throws IOException {
  
