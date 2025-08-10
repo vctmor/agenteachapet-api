@@ -270,9 +270,14 @@ name = "In Progress"
     completed = true
 
     [[processes.tasks.checkList]]
+    id = "b38ucv6ge4098os3wnycohy9"
+    title = "9. Repository"
+    completed = true
+
+    [[processes.tasks.checkList]]
     id = "dbgslxbv80elzlsw5scrx4tz"
     title = "3. Util"
-    completed = false
+    completed = true
 
     [[processes.tasks.checkList]]
     id = "eo3xnv67ptsrz4ixmgb77o7j"
@@ -285,23 +290,18 @@ name = "In Progress"
     completed = false
 
     [[processes.tasks.checkList]]
-    id = "h6w4fo1agq1vpnhkwk4020bl"
-    title = "6. Controller Advice (Exception Handler)"
-    completed = false
-
-    [[processes.tasks.checkList]]
     id = "y4z7wmbz7k67th3nvsh2srl7"
     title = "7. Controller"
     completed = false
 
     [[processes.tasks.checkList]]
-    id = "ux70qhl7alioxc6t6e0iv4bl"
-    title = "8. Config"
+    id = "h6w4fo1agq1vpnhkwk4020bl"
+    title = "6. Controller Advice (Exception Handler)"
     completed = false
 
     [[processes.tasks.checkList]]
-    id = "b38ucv6ge4098os3wnycohy9"
-    title = "9. Repository"
+    id = "ux70qhl7alioxc6t6e0iv4bl"
+    title = "8. Config"
     completed = false
 
   [[processes.tasks]]
