@@ -29,12 +29,6 @@ public class PersonService {
     @Autowired
     private final PetRepository petRepository;
 
-    // public List<PersonDTO> listAll(){
-
-    // return personRepository.findAll().stream()
-    // .mzap(PersonMapper::toDTO).collect(Collectors.toList());
-    // }
-    
     public PersonDTO personAdd(PersonDTO personDTO) {
 
         if (personRepository.existsByEmail(personDTO.getEmail())) {
@@ -47,6 +41,7 @@ public class PersonService {
         // (Opcional) verificação de dados, validação de role, email, etc.
 
         Person saved = personRepository.save(person);
+        
         return personMapper.toDto(saved);
     }
 
