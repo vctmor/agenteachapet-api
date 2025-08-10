@@ -270,8 +270,8 @@ name = "In Progress"
     completed = true
 
     [[processes.tasks.checkList]]
-    id = "b38ucv6ge4098os3wnycohy9"
-    title = "9. Repository"
+    id = "eo3xnv67ptsrz4ixmgb77o7j"
+    title = "4. Mapper"
     completed = true
 
     [[processes.tasks.checkList]]
@@ -280,9 +280,9 @@ name = "In Progress"
     completed = true
 
     [[processes.tasks.checkList]]
-    id = "eo3xnv67ptsrz4ixmgb77o7j"
-    title = "4. Mapper"
-    completed = false
+    id = "b38ucv6ge4098os3wnycohy9"
+    title = "9. Repository"
+    completed = true
 
     [[processes.tasks.checkList]]
     id = "qdwthfhvl6utn2izwj3vd5ao"
