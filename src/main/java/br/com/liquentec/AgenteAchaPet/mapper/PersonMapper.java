@@ -1,8 +1,6 @@
 package br.com.liquentec.AgenteAchaPet.mapper;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
-
 import br.com.liquentec.AgenteAchaPet.model.Person;
 import br.com.liquentec.AgenteAchaPet.dto.PersonDTO;
 import br.com.liquentec.AgenteAchaPet.dto.PersonWithPetsDTO;

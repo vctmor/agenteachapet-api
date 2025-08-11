@@ -10,20 +10,33 @@ import org.mapstruct.factory.Mappers;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.BeforeEach;
+
 class PersonMapperTest {
 
   private final PersonMapper mapper = Mappers.getMapper(PersonMapper.class);
 
+  private Person person;
+
+  PersonDTO dto;
+
+  @BeforeEach
+  void setup() {
+
+    person = new Person();
+    
+  }
+
   @Test
-  void testToDto() {
-    Person person = new Person();
+  void testToDto() {  
+
     person.setId(1L);
     person.setName("Alice");
     person.setEmail("alice@email.com");
     person.setPhone("11999999999");
-    person.setRole(Role.TUTOR);
+    person.setRole(Role.TUTOR);   
 
-    PersonDTO dto = mapper.toDto(person);
+    dto = mapper.toDto(person); // mapeando o DTO
 
     assertNotNull(dto);
     assertEquals(1L, dto.getId());
@@ -35,15 +48,17 @@ class PersonMapperTest {
 
   @Test
   void testToEntity() {
-    PersonDTO dto = new PersonDTO();
+    
+    dto = mapper.toDto(person);
+
     dto.setId(2L);
     dto.setName("Bob");
     dto.setEmail("bob@email.com");
     dto.setPhone("11988887777");
     dto.setRole(Role.SENTINEL);
 
-    Person person = mapper.toEntity(dto);
-
+    person = mapper.toEntity(dto);
+  
     assertNotNull(person);
     assertEquals(2L, person.getId());
     assertEquals("Bob", person.getName());
@@ -54,13 +69,15 @@ class PersonMapperTest {
 
   @Test
   void testPwpToEntity() {
-    PersonWithPetsDTO dto = new PersonWithPetsDTO();
+
+    dto = mapper.toDto(person);
+
     dto.setName("Carol");
     dto.setEmail("carol@email.com");
     dto.setPhone("11977776666");
     dto.setRole(Role.BASTIAN);
 
-    Person person = mapper.pwpToEntity(dto);
+    person = mapper.toEntity(dto);
 
     assertNotNull(person);
     assertNull(person.getId()); // ID não vem nesse DTO

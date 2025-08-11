@@ -1,7 +1,6 @@
 package br.com.liquentec.AgenteAchaPet.service;
 
 import java.io.IOException;
-import java.text.Normalizer;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,6 +11,9 @@ import br.com.liquentec.AgenteAchaPet.model.PetSearch;
 import br.com.liquentec.AgenteAchaPet.dto.PetSearchCompositeForm;
 import br.com.liquentec.AgenteAchaPet.dto.request.PetSearchRequestForm;
 import br.com.liquentec.AgenteAchaPet.dto.response.PetSearchResponseDTO;
+import br.com.liquentec.AgenteAchaPet.exception.BusinessException;
+import br.com.liquentec.AgenteAchaPet.exception.EntityCreationException;
+import br.com.liquentec.AgenteAchaPet.exception.MapperException;
 import br.com.liquentec.AgenteAchaPet.mapper.PersonMapper;
 import br.com.liquentec.AgenteAchaPet.mapper.PetMapper;
 import br.com.liquentec.AgenteAchaPet.mapper.PetSearchMapper;
@@ -34,19 +36,30 @@ public class PetSearchService {
     private final PetRepository petRepository;
     private final PersonRepository personRepository;
     private final PetSearchMapper petSearchMapper;
-    private final PetMapper petMapper;
     private final PersonMapper personMapper;
-    private PetSearch responseDTO;  
 
-    
+
+    public List<PetSearchResponseDTO> listAll() {
+
+        List<PetSearch> entities = petSearchRepository.findAll();
+
+        return petSearchMapper.toDoList(entities);
+
+    }
+
     @Transactional
-public PetSearchResponseDTO registerFullSearch(PetSearchCompositeForm compositeForm, MultipartFile photo) throws IOException {
+    public PetSearchResponseDTO registerFullSearch(PetSearchCompositeForm compositeForm, MultipartFile photo) throws IOException {
  
+    if (personRepository.existsByEmail(compositeForm.getPerson().getEmail())){
+
+        throw new BusinessException("Email já cadastrado");
+    }
     // 1. Salvar a pessoa
     Person person = personRepository.save(personMapper.toEntity(compositeForm.getPerson()));
  
     // 2. Salvar o pet
-    Pet pet = petMapper.toEntity(compositeForm.getPet());
+    Pet pet = PetMapper.toEntity(compositeForm.getPet());
+
     pet.setPerson(person);
     pet = petRepository.save(pet);
  
@@ -65,6 +78,7 @@ public PetSearchResponseDTO registerFullSearch(PetSearchCompositeForm compositeF
     // search.setSpecialNeed(form.getSpecialNeed());
  
     if (photo != null && !photo.isEmpty()) {
+
         pet.setPhoto(photo.getBytes());
         
     }   
@@ -72,13 +86,15 @@ public PetSearchResponseDTO registerFullSearch(PetSearchCompositeForm compositeF
 
     // Teste antes de mapear
     if (saved == null) {
-        throw new IllegalStateException("petSearchRepository.save retornou null");
+
+        throw new EntityCreationException("Falha ao salvar busca");
     }
 
     PetSearchResponseDTO dto = petSearchMapper.toResponseDto(saved);
 
     if (dto == null) {
-        throw new IllegalStateException("petSearchMapper.toResponseDto retornou null");
+
+        throw new MapperException("Falha ao mapear busca para DTO");
     }
 
     return dto;
@@ -119,22 +135,6 @@ public PetSearchResponseDTO registerFullSearch(PetSearchCompositeForm compositeF
         return petPhoto;
     }
 
-    public List<PetSearchResponseDTO> listAll(){
-
-        List<PetSearch> entities = petSearchRepository.findAll();
-
-        return petSearchMapper.toDoList(entities);
-       
-    }
-    
-    private void  generateSlug(Pet pet, PetSearchRequestForm form){
-
-        PetSearch search = new PetSearch();
-
-        search.setSlug(SlugUtil.toSlug(pet.getName() + "-" + form.getLocation()));
-
-
-    }
 
 
 }
