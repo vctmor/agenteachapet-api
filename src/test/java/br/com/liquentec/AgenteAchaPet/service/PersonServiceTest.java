@@ -12,7 +12,6 @@ import br.com.liquentec.AgenteAchaPet.repository.PersonRepository;
 import br.com.liquentec.AgenteAchaPet.repository.PetRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collections;
@@ -115,7 +114,9 @@ public class PersonServiceTest {
 
     @Test
     void addPersonWithPets_shouldThrow_whenEmailExists() {
+
         PersonWithPetsDTO dto = new PersonWithPetsDTO();
+        
         dto.setEmail("exists@email.com");
 
         when(personRepository.existsByEmail("exists@email.com")).thenReturn(true);

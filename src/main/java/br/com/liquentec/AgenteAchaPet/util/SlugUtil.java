@@ -14,6 +14,8 @@ public class SlugUtil {
 
     public static String toSlug(String input) {
 
+        if (input == null || input.isBlank()) return "";
+
         String noWhitespace = WHITESPACE.matcher(input).replaceAll("-");
         String normalized = Normalizer.normalize(noWhitespace, Normalizer.Form.NFD);
         String slug = NONLATIN.matcher(normalized).replaceAll("");

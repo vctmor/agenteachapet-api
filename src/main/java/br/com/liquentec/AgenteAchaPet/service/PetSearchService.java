@@ -37,8 +37,18 @@ public class PetSearchService {
     private final PersonRepository personRepository;
     private final PetSearchMapper petSearchMapper;
     private final PersonMapper personMapper;
+
+
+    public List<PetSearchResponseDTO> listAll() {
+
+        List<PetSearch> entities = petSearchRepository.findAll();
+
+        return petSearchMapper.toDoList(entities);
+
+    }
+
     @Transactional
-public PetSearchResponseDTO registerFullSearch(PetSearchCompositeForm compositeForm, MultipartFile photo) throws IOException {
+    public PetSearchResponseDTO registerFullSearch(PetSearchCompositeForm compositeForm, MultipartFile photo) throws IOException {
  
     if (personRepository.existsByEmail(compositeForm.getPerson().getEmail())){
 
@@ -49,6 +59,7 @@ public PetSearchResponseDTO registerFullSearch(PetSearchCompositeForm compositeF
  
     // 2. Salvar o pet
     Pet pet = PetMapper.toEntity(compositeForm.getPet());
+
     pet.setPerson(person);
     pet = petRepository.save(pet);
  
@@ -67,6 +78,7 @@ public PetSearchResponseDTO registerFullSearch(PetSearchCompositeForm compositeF
     // search.setSpecialNeed(form.getSpecialNeed());
  
     if (photo != null && !photo.isEmpty()) {
+
         pet.setPhoto(photo.getBytes());
         
     }   
@@ -74,12 +86,14 @@ public PetSearchResponseDTO registerFullSearch(PetSearchCompositeForm compositeF
 
     // Teste antes de mapear
     if (saved == null) {
+
         throw new EntityCreationException("Falha ao salvar busca");
     }
 
     PetSearchResponseDTO dto = petSearchMapper.toResponseDto(saved);
 
     if (dto == null) {
+
         throw new MapperException("Falha ao mapear busca para DTO");
     }
 
@@ -121,22 +135,6 @@ public PetSearchResponseDTO registerFullSearch(PetSearchCompositeForm compositeF
         return petPhoto;
     }
 
-    public List<PetSearchResponseDTO> listAll(){
-
-        List<PetSearch> entities = petSearchRepository.findAll();
-
-        return petSearchMapper.toDoList(entities);
-       
-    }
-    
-    private void  generateSlug(Pet pet, PetSearchRequestForm form){
-
-        PetSearch search = new PetSearch();
-
-        search.setSlug(SlugUtil.toSlug(pet.getName() + "-" + form.getLocation()));
-
-
-    }
 
 
 }
