@@ -287,7 +287,7 @@ name = "In Progress"
     [[processes.tasks.checkList]]
     id = "qdwthfhvl6utn2izwj3vd5ao"
     title = "5. Service"
-    completed = false
+    completed = true
 
     [[processes.tasks.checkList]]
     id = "y4z7wmbz7k67th3nvsh2srl7"
