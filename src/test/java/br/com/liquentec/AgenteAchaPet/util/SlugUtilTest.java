@@ -9,6 +9,7 @@ public class SlugUtilTest {
 
     @Test
     void testToSlug_RemovesWhitespaceAndSpecialCharacters() {
+        
         String input = "Olá mundo!";
         String expectedPattern = "ola-mundo";
 
