@@ -27,6 +27,7 @@ public class PersonController {
     public ResponseEntity<PersonDTO> addPersonOnly(@RequestBody @Valid PersonDTO personDTO) {
 
         PersonDTO saved = personService.personAdd(personDTO);
+        
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
@@ -36,6 +37,7 @@ public class PersonController {
             @RequestPart("image") @Valid MultipartFile image) {
 
         PersonDTO saved = personService.addPersonWithPets(dto, image);
+        
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
