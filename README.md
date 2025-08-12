@@ -84,7 +84,7 @@ Com **testes automatizados (TDD)** e **documentação aberta via Swagger**, a AP
 
 ## 📑 Documentação dos Endpoints
 
-A documentação completa, exemplos de requisição/resposta e detalhes dos modelos estão disponíveis em [Swagger UI](http://localhost:8080/swagger-ui.html) assim que a API estiver rodando.
+A documentação completa, exemplos de requisição/resposta e detalhes dos modelos estão disponíveis em [Swagger UI](https://agenteachapet.onrender.com/swagger-ui/index.html).Por estar na Render, a api acaba ficando em standby... Tenha paciência (: 
 
 Principais recursos:
 
