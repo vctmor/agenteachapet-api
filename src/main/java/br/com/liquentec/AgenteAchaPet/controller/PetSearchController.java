@@ -58,14 +58,6 @@ public class PetSearchController {
         return ResponseEntity.ok(result);
     }
 
-    // @GetMapping("/pet-s")
-    // public List<PetSearchResponseDTO> list() {
-
-    //     // List<PetSearchResponseDTO> result = service.listAll();
-
-    //     return service.listAll();
-    // }
-
     @GetMapping("/{id}")
     public ResponseEntity<byte[]> getImage(@Valid @PathVariable Long id) {
 

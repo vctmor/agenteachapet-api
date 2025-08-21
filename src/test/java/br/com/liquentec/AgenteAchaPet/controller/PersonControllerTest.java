@@ -2,7 +2,10 @@ package br.com.liquentec.AgenteAchaPet.controller;
 
 import br.com.liquentec.AgenteAchaPet.dto.PersonDTO;
 import br.com.liquentec.AgenteAchaPet.dto.PersonWithPetsDTO;
+import br.com.liquentec.AgenteAchaPet.repository.PetSearchRepository;
 import br.com.liquentec.AgenteAchaPet.service.PersonService;
+import br.com.liquentec.AgenteAchaPet.service.PetSearchService;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -32,16 +35,17 @@ class PersonControllerTest {
 
     @TestConfiguration
     static class TestConfig {
-        @Bean
-        PersonService personService() {
-            return Mockito.mock(PersonService.class);
-        }
+
+        @Bean PersonService personService() {return Mockito.mock(PersonService.class);}
+        @Bean PetSearchService petSearchService() { return Mockito.mock(PetSearchService.class);}
+        @Bean PetSearchRepository petSearchRepository() { return Mockito.mock(PetSearchRepository.class);}
     }
 
     @Test
     void addPersonOnly_shouldReturnCreatedPerson() throws Exception {
         // Arrange
         PersonDTO request = new PersonDTO();
+        
         request.setName("Alice");
         request.setEmail("alice@email.com");
 
