@@ -117,7 +117,7 @@ public class PetSearchService {
                 .disappearanceDate(form.getDisappearanceDate())
                 .location(form.getLocation())
                 .additionalNotes(form.getAdditionalNotes())
-                // .specialNeed(form.getSpecialNeed())
+                .specialNeed(form.getSpecialNeed())
                 .build();
 
         return petSearchMapper.toResponseDto(petSearchRepository.save(entity));

@@ -34,20 +34,25 @@ public class PetSearchController {
     private final PetSearchService service;
     private final PetSearchRepository petSearchRepository;
     
-    @PostMapping(value = "/pet-searches", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(
+        value = "/pet-searches", 
+        consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public ResponseEntity<PetSearchResponseDTO> register(
             @Valid
-            @RequestPart("data") @Validated PetSearchCompositeForm compositeform,
+            @RequestPart("data") PetSearchCompositeForm compositeForm,
             @RequestPart(value = "photo", required = false) MultipartFile photo) throws IOException {
 
-                System.out.println("Recebido: " + compositeform);
+                System.out.println("Recebido: " + compositeForm);
                 if (photo != null) System.out.println("Foto: " + photo.getOriginalFilename());
             
+                PetSearchResponseDTO result = service.registerFullSearch(compositeForm, photo);
 
         return ResponseEntity
-        .status(HttpStatus.CREATED)
-        .contentType(MediaType.APPLICATION_JSON)
-        .body(service.registerFullSearch(compositeform, photo));
+                .status(HttpStatus.CREATED)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(result);
     }
    
     @GetMapping("/pet-searches")

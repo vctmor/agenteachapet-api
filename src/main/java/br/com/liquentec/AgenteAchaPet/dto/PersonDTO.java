@@ -23,7 +23,7 @@ public class PersonDTO {
     @NotBlank(message = "o telefone é obrigatório")
     private String phone;
 
-    @NotNull(message = "o papel é obrigatório")
+    // @NotNull(message = "o papel é obrigatório")
     private Role role;
 }
     
