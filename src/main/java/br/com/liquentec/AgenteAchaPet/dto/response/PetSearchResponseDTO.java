@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import br.com.liquentec.AgenteAchaPet.model.Role;
 import br.com.liquentec.AgenteAchaPet.model.SearchRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -30,7 +31,7 @@ public class PetSearchResponseDTO {
     private String personName;
 
     @NotNull
-    private SearchRole reporterRole;
+    private Role reporterRole;
 
     @Email
     private String email;
@@ -51,4 +52,5 @@ public class PetSearchResponseDTO {
     private byte[] photo;
     private String additionalNotes;
     private String slug;
+    
 }

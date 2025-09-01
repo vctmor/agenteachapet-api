@@ -59,7 +59,7 @@ public class PetSearchRepositoryTest {
 
         search.setPet(pet);
         search.setRegisteredBy(person);
-        search.setReporterRole(SearchRole.BASTIAN);
+        search.setReporterRole(Role.BASTIAN);
         search.setDisappearanceDate(LocalDateTime.of(2024, 1, 1, 10, 0));
         search.setLocation("São Paulo");
         search.setSlug("rex-123");

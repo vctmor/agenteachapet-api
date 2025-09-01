@@ -6,9 +6,6 @@ import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
-
-import jakarta.persistence.Enumerated;
 
 public class PetSearchTest {
 
@@ -36,7 +33,7 @@ public class PetSearchTest {
         petSearch.setPet(pet);
         petSearch.setRegisteredBy(person);
         petSearch.setSpecialNeed("coisas");
-        petSearch.setReporterRole(SearchRole.TUTOR);
+        petSearch.setReporterRole(Role.TUTOR);
         petSearch.setDisappearanceDate(disappearanceDate);
         petSearch.setLocation("Vila Sônia");
         petSearch.setSlug("rex-123");
@@ -44,7 +41,7 @@ public class PetSearchTest {
 
         assertEquals(pet, petSearch.getPet());
         assertEquals(person, petSearch.getRegisteredBy());
-        assertEquals(SearchRole.TUTOR, petSearch.getReporterRole());
+        assertEquals(Role.TUTOR, petSearch.getReporterRole());
         assertEquals(disappearanceDate, petSearch.getDisappearanceDate());
         assertEquals("Vila Sônia", petSearch.getLocation());
         assertEquals("rex-123", petSearch.getSlug());
@@ -68,7 +65,7 @@ public class PetSearchTest {
                 .id(10L)
                 .pet(pet)
                 .registeredBy(person)
-                .reporterRole(SearchRole.TUTOR)
+                .reporterRole(Role.TUTOR)
                 .disappearanceDate(disappearanceDate)
                 .location("Vila Sônia")
                 .slug("rex-123")
@@ -79,7 +76,7 @@ public class PetSearchTest {
         assertEquals(10L, petSearch.getId());
         assertEquals(pet, petSearch.getPet());
         assertEquals(person, petSearch.getRegisteredBy());
-        assertEquals(SearchRole.TUTOR, petSearch.getReporterRole());
+        assertEquals(Role.TUTOR, petSearch.getReporterRole());
         assertEquals(disappearanceDate, petSearch.getDisappearanceDate());
         assertEquals("Vila Sônia", petSearch.getLocation());
         assertEquals("rex-123", petSearch.getSlug());

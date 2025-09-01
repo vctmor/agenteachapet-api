@@ -73,6 +73,7 @@ public class PetSearchService {
     search.setLocation(form.getLocation());
     search.setDisappearanceDate(form.getDisappearanceDate());
     search.setAdditionalNotes(form.getAdditionalNotes());
+    
     search.setReporterRole(form.getReporterRole());
     search.setSlug(SlugUtil.toSlug(search.getPet().getName()));
     // search.setSpecialNeed(form.getSpecialNeed());

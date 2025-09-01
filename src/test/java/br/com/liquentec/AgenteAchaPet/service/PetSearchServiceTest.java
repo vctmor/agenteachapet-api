@@ -14,7 +14,7 @@ import br.com.liquentec.AgenteAchaPet.mapper.PetSearchMapper;
 import br.com.liquentec.AgenteAchaPet.model.Person;
 import br.com.liquentec.AgenteAchaPet.model.Pet;
 import br.com.liquentec.AgenteAchaPet.model.PetSearch;
-import br.com.liquentec.AgenteAchaPet.model.SearchRole;
+import br.com.liquentec.AgenteAchaPet.model.Role;
 import br.com.liquentec.AgenteAchaPet.repository.PersonRepository;
 import br.com.liquentec.AgenteAchaPet.repository.PetRepository;
 import br.com.liquentec.AgenteAchaPet.repository.PetSearchRepository;
@@ -73,8 +73,9 @@ public class PetSearchServiceTest {
         form.setPet(petDTO);
 
         PetSearchRequestForm searchForm = new PetSearchRequestForm();
+
         searchForm.setLocation("SP");
-        searchForm.setReporterRole(SearchRole.TUTOR);
+        searchForm.setReporterRole(Role.TUTOR);
         searchForm.setDisappearanceDate(LocalDateTime.now());
 
         form.setSearch(searchForm);

@@ -3,8 +3,8 @@ package br.com.liquentec.AgenteAchaPet.mapper;
 import br.com.liquentec.AgenteAchaPet.dto.response.PetSearchResponseDTO;
 import br.com.liquentec.AgenteAchaPet.model.Pet;
 import br.com.liquentec.AgenteAchaPet.model.PetSearch;
+import br.com.liquentec.AgenteAchaPet.model.Role;
 import br.com.liquentec.AgenteAchaPet.model.Person;
-import br.com.liquentec.AgenteAchaPet.model.SearchRole;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
@@ -47,7 +47,7 @@ class PetSearchMapperTest {
         petSearch.setId(1001L);
         petSearch.setPet(pet);
         petSearch.setRegisteredBy(person);
-        petSearch.setReporterRole(SearchRole.TUTOR); // Use o enum correto
+        petSearch.setReporterRole(Role.TUTOR); // Use o enum correto
         petSearch.setSpecialNeed("Precisa de remédio");
         petSearch.setDisappearanceDate(LocalDateTime.of(2023, 1, 15, 10, 30));
         petSearch.setLocation("São Paulo");
@@ -67,7 +67,7 @@ class PetSearchMapperTest {
         assertEquals("SRD", dto.getBreed());
         assertEquals("Preto", dto.getColor());
         assertEquals("Alice", dto.getPersonName());
-        assertEquals(SearchRole.TUTOR, dto.getReporterRole());
+        assertEquals(Role.TUTOR, dto.getReporterRole());
         assertEquals(LocalDateTime.of(2023, 1, 15, 10, 30), dto.getDisappearanceDate());
         assertEquals("São Paulo", dto.getLocation());
         assertEquals("Precisa de remédio", dto.getSpecialNeed());
@@ -88,7 +88,7 @@ class PetSearchMapperTest {
         assertEquals("SRD", dto.getBreed());
         assertEquals("Preto", dto.getColor());
         assertEquals("Alice", dto.getPersonName());
-        assertEquals(SearchRole.TUTOR, dto.getReporterRole());
+        assertEquals(Role.TUTOR, dto.getReporterRole());
         assertEquals(LocalDateTime.of(2023, 1, 15, 10, 30), dto.getDisappearanceDate());
         assertEquals("São Paulo", dto.getLocation());
         assertEquals("Precisa de remédio", dto.getSpecialNeed());

@@ -1,6 +1,7 @@
 package br.com.liquentec.AgenteAchaPet.dto.response;
 
 
+import br.com.liquentec.AgenteAchaPet.model.Role;
 import br.com.liquentec.AgenteAchaPet.model.SearchRole;
 import jakarta.validation.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,7 +31,7 @@ class PetSearchResponseDTOTest {
         dto.setPersonId(3L);
         dto.setPetName("Bidu");
         dto.setPersonName("Maria");
-        dto.setReporterRole(SearchRole.TUTOR);
+        dto.setReporterRole(Role.TUTOR);
         dto.setEmail("maria@email.com");
         dto.setPhone("11999999999");
         dto.setName("Bidu");
@@ -49,7 +50,7 @@ class PetSearchResponseDTOTest {
         assertEquals(3L, dto.getPersonId());
         assertEquals("Bidu", dto.getPetName());
         assertEquals("Maria", dto.getPersonName());
-        assertEquals(SearchRole.TUTOR, dto.getReporterRole());
+        assertEquals(Role.TUTOR, dto.getReporterRole());
         assertEquals("maria@email.com", dto.getEmail());
         // ... (pode testar os demais getters)
     }
@@ -61,7 +62,7 @@ class PetSearchResponseDTOTest {
         dto.setPersonId(3L);
         dto.setPetName("Bidu");
         dto.setPersonName("Maria");
-        dto.setReporterRole(SearchRole.TUTOR);
+        dto.setReporterRole(Role.TUTOR);
         dto.setEmail("maria@email.com");
 
         Set<ConstraintViolation<PetSearchResponseDTO>> violations = validator.validate(dto);
@@ -91,7 +92,7 @@ class PetSearchResponseDTOTest {
         dto.setPersonId(3L);
         dto.setPetName("Bidu");
         dto.setPersonName("Maria");
-        dto.setReporterRole(SearchRole.TUTOR);
+        dto.setReporterRole(Role.TUTOR);
         dto.setEmail("invalid-email");
 
         Set<ConstraintViolation<PetSearchResponseDTO>> violations = validator.validate(dto);
