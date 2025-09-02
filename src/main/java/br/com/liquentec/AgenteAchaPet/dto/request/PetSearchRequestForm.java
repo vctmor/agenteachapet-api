@@ -10,10 +10,10 @@ import lombok.Data;
 @Data
 public class PetSearchRequestForm {
 
-    @NotNull(message = "o id do pet é obrigatório")
+    // @NotNull(message = "o id do pet é obrigatório")
     private Long petId;
 
-    @NotNull(message = "o id da pessoa é obrigatório")
+    // @NotNull(message = "o id da pessoa é obrigatório")
     private Long personId;
 
     @NotNull(message = "o papel do relator é obrigatório")

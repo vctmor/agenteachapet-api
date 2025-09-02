@@ -13,13 +13,13 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PetSearchCompositeFormTest {
 
     private Validator validator;
-    private PetSearchCompositeForm form;
+    private PetSearchCreateRequest form;
 
     @BeforeEach
     void setup() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
-        form = new PetSearchCompositeForm();
+        form = new PetSearchCreateRequest();
     }
 
     @Test
@@ -48,7 +48,7 @@ public class PetSearchCompositeFormTest {
     @Test
     void testInvalidRequiredFields() {
         // Não setar nada, todos são nulos
-        Set<ConstraintViolation<PetSearchCompositeForm>> violations = validator.validate(form);
+        Set<ConstraintViolation<PetSearchCreateRequest>> violations = validator.validate(form);
 
         assertEquals(3, violations.size());
         assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("person")));
@@ -76,10 +76,10 @@ public class PetSearchCompositeFormTest {
         form.setPet(pet);
         form.setSearch(search);
 
-        Set<ConstraintViolation<PetSearchCompositeForm>> violations = validator.validate(form);
+        Set<ConstraintViolation<PetSearchCreateRequest>> violations = validator.validate(form);
 
         if (!violations.isEmpty()) {
-            for (ConstraintViolation<PetSearchCompositeForm> v : violations) {
+            for (ConstraintViolation<PetSearchCreateRequest> v : violations) {
                 System.out.println("Campo: " + v.getPropertyPath() + " | Mensagem: " + v.getMessage());
             }
         }
@@ -97,7 +97,7 @@ public class PetSearchCompositeFormTest {
         form.setPet(pet);
         form.setSearch(search);
 
-        Set<ConstraintViolation<PetSearchCompositeForm>> violations = validator.validate(form);
+        Set<ConstraintViolation<PetSearchCreateRequest>> violations = validator.validate(form);
 
         // Espera erro de validação recursiva em person
         assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().contains("person")));

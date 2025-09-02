@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import br.com.liquentec.AgenteAchaPet.model.Person;
 import br.com.liquentec.AgenteAchaPet.model.Pet;
 import br.com.liquentec.AgenteAchaPet.model.PetSearch;
-import br.com.liquentec.AgenteAchaPet.dto.PetSearchCompositeForm;
+import br.com.liquentec.AgenteAchaPet.dto.PetSearchCreateRequest;
 import br.com.liquentec.AgenteAchaPet.dto.request.PetSearchRequestForm;
 import br.com.liquentec.AgenteAchaPet.dto.response.PetSearchResponseDTO;
 import br.com.liquentec.AgenteAchaPet.exception.BusinessException;
@@ -48,23 +48,23 @@ public class PetSearchService {
     }
 
     @Transactional
-    public PetSearchResponseDTO registerFullSearch(PetSearchCompositeForm compositeForm, MultipartFile photo) throws IOException {
+    public PetSearchResponseDTO registerFullSearch(PetSearchCreateRequest request, MultipartFile photo) throws IOException {
  
-    if (personRepository.existsByEmail(compositeForm.getPerson().getEmail())){
+    if (personRepository.existsByEmail(request.getPerson().getEmail())){
 
         throw new BusinessException("Email já cadastrado");
     }
     // 1. Salvar a pessoa
-    Person person = personRepository.save(personMapper.toEntity(compositeForm.getPerson()));
+    Person person = personRepository.save(personMapper.toEntity(request.getPerson()));
  
     // 2. Salvar o pet
-    Pet pet = PetMapper.toEntity(compositeForm.getPet());
+    Pet pet = PetMapper.toEntity(request.getPet());
 
     pet.setPerson(person);
     pet = petRepository.save(pet);
  
     // 3. Criar a busca
-    PetSearchRequestForm form = compositeForm.getSearch();
+    PetSearchRequestForm form = request.getSearch();
     PetSearch search = new PetSearch();
 
     search.setPet(pet);

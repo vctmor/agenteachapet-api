@@ -1,6 +1,7 @@
 package br.com.liquentec.AgenteAchaPet.controller;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.http.HttpHeaders;
@@ -11,12 +12,13 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
-import br.com.liquentec.AgenteAchaPet.dto.PetSearchCompositeForm;
+import br.com.liquentec.AgenteAchaPet.dto.PetSearchCreateRequest;
 import br.com.liquentec.AgenteAchaPet.dto.response.PetSearchResponseDTO;
 import br.com.liquentec.AgenteAchaPet.mapper.PetSearchMapper;
 import br.com.liquentec.AgenteAchaPet.model.PetSearch;
@@ -27,7 +29,8 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 // @RequestMapping("/pet-searches")
-
+@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+@Validated
 @RequiredArgsConstructor
 public class PetSearchController {
 
@@ -35,23 +38,21 @@ public class PetSearchController {
     private final PetSearchRepository petSearchRepository;
     
     @PostMapping(
-        value = "/pet-searches", 
-        consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/pet-searches",
+        consumes = MediaType.MULTIPART_FORM_DATA_VALUE
     )
     public ResponseEntity<PetSearchResponseDTO> register(
-            @Valid
-            @RequestPart("data") PetSearchCompositeForm compositeForm,
-            @RequestPart(value = "photo", required = false) MultipartFile photo) throws IOException {
+            @Valid @RequestPart("data") PetSearchCreateRequest request,
+            @RequestPart(value = "photo", required = false) MultipartFile photo
+    ) throws IOException {
 
-                System.out.println("Recebido: " + compositeForm);
-                if (photo != null) System.out.println("Foto: " + photo.getOriginalFilename());
-            
-                PetSearchResponseDTO result = service.registerFullSearch(compositeForm, photo);
+        PetSearchResponseDTO result = service.registerFullSearch(request, photo);
+
+        // se quiser Location header: /cartaz/{slug}
+        URI location = URI.create("/cartaz/" + result.getSlug());
 
         return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .contentType(MediaType.APPLICATION_JSON)
+                .created(location)
                 .body(result);
     }
    

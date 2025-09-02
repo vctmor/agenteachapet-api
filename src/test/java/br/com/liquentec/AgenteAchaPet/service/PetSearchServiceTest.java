@@ -2,7 +2,7 @@ package br.com.liquentec.AgenteAchaPet.service;
 
 import br.com.liquentec.AgenteAchaPet.dto.PersonDTO;
 import br.com.liquentec.AgenteAchaPet.dto.PetDTO;
-import br.com.liquentec.AgenteAchaPet.dto.PetSearchCompositeForm;
+import br.com.liquentec.AgenteAchaPet.dto.PetSearchCreateRequest;
 import br.com.liquentec.AgenteAchaPet.dto.request.PetSearchRequestForm;
 import br.com.liquentec.AgenteAchaPet.dto.response.PetSearchResponseDTO;
 import br.com.liquentec.AgenteAchaPet.exception.BusinessException;
@@ -60,7 +60,7 @@ public class PetSearchServiceTest {
      @Test
     void registerFullSearch_shouldSavePersonPetAndSearch() throws IOException {
 
-        PetSearchCompositeForm form = new PetSearchCompositeForm();
+        PetSearchCreateRequest form = new PetSearchCreateRequest();
         PersonDTO personDTO = new PersonDTO();
         PetDTO petDTO = new PetDTO();
 
@@ -105,7 +105,7 @@ public class PetSearchServiceTest {
 
     @Test
     void registerFullSearch_shouldThrowWhenEmailExists() {
-        PetSearchCompositeForm form = new PetSearchCompositeForm();
+        PetSearchCreateRequest form = new PetSearchCreateRequest();
         PersonDTO personDTO = new PersonDTO();
         personDTO.setEmail("exists@email.com");
         form.setPerson(personDTO);
@@ -119,7 +119,7 @@ public class PetSearchServiceTest {
 
     @Test
     void registerFullSearch_shouldThrowEntityCreationExceptionWhenSaveReturnsNull() {
-        PetSearchCompositeForm form = new PetSearchCompositeForm();
+        PetSearchCreateRequest form = new PetSearchCreateRequest();
         form.setPerson(new PersonDTO());
         form.setPet(new PetDTO());
         form.setSearch(new PetSearchRequestForm());
@@ -140,7 +140,7 @@ public class PetSearchServiceTest {
     
     @Test
     void registerFullSearch_shouldThrowMapperExceptionWhenMapperReturnsNull() {
-        PetSearchCompositeForm form = new PetSearchCompositeForm();
+        PetSearchCreateRequest form = new PetSearchCreateRequest();
         form.setPerson(new PersonDTO());
         form.setPet(new PetDTO());
         form.setSearch(new PetSearchRequestForm());

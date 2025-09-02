@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class PetSearchCompositeForm {
+public class PetSearchCreateRequest {
 
     @Valid
     @NotNull(message = "os dados da pessoa são obrigatórios")
