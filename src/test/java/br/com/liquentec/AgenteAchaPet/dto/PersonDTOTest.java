@@ -19,12 +19,12 @@ public class PersonDTOTest {
 
     private Validator validator;
 
-    private PersonDTO dto;
+    private PersonCreate dto;
 
     @BeforeEach
     void setup(){
 
-        dto = new PersonDTO();
+        dto = new PersonCreate();
 
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator(); 
@@ -33,7 +33,7 @@ public class PersonDTOTest {
     @Test
     void testAllArgsConstructorAndGetters(){
 
-        PersonDTO dto = new PersonDTO(
+        PersonCreate dto = new PersonCreate(
             1L, "Maria", "maria@email.com", "11999999999", Role.BASTIAN);
 
         assertEquals(1l, dto.getId());
@@ -75,11 +75,11 @@ public class PersonDTOTest {
 
         dto.setId(1L);
         dto.setName("");
-        dto.setEmail("a_b");
+        dto.setEmail("");
         dto.setPhone("");
         dto.setRole(null);
 
-        Set<ConstraintViolation<PersonDTO>> violations = validator.validate(dto);
+        Set<ConstraintViolation<PersonCreate>> violations = validator.validate(dto);
 
         assertEquals(4, violations.size());
 
@@ -110,7 +110,7 @@ public class PersonDTOTest {
         dto.setPhone("11912345678");
         dto.setRole(Role.TUTOR);
 
-        Set<ConstraintViolation<PersonDTO>> violations = validator.validate(dto);
+        Set<ConstraintViolation<PersonCreate>> violations = validator.validate(dto);
 
         assertTrue(violations.isEmpty());
     }

@@ -1,11 +1,12 @@
 package br.com.liquentec.AgenteAchaPet.dto;
 
 
-import br.com.liquentec.AgenteAchaPet.dto.request.PetSearchRequestForm;
+import br.com.liquentec.AgenteAchaPet.dto.request.SearchCreate;
 import jakarta.validation.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,6 +18,7 @@ public class PetSearchCompositeFormTest {
 
     @BeforeEach
     void setup() {
+
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
         form = new PetSearchCreateRequest();
@@ -31,10 +33,10 @@ public class PetSearchCompositeFormTest {
 
     @Test
     void testSettersAndGetters() {
-        PersonDTO person = new PersonDTO(1L, "Maria", "maria@email.com", "11999999999",
+        PersonCreate person = new PersonCreate(1L, "Maria", "maria@email.com", "11999999999",
                 br.com.liquentec.AgenteAchaPet.model.Role.TUTOR);
-        PetDTO pet = new PetDTO(1L, "Bidu", "preto", "SRD", "2", null, 1L);
-        PetSearchRequestForm search = new PetSearchRequestForm(); // preencha se houver obrigatórios
+        PetCreate pet = new PetCreate(1L, "Bidu", "preto", "SRD", "2", null, 1L);
+        SearchCreate search = new SearchCreate(); // preencha se houver obrigatórios
 
         form.setPerson(person);
         form.setPet(pet);
@@ -58,9 +60,10 @@ public class PetSearchCompositeFormTest {
 
     @Test
     void testValidFields() {
-        PersonDTO person = new PersonDTO(1L, "Maria", "maria@email.com", "11999999999",
+        
+        PersonCreate person = new PersonCreate(1L, "Maria", "maria@email.com", "11999999999",
                 br.com.liquentec.AgenteAchaPet.model.Role.TUTOR);
-        PetDTO pet = new PetDTO();
+        PetCreate pet = new PetCreate();
         pet.setId(1L);
         pet.setName("Bidu");
         pet.setColor("preto");
@@ -69,8 +72,12 @@ public class PetSearchCompositeFormTest {
         pet.setImageBase64(null);
         pet.setPersonId(1L);
 
-        PetSearchRequestForm search = new PetSearchRequestForm();
+        SearchCreate search = new SearchCreate();
         // preencha campos obrigatórios do search, se houver
+
+        search.setReporterRole(br.com.liquentec.AgenteAchaPet.model.Role.TUTOR);
+        search.setDisappearanceDate(LocalDateTime.now());
+        search.setLocation("SP");
 
         form.setPerson(person);
         form.setPet(pet);
@@ -79,6 +86,7 @@ public class PetSearchCompositeFormTest {
         Set<ConstraintViolation<PetSearchCreateRequest>> violations = validator.validate(form);
 
         if (!violations.isEmpty()) {
+
             for (ConstraintViolation<PetSearchCreateRequest> v : violations) {
                 System.out.println("Campo: " + v.getPropertyPath() + " | Mensagem: " + v.getMessage());
             }
@@ -89,9 +97,9 @@ public class PetSearchCompositeFormTest {
 
     @Test
     void testInvalidPerson() {
-        PersonDTO person = new PersonDTO(); // inválido
-        PetDTO pet = new PetDTO(1L, "Bidu", "preto", "SRD", "2", null, 1L);
-        PetSearchRequestForm search = new PetSearchRequestForm();
+        PersonCreate person = new PersonCreate(); // inválido
+        PetCreate pet = new PetCreate(1L, "Bidu", "preto", "SRD", "2", null, 1L);
+        SearchCreate search = new SearchCreate();
 
         form.setPerson(person);
         form.setPet(pet);

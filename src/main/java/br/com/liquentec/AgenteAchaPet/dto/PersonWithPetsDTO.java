@@ -29,6 +29,6 @@ public class PersonWithPetsDTO {
 
     @Valid
     @NotNull(message = "o pet é obrigatório")
-    private List<PetDTO> pets;
+    private List<PetCreate> pets;
 
 }

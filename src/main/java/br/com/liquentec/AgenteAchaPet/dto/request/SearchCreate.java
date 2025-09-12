@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class PetSearchRequestForm {
+public class SearchCreate {
 
     // @NotNull(message = "o id do pet é obrigatório")
     private Long petId;
@@ -28,4 +28,9 @@ public class PetSearchRequestForm {
     private String location;
 
     private String additionalNotes; // opcional
+
+    public void setSearch(SearchCreate search) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setSearch'");
+    }
 }

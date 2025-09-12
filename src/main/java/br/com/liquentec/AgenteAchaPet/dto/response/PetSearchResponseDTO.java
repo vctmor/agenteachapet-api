@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import br.com.liquentec.AgenteAchaPet.model.Role;
-import br.com.liquentec.AgenteAchaPet.model.SearchRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

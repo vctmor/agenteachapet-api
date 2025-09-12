@@ -8,15 +8,13 @@ import java.util.Base64;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mapstruct.factory.Mappers;
-
-import br.com.liquentec.AgenteAchaPet.dto.PetDTO;
+import br.com.liquentec.AgenteAchaPet.dto.PetCreate;
 import br.com.liquentec.AgenteAchaPet.model.Person;
 import br.com.liquentec.AgenteAchaPet.model.Pet;
 
 public class PetMapperTest {
 
-    private final PetMapper mapper = Mappers.getMapper(PetMapper.class);
+    // private final PetMapper mapper = Mappers.getMapper(PetMapper.class);
 
     private byte[] image;
     private String imageBase64;
@@ -45,7 +43,7 @@ public class PetMapperTest {
         pet.setPhoto(image);
         pet.setPerson(person);
 
-        PetDTO dto = mapper.toDTO(pet);
+        PetCreate dto = PetMapper.toDTO(pet);
 
         assertNotNull(dto);
         assertNotNull(pet.getPerson());
@@ -70,7 +68,7 @@ public class PetMapperTest {
     @Test
     void testToEntity(){        
 
-        PetDTO dto = new PetDTO();
+        PetCreate dto = new PetCreate();
 
         dto.setId(1L);
         dto.setName("Toto");

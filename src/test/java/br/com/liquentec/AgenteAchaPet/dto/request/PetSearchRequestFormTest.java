@@ -14,13 +14,13 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PetSearchRequestFormTest {
 
     private Validator validator;
-    private PetSearchRequestForm form;
+    private SearchCreate form;
 
     @BeforeEach
     void setup() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
-        form = new PetSearchRequestForm();
+        form = new SearchCreate();
     }
 
     @Test
@@ -63,7 +63,7 @@ public class PetSearchRequestFormTest {
         form.setDisappearanceDate(null);
         form.setLocation("");
 
-        Set<ConstraintViolation<PetSearchRequestForm>> violations = validator.validate(form);
+        Set<ConstraintViolation<SearchCreate>> violations = validator.validate(form);
 
         assertEquals(5, violations.size());
         assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("petId")));
@@ -83,7 +83,7 @@ public class PetSearchRequestFormTest {
         form.setSpecialNeed("Nenhuma");
         form.setAdditionalNotes("Usava coleira azul");
 
-        Set<ConstraintViolation<PetSearchRequestForm>> violations = validator.validate(form);
+        Set<ConstraintViolation<SearchCreate>> violations = validator.validate(form);
 
         assertTrue(violations.isEmpty());
     }

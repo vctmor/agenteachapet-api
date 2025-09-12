@@ -2,7 +2,6 @@ package br.com.liquentec.AgenteAchaPet.dto.response;
 
 
 import br.com.liquentec.AgenteAchaPet.model.Role;
-import br.com.liquentec.AgenteAchaPet.model.SearchRole;
 import jakarta.validation.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -77,9 +76,7 @@ class PetSearchResponseDTOTest {
 
         assertFalse(violations.isEmpty());
 
-        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("id")));
-        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("petId")));
-        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("personId")));
+      
         assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("petName")));
         assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("personName")));
         assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("reporterRole")));

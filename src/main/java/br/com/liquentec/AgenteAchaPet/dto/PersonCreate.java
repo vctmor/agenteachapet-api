@@ -3,12 +3,13 @@ package br.com.liquentec.AgenteAchaPet.dto;
 import br.com.liquentec.AgenteAchaPet.model.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PersonDTO {
+public class PersonCreate {
 
     private Long id;
 
@@ -22,7 +23,7 @@ public class PersonDTO {
     @NotBlank(message = "o telefone é obrigatório")
     private String phone;
 
-    // @NotNull(message = "o papel é obrigatório")
+    @NotNull(message = "o papel é obrigatório")
     private Role role;
 }
     

@@ -12,7 +12,6 @@ import br.com.liquentec.AgenteAchaPet.model.Person;
 import br.com.liquentec.AgenteAchaPet.model.Pet;
 import br.com.liquentec.AgenteAchaPet.model.PetSearch;
 import br.com.liquentec.AgenteAchaPet.model.Role;
-import br.com.liquentec.AgenteAchaPet.model.SearchRole;
 
 @DataJpaTest
 public class PetSearchRepositoryTest {

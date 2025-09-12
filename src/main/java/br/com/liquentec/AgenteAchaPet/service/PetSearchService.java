@@ -9,7 +9,7 @@ import br.com.liquentec.AgenteAchaPet.model.Person;
 import br.com.liquentec.AgenteAchaPet.model.Pet;
 import br.com.liquentec.AgenteAchaPet.model.PetSearch;
 import br.com.liquentec.AgenteAchaPet.dto.PetSearchCreateRequest;
-import br.com.liquentec.AgenteAchaPet.dto.request.PetSearchRequestForm;
+import br.com.liquentec.AgenteAchaPet.dto.request.SearchCreate;
 import br.com.liquentec.AgenteAchaPet.dto.response.PetSearchResponseDTO;
 import br.com.liquentec.AgenteAchaPet.exception.BusinessException;
 import br.com.liquentec.AgenteAchaPet.exception.EntityCreationException;
@@ -64,7 +64,7 @@ public class PetSearchService {
     pet = petRepository.save(pet);
  
     // 3. Criar a busca
-    PetSearchRequestForm form = request.getSearch();
+    SearchCreate form = request.getSearch();
     PetSearch search = new PetSearch();
 
     search.setPet(pet);
@@ -102,7 +102,7 @@ public class PetSearchService {
 
 }
 
-    public PetSearchResponseDTO register(PetSearchRequestForm form, MultipartFile photo) throws IOException {
+    public PetSearchResponseDTO register(SearchCreate form, MultipartFile photo) throws IOException {
 
         Pet pet = petRepository.findById(form.getPetId())
                 .orElseThrow(() -> new EntityNotFoundException("Pet not found"));

@@ -1,6 +1,6 @@
 package br.com.liquentec.AgenteAchaPet.controller;
 
-import br.com.liquentec.AgenteAchaPet.dto.PersonDTO;
+import br.com.liquentec.AgenteAchaPet.dto.PersonCreate;
 import br.com.liquentec.AgenteAchaPet.dto.PersonWithPetsDTO;
 import br.com.liquentec.AgenteAchaPet.repository.PetSearchRepository;
 import br.com.liquentec.AgenteAchaPet.service.PersonService;
@@ -44,12 +44,12 @@ class PersonControllerTest {
     @Test
     void addPersonOnly_shouldReturnCreatedPerson() throws Exception {
         // Arrange
-        PersonDTO request = new PersonDTO();
+        PersonCreate request = new PersonCreate();
         
         request.setName("Alice");
         request.setEmail("alice@email.com");
 
-        Mockito.when(personService.personAdd(any(PersonDTO.class)))
+        Mockito.when(personService.personAdd(any(PersonCreate.class)))
                .thenAnswer(inv -> inv.getArgument(0)); // ecoa o mesmo DTO
 
         // Act + Assert
@@ -67,7 +67,7 @@ class PersonControllerTest {
         // Arrange
         PersonWithPetsDTO withPetsDTO = new PersonWithPetsDTO();
 
-        PersonDTO response = new PersonDTO();
+        PersonCreate response = new PersonCreate();
         response.setName("Bob");
         response.setEmail("bob@email.com");
 

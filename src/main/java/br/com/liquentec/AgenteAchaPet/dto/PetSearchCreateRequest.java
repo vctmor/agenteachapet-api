@@ -1,7 +1,7 @@
 package br.com.liquentec.AgenteAchaPet.dto;
 
 
-import br.com.liquentec.AgenteAchaPet.dto.request.PetSearchRequestForm;
+import br.com.liquentec.AgenteAchaPet.dto.request.SearchCreate;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -11,14 +11,14 @@ public class PetSearchCreateRequest {
 
     @Valid
     @NotNull(message = "os dados da pessoa são obrigatórios")
-    private PersonDTO person;
+    private PersonCreate person;
 
     @Valid
     @NotNull(message = "os dados do pet são obrigatórios")
-    private PetDTO pet;
+    private PetCreate pet;
 
     @Valid
     @NotNull(message = "os dados da busca são obrigatórios")
-    private PetSearchRequestForm search;
+    private SearchCreate search;
 
 }

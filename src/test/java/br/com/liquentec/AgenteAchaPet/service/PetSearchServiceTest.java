@@ -1,9 +1,9 @@
 package br.com.liquentec.AgenteAchaPet.service;
 
-import br.com.liquentec.AgenteAchaPet.dto.PersonDTO;
-import br.com.liquentec.AgenteAchaPet.dto.PetDTO;
+import br.com.liquentec.AgenteAchaPet.dto.PersonCreate;
+import br.com.liquentec.AgenteAchaPet.dto.PetCreate;
 import br.com.liquentec.AgenteAchaPet.dto.PetSearchCreateRequest;
-import br.com.liquentec.AgenteAchaPet.dto.request.PetSearchRequestForm;
+import br.com.liquentec.AgenteAchaPet.dto.request.SearchCreate;
 import br.com.liquentec.AgenteAchaPet.dto.response.PetSearchResponseDTO;
 import br.com.liquentec.AgenteAchaPet.exception.BusinessException;
 import br.com.liquentec.AgenteAchaPet.exception.EntityCreationException;
@@ -61,24 +61,24 @@ public class PetSearchServiceTest {
     void registerFullSearch_shouldSavePersonPetAndSearch() throws IOException {
 
         PetSearchCreateRequest form = new PetSearchCreateRequest();
-        PersonDTO personDTO = new PersonDTO();
-        PetDTO petDTO = new PetDTO();
+        PersonCreate personCreate = new PersonCreate();
+        PetCreate petCreate = new PetCreate();
 
-        personDTO.setEmail("test@email.com");
-        personDTO.setName("Alice");
+        personCreate.setEmail("test@email.com");
+        personCreate.setName("Alice");
 
-        petDTO.setName("Rex");
+        petCreate.setName("Rex");
 
-        form.setPerson(personDTO);
-        form.setPet(petDTO);
+        form.setPerson(personCreate);
+        form.setPet(petCreate);
 
-        PetSearchRequestForm searchForm = new PetSearchRequestForm();
+        SearchCreate searchCreate = new SearchCreate();
 
-        searchForm.setLocation("SP");
-        searchForm.setReporterRole(Role.TUTOR);
-        searchForm.setDisappearanceDate(LocalDateTime.now());
+        searchCreate.setLocation("SP");
+        searchCreate.setReporterRole(Role.TUTOR);
+        searchCreate.setDisappearanceDate(LocalDateTime.now());
 
-        form.setSearch(searchForm);
+        form.setSearch(searchCreate);
 
         Person personEntity = new Person();
         Pet petEntity = new Pet();
@@ -88,7 +88,7 @@ public class PetSearchServiceTest {
         petEntity.setName("Rex");
 
         when(personRepository.existsByEmail("test@email.com")).thenReturn(false);
-        when(personMapper.toEntity(personDTO)).thenReturn(personEntity);
+        when(personMapper.toEntity(personCreate)).thenReturn(personEntity);
         when(personRepository.save(personEntity)).thenReturn(personEntity);
 
         try (MockedStatic<PetMapper> mocked = mockStatic(PetMapper.class)) {
@@ -106,7 +106,7 @@ public class PetSearchServiceTest {
     @Test
     void registerFullSearch_shouldThrowWhenEmailExists() {
         PetSearchCreateRequest form = new PetSearchCreateRequest();
-        PersonDTO personDTO = new PersonDTO();
+        PersonCreate personDTO = new PersonCreate();
         personDTO.setEmail("exists@email.com");
         form.setPerson(personDTO);
 
@@ -120,9 +120,9 @@ public class PetSearchServiceTest {
     @Test
     void registerFullSearch_shouldThrowEntityCreationExceptionWhenSaveReturnsNull() {
         PetSearchCreateRequest form = new PetSearchCreateRequest();
-        form.setPerson(new PersonDTO());
-        form.setPet(new PetDTO());
-        form.setSearch(new PetSearchRequestForm());
+        form.setPerson(new PersonCreate());
+        form.setPet(new PetCreate());
+        form.setSearch(new SearchCreate());
 
         when(personRepository.existsByEmail(null)).thenReturn(false);
         when(personMapper.toEntity(any())).thenReturn(new Person());
@@ -141,9 +141,9 @@ public class PetSearchServiceTest {
     @Test
     void registerFullSearch_shouldThrowMapperExceptionWhenMapperReturnsNull() {
         PetSearchCreateRequest form = new PetSearchCreateRequest();
-        form.setPerson(new PersonDTO());
-        form.setPet(new PetDTO());
-        form.setSearch(new PetSearchRequestForm());
+        form.setPerson(new PersonCreate());
+        form.setPet(new PetCreate());
+        form.setSearch(new SearchCreate());
 
         when(personRepository.existsByEmail(null)).thenReturn(false);
         when(personMapper.toEntity(any())).thenReturn(new Person());
@@ -162,7 +162,7 @@ public class PetSearchServiceTest {
 
     @Test
     void register_shouldSaveSearchWhenPetAndPersonExist() throws IOException {
-        PetSearchRequestForm form = new PetSearchRequestForm();
+        SearchCreate form = new SearchCreate();
         form.setPetId(1L);
         form.setPersonId(2L);
 
@@ -183,7 +183,7 @@ public class PetSearchServiceTest {
 
     @Test
     void register_shouldThrowWhenPetNotFound() {
-        PetSearchRequestForm form = new PetSearchRequestForm();
+        SearchCreate form = new SearchCreate();
         form.setPetId(1L);
 
         when(petRepository.findById(1L)).thenReturn(Optional.empty());
@@ -195,7 +195,7 @@ public class PetSearchServiceTest {
 
     @Test
     void register_shouldThrowWhenPersonNotFound() {
-        PetSearchRequestForm form = new PetSearchRequestForm();
+        SearchCreate form = new SearchCreate();
         form.setPetId(1L);
         form.setPersonId(2L);
 

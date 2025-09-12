@@ -2,7 +2,6 @@ package br.com.liquentec.AgenteAchaPet.dto;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import br.com.liquentec.AgenteAchaPet.model.Pet;
 import br.com.liquentec.AgenteAchaPet.model.Role;
 import jakarta.validation.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,11 +24,11 @@ public class PersonWithPetsDTOTest {
     @Test
     void testAllArgsConstructorAndGetters() {
 
-        PetDTO pet = new PetDTO();
+        PetCreate pet = new PetCreate();
 
         pet.setName("Bidu");
 
-        List<PetDTO> pets = Collections.singletonList(pet);
+        List<PetCreate> pets = Collections.singletonList(pet);
 
         PersonWithPetsDTO dto = new PersonWithPetsDTO(
                 "Maria",
@@ -49,8 +48,8 @@ public class PersonWithPetsDTOTest {
 
     @Test
     void testSetters() {
-        List<PetDTO> pets = new ArrayList<>();
-        PetDTO pet = new PetDTO();
+        List<PetCreate> pets = new ArrayList<>();
+        PetCreate pet = new PetCreate();
         pet.setName("Rex");
         pets.add(pet);
 
@@ -101,11 +100,17 @@ public class PersonWithPetsDTOTest {
 
     @Test
     void testValidFields() {
-        PetDTO pet = new PetDTO();
+        PetCreate pet = new PetCreate();
 
         pet.setName("Rex");
+        pet.setId(1l);
+        pet.setBreed("ola");
+        pet.setAge(1);
+        pet.setColor("fgf");
+        pet.setImageBase64(null);
+        pet.setPersonId(1l);
 
-        List<PetDTO> pets = Collections.singletonList(pet);
+        List<PetCreate> pets = Collections.singletonList(pet);
 
         dto.setName("Maria");
         dto.setEmail("maria@email.com");
@@ -121,8 +126,8 @@ public class PersonWithPetsDTOTest {
     @Test
     void testPetsInvalidInsideList() {
         // PetDTO inválido (todos os campos nulos)
-        PetDTO pet = new PetDTO();
-        List<PetDTO> pets = Collections.singletonList(pet);
+        PetCreate pet = new PetCreate();
+        List<PetCreate> pets = Collections.singletonList(pet);
 
         dto.setName("Maria");
         dto.setEmail("maria@email.com");

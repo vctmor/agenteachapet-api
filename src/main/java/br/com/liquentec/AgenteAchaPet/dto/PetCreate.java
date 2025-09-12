@@ -7,9 +7,9 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PetDTO {
+public class PetCreate {
 
-    public PetDTO(long l, String string, String string2, String string3, String string4, Object object, long m) {
+    public PetCreate(long l, String string, String string2, String string3, String string4, Object object, long m) {
         //TODO Auto-generated constructor stub
     }
 
@@ -29,7 +29,7 @@ public class PetDTO {
 
     private String imageBase64;
 
-    // @NotNull(message = "o id da pessoa é obritatório")
+    @NotNull(message = "o id da pessoa é obritatório")
     private Long personId;
 
 
