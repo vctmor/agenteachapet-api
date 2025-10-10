@@ -34,7 +34,6 @@ public class PetSearch {
 
     @Enumerated(EnumType.STRING)
     private Role reporterRole;
-
     
     private LocalDateTime disappearanceDate;
  

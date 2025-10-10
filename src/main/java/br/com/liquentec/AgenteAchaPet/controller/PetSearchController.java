@@ -48,6 +48,9 @@ public class PetSearchController {
 
         PetSearchResponseDTO result = service.registerFullSearch(request, photo);
 
+        System.out.println("Spacial Need: " + request.getSearch().getSpecialNeed() + " " + " > " + 
+        result.getSpecialNeed() );
+
         // se quiser Location header: /cartaz/{slug}
         URI location = URI.create("/cartaz/" + result.getSlug());
 

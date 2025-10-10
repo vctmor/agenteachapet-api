@@ -24,6 +24,8 @@ public class SearchRoleTest {
         assertEquals(Role.BASTIAN, Role.valueOf("BASTIAN"));
         assertEquals(Role.SENTINEL, Role.valueOf("SENTINEL"));
         assertEquals(Role.RESCUER, Role.valueOf("RESCUER"));
+        assertEquals(Role.REPORTER, Role.valueOf("REPORTER"));
+        assertEquals(Role.ADOPTER, Role.valueOf("ADOPTER"));
     }
 
     @Test

@@ -22,7 +22,7 @@ public class SearchCreate {
     @NotNull(message = "o papel do relator é obrigatório")
     private Role reporterRole;
     // a data do relato, em vez disappareanceDate, relatoData
-    @NotNull(message = "a data do desaparecimento é obrigatória")
+    @NotNull(message = "a data do relato é obrigatória")
     private LocalDateTime disappearanceDate;
 
     private String specialNeed; // opcional

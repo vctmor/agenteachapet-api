@@ -105,8 +105,10 @@ public class PetSearchServiceTest {
 
     @Test
     void registerFullSearch_shouldThrowWhenEmailExists() {
+
         PetSearchCreateRequest form = new PetSearchCreateRequest();
         PersonCreate personDTO = new PersonCreate();
+
         personDTO.setEmail("exists@email.com");
         form.setPerson(personDTO);
 
@@ -119,7 +121,9 @@ public class PetSearchServiceTest {
 
     @Test
     void registerFullSearch_shouldThrowEntityCreationExceptionWhenSaveReturnsNull() {
+
         PetSearchCreateRequest form = new PetSearchCreateRequest();
+
         form.setPerson(new PersonCreate());
         form.setPet(new PetCreate());
         form.setSearch(new SearchCreate());
@@ -140,7 +144,9 @@ public class PetSearchServiceTest {
     
     @Test
     void registerFullSearch_shouldThrowMapperExceptionWhenMapperReturnsNull() {
+
         PetSearchCreateRequest form = new PetSearchCreateRequest();
+
         form.setPerson(new PersonCreate());
         form.setPet(new PetCreate());
         form.setSearch(new SearchCreate());
@@ -148,6 +154,7 @@ public class PetSearchServiceTest {
         when(personRepository.existsByEmail(null)).thenReturn(false);
         when(personMapper.toEntity(any())).thenReturn(new Person());
         when(personRepository.save(any())).thenReturn(new Person());
+        
         try (MockedStatic<PetMapper> mocked = mockStatic(PetMapper.class)) {
             mocked.when(() -> PetMapper.toEntity(any())).thenReturn(new Pet());
             when(petRepository.save(any())).thenReturn(new Pet());
@@ -162,7 +169,9 @@ public class PetSearchServiceTest {
 
     @Test
     void register_shouldSaveSearchWhenPetAndPersonExist() throws IOException {
+
         SearchCreate form = new SearchCreate();
+
         form.setPetId(1L);
         form.setPersonId(2L);
 
