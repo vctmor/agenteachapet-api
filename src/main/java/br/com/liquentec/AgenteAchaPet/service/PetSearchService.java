@@ -82,6 +82,8 @@ public class PetSearchService {
     search.setReporterRole(form.getReporterRole());
     search.setSlug(SlugUtil.toSlug(search.getPet().getName()));
     search.setSpecialNeed(form.getSpecialNeed());
+
+    System.out.println("slug service: " + search.getSlug());
  
     if (photo != null && !photo.isEmpty()) {
 

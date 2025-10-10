@@ -28,8 +28,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-// @RequestMapping("/pet-searches")
-@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/api/v1/pet-searches", produces = MediaType.APPLICATION_JSON_VALUE)
 @Validated
 @RequiredArgsConstructor
 public class PetSearchController {
@@ -37,10 +36,11 @@ public class PetSearchController {
     private final PetSearchService service;
     private final PetSearchRepository petSearchRepository;
     
-    @PostMapping(
-        value = "/pet-searches",
-        consumes = MediaType.MULTIPART_FORM_DATA_VALUE
-    )
+    // @PostMapping(
+    //     value = "/pet-searches",
+    //     consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    // )
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<PetSearchResponseDTO> register(
             @Valid @RequestPart("data") PetSearchCreateRequest request,
             @RequestPart(value = "photo", required = false) MultipartFile photo
@@ -48,18 +48,19 @@ public class PetSearchController {
 
         PetSearchResponseDTO result = service.registerFullSearch(request, photo);
 
-        System.out.println("Spacial Need: " + request.getSearch().getSpecialNeed() + " " + " > " + 
-        result.getSpecialNeed() );
+        
 
         // se quiser Location header: /cartaz/{slug}
         URI location = URI.create("/cartaz/" + result.getSlug());
+
+        
 
         return ResponseEntity
                 .created(location)
                 .body(result);
     }
    
-    @GetMapping("/pet-searches")
+    @GetMapping
     public ResponseEntity<List<PetSearchResponseDTO>> listAll(){
 
         List<PetSearchResponseDTO> result = service.listAll();
@@ -67,8 +68,10 @@ public class PetSearchController {
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<byte[]> getImage(@Valid @PathVariable Long id) {
+    // @GetMapping("/pet-searches/{id}/photo")
+    // Foto servida em endpoint estável (cacheável se quiser)
+    @GetMapping(path = "/{id}/photo", produces = { MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE })
+    public ResponseEntity<byte[]> getPhoto(@Valid @PathVariable Long id) {
 
         byte[] imageData = (byte[]) service.getPhotoById(id);
 
@@ -79,13 +82,14 @@ public class PetSearchController {
         return new ResponseEntity<>(imageData, headers, HttpStatus.OK);
     }
 
-    @GetMapping("/pet-searches/slug/{slug}")
+    // Recurso canônico por slug
+    @GetMapping("/{slug}")
     public ResponseEntity<PetSearchResponseDTO> getBySlug(@Valid @PathVariable String slug) {
 
     PetSearch search = petSearchRepository.findBySlug(slug)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Jornada não encontrada"));
     
-            
+            System.out.println("slug getBySlug: " + search.getSlug());
         return ResponseEntity.ok(PetSearchMapper.toDto(search));
 
     }
