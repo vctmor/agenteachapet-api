@@ -29,7 +29,7 @@ public class PetCreate {
 
     private String imageBase64;
 
-    @NotNull(message = "o id da pessoa é obritatório")
+    // @NotNull(message = "o id da pessoa é obritatório")
     private Long personId;
 
 

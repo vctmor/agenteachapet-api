@@ -22,7 +22,14 @@ public class Person {
     private String phone;
     
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Role role;
+
+    @PrePersist
+    public void ensureDefaults() {
+        if (role == null)
+            role = Role.REPORTER;
+    }
 
     @OneToMany(mappedBy = "person")
     private List<Pet> pets;

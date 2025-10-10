@@ -14,13 +14,13 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PetSearchResponseDTO {
 
-    // @NotNull
+    @NotNull
     private Long id;
 
-    // @NotNull
+    @NotNull
     private Long petId;
 
-    // @NotNull
+    @NotNull
     private Long personId;
 
     @NotBlank

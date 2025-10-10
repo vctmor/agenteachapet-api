@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import br.com.liquentec.AgenteAchaPet.model.Person;
 import br.com.liquentec.AgenteAchaPet.model.Pet;
 import br.com.liquentec.AgenteAchaPet.model.PetSearch;
+import br.com.liquentec.AgenteAchaPet.model.Role;
 import br.com.liquentec.AgenteAchaPet.dto.PetSearchCreateRequest;
 import br.com.liquentec.AgenteAchaPet.dto.request.SearchCreate;
 import br.com.liquentec.AgenteAchaPet.dto.response.PetSearchResponseDTO;
@@ -50,12 +51,16 @@ public class PetSearchService {
     @Transactional
     public PetSearchResponseDTO registerFullSearch(PetSearchCreateRequest request, MultipartFile photo) throws IOException {
  
+        Person person = personMapper.toEntity(request.getPerson());
+
+        if (person.getRole() == null) person.setRole(Role.REPORTER);
+
     if (personRepository.existsByEmail(request.getPerson().getEmail())){
 
         throw new BusinessException("Email já cadastrado");
     }
     // 1. Salvar a pessoa
-    Person person = personRepository.save(personMapper.toEntity(request.getPerson()));
+    person = personRepository.save(personMapper.toEntity(request.getPerson()));
  
     // 2. Salvar o pet
     Pet pet = PetMapper.toEntity(request.getPet());
