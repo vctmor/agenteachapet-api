@@ -28,7 +28,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping(path = "/api/v1/pet-searches", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/api/v1", produces = MediaType.APPLICATION_JSON_VALUE)
 @Validated
 @RequiredArgsConstructor
 public class PetSearchController {
@@ -40,7 +40,7 @@ public class PetSearchController {
     //     value = "/pet-searches",
     //     consumes = MediaType.MULTIPART_FORM_DATA_VALUE
     // )
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/pet-searches", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<PetSearchResponseDTO> register(
             @Valid @RequestPart("data") PetSearchCreateRequest request,
             @RequestPart(value = "photo", required = false) MultipartFile photo
@@ -60,7 +60,7 @@ public class PetSearchController {
                 .body(result);
     }
    
-    @GetMapping
+    @GetMapping(value = "/pet-searches")
     public ResponseEntity<List<PetSearchResponseDTO>> listAll(){
 
         List<PetSearchResponseDTO> result = service.listAll();
@@ -70,7 +70,7 @@ public class PetSearchController {
 
     // @GetMapping("/pet-searches/{id}/photo")
     // Foto servida em endpoint estável (cacheável se quiser)
-    @GetMapping(path = "/{id}/photo", produces = { MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE })
+    @GetMapping(value = "/{id}/photo", produces = { MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE })
     public ResponseEntity<byte[]> getPhoto(@Valid @PathVariable Long id) {
 
         byte[] imageData = (byte[]) service.getPhotoById(id);
@@ -83,7 +83,7 @@ public class PetSearchController {
     }
 
     // Recurso canônico por slug
-    @GetMapping("/{slug}")
+    @GetMapping(value = "/{slug}")
     public ResponseEntity<PetSearchResponseDTO> getBySlug(@Valid @PathVariable String slug) {
 
     PetSearch search = petSearchRepository.findBySlug(slug)
