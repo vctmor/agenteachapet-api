@@ -1,99 +1,81 @@
 package br.com.liquentec.AgenteAchaPet.controller;
 
-import br.com.liquentec.AgenteAchaPet.dto.PersonCreate;
-import br.com.liquentec.AgenteAchaPet.dto.PersonWithPetsDTO;
+import br.com.liquentec.AgenteAchaPet.model.*;
 import br.com.liquentec.AgenteAchaPet.repository.PetSearchRepository;
-import br.com.liquentec.AgenteAchaPet.service.PersonService;
 import br.com.liquentec.AgenteAchaPet.service.PetSearchService;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import java.time.LocalDateTime;
+import java.util.Optional;
+
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(PersonController.class)
-@AutoConfigureMockMvc(addFilters = false) // evita SecurityAutoConfiguration no slice
-@Import(PersonControllerTest.TestConfig.class) // registra o mock de PersonService
-class PersonControllerTest {
+@WebMvcTest(controllers = PetSearchController.class)
+@ContextConfiguration(classes = PetSearchController.class)
+class PetSearchControllerWebTest {
 
-    @Autowired private MockMvc mockMvc;
-    @Autowired private ObjectMapper objectMapper;
-    @Autowired private PersonService personService;
+    @Autowired
+    private MockMvc mockMvc;
 
-    @TestConfiguration
-    static class TestConfig {
+    @MockitoBean
+    private PetSearchService service;
 
-        @Bean PersonService personService() {return Mockito.mock(PersonService.class);}
-        @Bean PetSearchService petSearchService() { return Mockito.mock(PetSearchService.class);}
-        @Bean PetSearchRepository petSearchRepository() { return Mockito.mock(PetSearchRepository.class);}
-    }
+    @MockitoBean
+    private PetSearchRepository petSearchRepository;
 
     @Test
-    void addPersonOnly_shouldReturnCreatedPerson() throws Exception {
-        // Arrange
-        PersonCreate request = new PersonCreate();
-        
-        request.setName("Alice");
-        request.setEmail("alice@email.com");
+    void shouldReturnPetSearchBySlug() throws Exception {
+        // Criando Pet
+        Pet pet = new Pet();
+        pet.setId(1L);
+        pet.setName("Lola");
+        pet.setBreed("SRD");
+        pet.setColor("preta");
+        pet.setAge(3);
 
-        Mockito.when(personService.personAdd(any(PersonCreate.class)))
-               .thenAnswer(inv -> inv.getArgument(0)); // ecoa o mesmo DTO
+        // Criando Person
+        Person person = new Person();
+        person.setId(2L);
+        person.setName("Jonas");
+        person.setEmail("a@b.com");
+        person.setPhone("11999990000");
 
-        // Act + Assert
-        mockMvc.perform(post("/api/persons")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
-               .andExpect(status().isCreated())
-               .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-               .andExpect(jsonPath("$.name").value("Alice"))
-               .andExpect(jsonPath("$.email").value("alice@email.com"));
-    }
+        // Criando PetSearch
+        PetSearch petSearch = new PetSearch();
+        petSearch.setId(42L);
+        petSearch.setSlug("lola-8f3a2c");
+        petSearch.setPet(pet);
+        petSearch.setRegisteredBy(person);
+        petSearch.setReporterRole(Role.TUTOR);
+        petSearch.setDisappearanceDate(LocalDateTime.of(2025, 10, 10, 14, 30));
+        petSearch.setLocation("Vila Sônia");
+        petSearch.setSpecialNeed("medicação");
+        petSearch.setAdditionalNotes("assustada");
 
-    @Test
-    void addPersonAndPets_shouldReturnCreatedPerson() throws Exception {
-        // Arrange
-        PersonWithPetsDTO withPetsDTO = new PersonWithPetsDTO();
+        when(petSearchRepository.findBySlug("lola-8f3a2c")).thenReturn(Optional.of(petSearch));
 
-        PersonCreate response = new PersonCreate();
-        response.setName("Bob");
-        response.setEmail("bob@email.com");
-
-        Mockito.when(personService.addPersonWithPets(any(PersonWithPetsDTO.class), any()))
-               .thenReturn(response);
-
-        MockMultipartFile dtoPart = new MockMultipartFile(
-                "personWithPetsDTO",
-                "",
-                MediaType.APPLICATION_JSON_VALUE,
-                objectMapper.writeValueAsBytes(withPetsDTO)
-        );
-
-        MockMultipartFile imagePart = new MockMultipartFile(
-                "image",
-                "pet.jpg",
-                MediaType.IMAGE_JPEG_VALUE,
-                "fake image content".getBytes()
-        );
-
-        // Act + Assert
-        mockMvc.perform(multipart("/api/withPets")
-                        .file(dtoPart)
-                        .file(imagePart))
-               .andExpect(status().isCreated())
-               .andExpect(jsonPath("$.name").value("Bob"))
-               .andExpect(jsonPath("$.email").value("bob@email.com"));
+        mockMvc.perform(get("/api/v1/lola-8f3a2c")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.slug").value("lola-8f3a2c"))
+                .andExpect(jsonPath("$.pet.name").value("Lola"))
+                .andExpect(jsonPath("$.pet.breed").value("SRD"))
+                .andExpect(jsonPath("$.pet.color").value("preta"))
+                .andExpect(jsonPath("$.pet.age").value(3))
+                .andExpect(jsonPath("$.registeredBy.name").value("Jonas"))
+                .andExpect(jsonPath("$.registeredBy.email").value("a@b.com"))
+                .andExpect(jsonPath("$.registeredBy.phone").value("11999990000"))
+                .andExpect(jsonPath("$.reporterRole").value("GUARDIAN"))
+                .andExpect(jsonPath("$.location").value("Vila Sônia"))
+                .andExpect(jsonPath("$.specialNeed").value("medicação"))
+                .andExpect(jsonPath("$.additionalNotes").value("assustada"));
     }
 }

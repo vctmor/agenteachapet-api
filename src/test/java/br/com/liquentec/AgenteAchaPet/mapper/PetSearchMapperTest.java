@@ -1,9 +1,11 @@
 package br.com.liquentec.AgenteAchaPet.mapper;
 
+import br.com.liquentec.AgenteAchaPet.dto.response.CartazDTO;
 import br.com.liquentec.AgenteAchaPet.dto.response.PetSearchResponseDTO;
 import br.com.liquentec.AgenteAchaPet.model.Pet;
 import br.com.liquentec.AgenteAchaPet.model.PetSearch;
 import br.com.liquentec.AgenteAchaPet.model.Role;
+import br.com.liquentec.AgenteAchaPet.suport.EntityBuilders;
 import br.com.liquentec.AgenteAchaPet.model.Person;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -55,19 +57,33 @@ class PetSearchMapperTest {
         petSearch.setSlug("rex-1001");
     }
 
+     @Test
+    void shouldMapEntityToCartazDTO() {
+        Person r = EntityBuilders.person("Jonas", "a@b.com");
+        Pet p = EntityBuilders.pet(r, "Lola");
+        PetSearch ps = EntityBuilders.petSearch(p, r, "lola-8f3a2c");
+
+        CartazDTO dto = mapper.toCartazDto(ps);
+
+        assertEquals("lola-8f3a2c", dto.getSlug());
+        assertEquals("Lola", dto.getPet().getPetName());
+        assertEquals("Jonas", dto.getReporter().getName());
+        assertEquals("Vila Sônia", dto.getSighting().getLastSeenPlace());
+  }
+
     @Test
     void testToResponseDto() {
-        PetSearchResponseDTO dto = mapper.toResponseDto(petSearch);
+        CartazDTO dto = mapper.toCartazDto(petSearch);
 
         assertNotNull(dto);
-        assertEquals(1001L, dto.getId());
-        assertEquals(101L, dto.getPetId());
+        assertEquals(1001L, dto.getPet());
+        assertEquals(101L, dto.getPet());
         assertEquals(42L, dto.getPersonId());
-        assertEquals("Rex", dto.getPetName());
+        assertEquals("Rex", dto.getPet());
         assertEquals("SRD", dto.getBreed());
         assertEquals("Preto", dto.getColor());
-        assertEquals("Alice", dto.getPersonName());
-        assertEquals(Role.TUTOR, dto.getReporterRole());
+        assertEquals("Alice", dto.getPersonId());
+        assertEquals(Role.TUTOR, dto.getReporter());
         assertEquals(LocalDateTime.of(2023, 1, 15, 10, 30), dto.getDisappearanceDate());
         assertEquals("São Paulo", dto.getLocation());
         assertEquals("Precisa de remédio", dto.getSpecialNeed());
@@ -78,17 +94,17 @@ class PetSearchMapperTest {
 
     @Test
     void testToDtoStatic() {
-        PetSearchResponseDTO dto = PetSearchMapper.toDto(petSearch);
+        CartazDTO dto = PetSearchMapper.toCartazDto(petSearch);
 
         assertNotNull(dto);
-        assertEquals(1001L, dto.getId());
-        assertEquals(101L, dto.getPetId());
+        assertEquals(1001L, dto.getBreed());
+        assertEquals(101L, dto.getPersonId());
         assertEquals(42L, dto.getPersonId());
-        assertEquals("Rex", dto.getPetName());
+        assertEquals("Rex", dto.getPet());
         assertEquals("SRD", dto.getBreed());
         assertEquals("Preto", dto.getColor());
-        assertEquals("Alice", dto.getPersonName());
-        assertEquals(Role.TUTOR, dto.getReporterRole());
+        assertEquals("Alice", dto.getPersonId());
+        assertEquals(Role.TUTOR, dto.getReporter());
         assertEquals(LocalDateTime.of(2023, 1, 15, 10, 30), dto.getDisappearanceDate());
         assertEquals("São Paulo", dto.getLocation());
         assertEquals("Precisa de remédio", dto.getSpecialNeed());

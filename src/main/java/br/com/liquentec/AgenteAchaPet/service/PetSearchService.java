@@ -2,8 +2,12 @@ package br.com.liquentec.AgenteAchaPet.service;
 
 import java.io.IOException;
 import java.util.List;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.liquentec.AgenteAchaPet.model.Person;
 import br.com.liquentec.AgenteAchaPet.model.Pet;
@@ -11,7 +15,7 @@ import br.com.liquentec.AgenteAchaPet.model.PetSearch;
 import br.com.liquentec.AgenteAchaPet.model.Role;
 import br.com.liquentec.AgenteAchaPet.dto.PetSearchCreateRequest;
 import br.com.liquentec.AgenteAchaPet.dto.request.SearchCreate;
-import br.com.liquentec.AgenteAchaPet.dto.response.PetSearchResponseDTO;
+import br.com.liquentec.AgenteAchaPet.dto.response.CartazDTO;
 import br.com.liquentec.AgenteAchaPet.exception.BusinessException;
 import br.com.liquentec.AgenteAchaPet.exception.EntityCreationException;
 import br.com.liquentec.AgenteAchaPet.exception.MapperException;
@@ -23,7 +27,7 @@ import br.com.liquentec.AgenteAchaPet.repository.PetRepository;
 import br.com.liquentec.AgenteAchaPet.repository.PetSearchRepository;
 import br.com.liquentec.AgenteAchaPet.util.SlugUtil;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -39,17 +43,15 @@ public class PetSearchService {
     private final PetSearchMapper petSearchMapper;
     private final PersonMapper personMapper;
 
-
-    public List<PetSearchResponseDTO> listAll() {
-
-        List<PetSearch> entities = petSearchRepository.findAll();
-
-        return petSearchMapper.toDoList(entities);
-
+    @Transactional(readOnly = true)
+    public java.util.List<CartazDTO> listAll() {
+        // use um findAllDetailed com fetch join; se ainda não tiver, usa findAll mesmo
+        var entities = petSearchRepository.findAllDetailed();
+        return petSearchMapper.toCartazDtoList(entities);
     }
 
     @Transactional
-    public PetSearchResponseDTO registerFullSearch(PetSearchCreateRequest request, MultipartFile photo) throws IOException {
+    public CartazDTO registerFullSearch(PetSearchCreateRequest request, MultipartFile photo) throws IOException {
  
         Person person = personMapper.toEntity(request.getPerson());
 
@@ -98,7 +100,8 @@ public class PetSearchService {
         throw new EntityCreationException("Falha ao salvar busca");
     }
 
-    PetSearchResponseDTO dto = petSearchMapper.toResponseDto(saved);
+    CartazDTO dto = petSearchMapper.toCartazDto(saved);
+   
 
     if (dto == null) {
 
@@ -109,7 +112,7 @@ public class PetSearchService {
 
 }
 
-    public PetSearchResponseDTO register(SearchCreate form, MultipartFile photo) throws IOException {
+    public CartazDTO register(SearchCreate form, MultipartFile photo) throws IOException {
 
         Pet pet = petRepository.findById(form.getPetId())
                 .orElseThrow(() -> new EntityNotFoundException("Pet not found"));
@@ -128,7 +131,7 @@ public class PetSearchService {
                 .specialNeed(form.getSpecialNeed())
                 .build();
 
-        return petSearchMapper.toResponseDto(petSearchRepository.save(entity));
+        return petSearchMapper.toCartazDto(petSearchRepository.save(entity));
     }
 
     public byte[] getPhotoById(Long id) {
@@ -143,7 +146,29 @@ public class PetSearchService {
         return petPhoto;
     }
 
+    @Transactional(readOnly = true)
+    public CartazDTO getCartazBySlug(String slug){
 
+        PetSearch entity = petSearchRepository.findDetailedBySlug(slug)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Busca via slug não encontrada"));
+
+         CartazDTO dto = petSearchMapper.toCartazDto(entity);
+        enrichPhotoUrl(dto, entity);
+
+        return dto;
+
+    }
+
+    void enrichPhotoUrl(CartazDTO dto, PetSearch entity) {
+
+        if (dto.getPet() == null) return;
+        String url = ServletUriComponentsBuilder
+            .fromCurrentContextPath()
+            .path("/api/v1/pet-searches/{id}/photo")
+            .buildAndExpand(entity.getId()) // ou entity.getPet().getId(), se for assim
+            .toUriString();
+        dto.getPet().setPhotoUrl(url);
+}
 
 }
 

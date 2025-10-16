@@ -16,12 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.liquentec.AgenteAchaPet.dto.PetSearchCreateRequest;
-import br.com.liquentec.AgenteAchaPet.dto.response.PetSearchResponseDTO;
-import br.com.liquentec.AgenteAchaPet.mapper.PetSearchMapper;
-import br.com.liquentec.AgenteAchaPet.model.PetSearch;
+import br.com.liquentec.AgenteAchaPet.dto.response.CartazDTO;
 import br.com.liquentec.AgenteAchaPet.repository.PetSearchRepository;
 import br.com.liquentec.AgenteAchaPet.service.PetSearchService;
 import jakarta.validation.Valid;
@@ -41,17 +39,22 @@ public class PetSearchController {
     //     consumes = MediaType.MULTIPART_FORM_DATA_VALUE
     // )
     @PostMapping(value = "/pet-searches", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<PetSearchResponseDTO> register(
+    public ResponseEntity<CartazDTO> register(
             @Valid @RequestPart("data") PetSearchCreateRequest request,
             @RequestPart(value = "photo", required = false) MultipartFile photo
     ) throws IOException {
 
-        PetSearchResponseDTO result = service.registerFullSearch(request, photo);
+        CartazDTO result = service.registerFullSearch(request, photo);
 
         
 
         // se quiser Location header: /cartaz/{slug}
-        URI location = URI.create("/cartaz/" + result.getSlug());
+        // URI location = URI.create("/cartaz/" + result.getSlug());
+        URI location = ServletUriComponentsBuilder
+            .fromCurrentRequestUri() // /api/v1/pet-searches
+            .path("/{slug}")
+            .buildAndExpand(result.getSlug())
+            .toUri();
 
         
 
@@ -61,13 +64,15 @@ public class PetSearchController {
     }
    
     @GetMapping(value = "/pet-searches")
-    public ResponseEntity<List<PetSearchResponseDTO>> listAll(){
+    public ResponseEntity<List<CartazDTO>> listAll(){
 
-        List<PetSearchResponseDTO> result = service.listAll();
+        List<CartazDTO> result = service.listAll();
 
         return ResponseEntity.ok(result);
     }
-
+            
+    // substituir pelo de baixo
+    
     // @GetMapping("/pet-searches/{id}/photo")
     // Foto servida em endpoint estável (cacheável se quiser)
     @GetMapping(value = "/{id}/photo", produces = { MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE })
@@ -81,16 +86,22 @@ public class PetSearchController {
 
         return new ResponseEntity<>(imageData, headers, HttpStatus.OK);
     }
+   
+    // @GetMapping(path = "/{id}/photo", produces = { MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE })
+    // public ResponseEntity<byte[]> getPhoto(@PathVariable Long id) {
+    //     byte[] imageData = service.getPhotoById(id);
+    //     return ResponseEntity.ok().contentLength(imageData.length).body(imageData);
+    // }
 
     // Recurso canônico por slug
     @GetMapping(value = "/{slug}")
-    public ResponseEntity<PetSearchResponseDTO> getBySlug(@Valid @PathVariable String slug) {
+    public ResponseEntity<CartazDTO> getBySlug(@Valid @PathVariable String slug) {
 
-    PetSearch search = petSearchRepository.findBySlug(slug)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Jornada não encontrada"));
+    // PetSearch search = petSearchRepository.findBySlug(slug)
+    //         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Jornada não encontrada"));
     
-            System.out.println("slug getBySlug: " + search.getSlug());
-        return ResponseEntity.ok(PetSearchMapper.toDto(search));
+           
+        return ResponseEntity.ok(service.getCartazBySlug(slug));
 
     }
 
