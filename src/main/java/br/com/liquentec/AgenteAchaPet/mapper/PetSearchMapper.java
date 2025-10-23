@@ -1,15 +1,19 @@
 package br.com.liquentec.AgenteAchaPet.mapper;
 
+import br.com.liquentec.AgenteAchaPet.model.Role;
+
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.mapstruct.ReportingPolicy;
 
 import br.com.liquentec.AgenteAchaPet.dto.response.CartazDTO;
 import br.com.liquentec.AgenteAchaPet.model.PetSearch;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring",
+     unmappedTargetPolicy = ReportingPolicy.ERROR // falha em qualquer campo não mapeado
+)
 public interface PetSearchMapper {
 
     // item único
@@ -21,17 +25,22 @@ public interface PetSearchMapper {
     @Mapping(target = "pet.color", source = "pet.color")
     @Mapping(target = "pet.breed", source = "pet.breed")
     @Mapping(target = "pet.age", source = "pet.age")
+    @Mapping(target = "pet.photoUrl", ignore = true)
+    
 
     // Reporter
     @Mapping(target = "reporter.name", source = "registeredBy.name")
     @Mapping(target = "reporter.phone", source = "registeredBy.phone")
     @Mapping(target = "reporter.email", source = "registeredBy.email")
+    @Mapping(target = "reporter.role", source = "reporterRole" )
 
     // Sighting
     @Mapping(target = "sighting.lastSeenPlace", source = "location")
     @Mapping(target = "sighting.lastSeenAt", source = "disappearanceDate")
     @Mapping(target = "sighting.notes", source = "additionalNotes")
     @Mapping(target = "sighting.specialNeed", source = "specialNeed")
+   
+
     CartazDTO toCartazDto(PetSearch entity);
 
     java.util.List<CartazDTO> toCartazDtoList(java.util.List<PetSearch> entities);

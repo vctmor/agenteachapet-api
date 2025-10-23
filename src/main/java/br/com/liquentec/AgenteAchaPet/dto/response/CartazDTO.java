@@ -4,11 +4,15 @@ package br.com.liquentec.AgenteAchaPet.dto.response;
 import lombok.*;
 import java.time.LocalDateTime;
 
+import br.com.liquentec.AgenteAchaPet.model.Role;
+
+
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+
 public class CartazDTO {
     private String slug;
     private PetInfo pet;
@@ -19,7 +23,7 @@ public class CartazDTO {
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor
-    @Builder
+  
     public static class PetInfo {
         private Long id;
         private String petName;
@@ -33,22 +37,25 @@ public class CartazDTO {
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor
-    @Builder
+
     public static class ReporterInfo {
         private String name;
         private String phone;
         private String email;
+        private Role role;
+        
     }
 
     @Getter
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor
-    @Builder
+    
     public static class SightingInfo {
         private String lastSeenPlace;
         private LocalDateTime lastSeenAt; // mapeado de disappearanceDate
         private String notes;
         private String specialNeed;
+        
     }
 }
