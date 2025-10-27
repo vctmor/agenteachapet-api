@@ -42,7 +42,9 @@ public class PetSearchService {
 
     @Transactional(readOnly = true)
     public List<CartazDTO> listAll() {
+
         var entities = petSearchRepository.findAllDetailed(); // precisa existir no repo
+        
         return petSearchMapper.toCartazDtoList(entities);
     }
 
