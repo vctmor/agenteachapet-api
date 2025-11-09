@@ -8,12 +8,12 @@ import jakarta.transaction.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import br.com.liquentec.AgenteAchaPet.dto.PersonWithPetsDTO;
-import br.com.liquentec.AgenteAchaPet.dto.PetDTO;
+import br.com.liquentec.AgenteAchaPet.dto.PetCreate;
 import br.com.liquentec.AgenteAchaPet.exception.BusinessException;
 import br.com.liquentec.AgenteAchaPet.mapper.PersonMapper;
 import br.com.liquentec.AgenteAchaPet.mapper.PetMapper;
 import br.com.liquentec.AgenteAchaPet.model.Person;
-import br.com.liquentec.AgenteAchaPet.dto.PersonDTO;
+import br.com.liquentec.AgenteAchaPet.dto.PersonCreate;
 import br.com.liquentec.AgenteAchaPet.model.Pet;
 import br.com.liquentec.AgenteAchaPet.repository.PersonRepository;
 import br.com.liquentec.AgenteAchaPet.repository.PetRepository;
@@ -29,7 +29,7 @@ public class PersonService {
     @Autowired
     private final PetRepository petRepository;
 
-    public PersonDTO personAdd(PersonDTO personDTO) {
+    public PersonCreate personAdd(PersonCreate personDTO) {
 
         if (personRepository.existsByEmail(personDTO.getEmail())) {
 
@@ -46,7 +46,7 @@ public class PersonService {
     }
 
     @Transactional
-    public PersonDTO addPersonWithPets(PersonWithPetsDTO dto, MultipartFile image) {
+    public PersonCreate addPersonWithPets(PersonWithPetsDTO dto, MultipartFile image) {
 
         if (personRepository.existsByEmail(dto.getEmail())) {
 
@@ -62,7 +62,7 @@ public class PersonService {
         // Mapeia e salva os pets associados
         if (dto.getPets() != null && !dto.getPets().isEmpty()) {
             
-            for (PetDTO petDTO : dto.getPets()) {
+            for (PetCreate petDTO : dto.getPets()) {
                 Pet pet = PetMapper.toEntity(petDTO);
                 pet.setPerson(savedPerson); // associa o pet à pessoa recém salva
                 petRepository.save(pet);

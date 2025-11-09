@@ -1,5 +1,6 @@
 package br.com.liquentec.AgenteAchaPet.dto.request;
 
+import br.com.liquentec.AgenteAchaPet.model.Role;
 import br.com.liquentec.AgenteAchaPet.model.SearchRole;
 import jakarta.validation.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,13 +14,13 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PetSearchRequestFormTest {
 
     private Validator validator;
-    private PetSearchRequestForm form;
+    private SearchCreate form;
 
     @BeforeEach
     void setup() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
-        form = new PetSearchRequestForm();
+        form = new SearchCreate();
     }
 
     @Test
@@ -37,7 +38,7 @@ public class PetSearchRequestFormTest {
     void testSettersAndGetters() {
         form.setPetId(1L);
         form.setPersonId(2L);
-        form.setReporterRole(SearchRole.TUTOR);
+        form.setReporterRole(Role.TUTOR);
         LocalDateTime date = LocalDateTime.now();
         form.setDisappearanceDate(date);
         form.setSpecialNeed("Precisa de remédio");
@@ -46,7 +47,7 @@ public class PetSearchRequestFormTest {
 
         assertEquals(1L, form.getPetId());
         assertEquals(2L, form.getPersonId());
-        assertEquals(SearchRole.TUTOR, form.getReporterRole());
+        assertEquals(Role.TUTOR, form.getReporterRole());
         assertEquals(date, form.getDisappearanceDate());
         assertEquals("Precisa de remédio", form.getSpecialNeed());
         assertEquals("Parque Central", form.getLocation());
@@ -62,7 +63,7 @@ public class PetSearchRequestFormTest {
         form.setDisappearanceDate(null);
         form.setLocation("");
 
-        Set<ConstraintViolation<PetSearchRequestForm>> violations = validator.validate(form);
+        Set<ConstraintViolation<SearchCreate>> violations = validator.validate(form);
 
         assertEquals(5, violations.size());
         assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("petId")));
@@ -76,13 +77,13 @@ public class PetSearchRequestFormTest {
     void testValidFields() {
         form.setPetId(1L);
         form.setPersonId(2L);
-        form.setReporterRole(SearchRole.TUTOR);
+        form.setReporterRole(Role.TUTOR);
         form.setDisappearanceDate(LocalDateTime.now());
         form.setLocation("Rua das Flores, 100");
         form.setSpecialNeed("Nenhuma");
         form.setAdditionalNotes("Usava coleira azul");
 
-        Set<ConstraintViolation<PetSearchRequestForm>> violations = validator.validate(form);
+        Set<ConstraintViolation<SearchCreate>> violations = validator.validate(form);
 
         assertTrue(violations.isEmpty());
     }

@@ -2,15 +2,20 @@ package br.com.liquentec.AgenteAchaPet.service;
 
 import java.io.IOException;
 import java.util.List;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.liquentec.AgenteAchaPet.model.Person;
 import br.com.liquentec.AgenteAchaPet.model.Pet;
 import br.com.liquentec.AgenteAchaPet.model.PetSearch;
-import br.com.liquentec.AgenteAchaPet.dto.PetSearchCompositeForm;
-import br.com.liquentec.AgenteAchaPet.dto.request.PetSearchRequestForm;
-import br.com.liquentec.AgenteAchaPet.dto.response.PetSearchResponseDTO;
+import br.com.liquentec.AgenteAchaPet.model.Role;
+import br.com.liquentec.AgenteAchaPet.dto.PetSearchCreateRequest;
+import br.com.liquentec.AgenteAchaPet.dto.request.SearchCreate;
+import br.com.liquentec.AgenteAchaPet.dto.response.CartazDTO;
 import br.com.liquentec.AgenteAchaPet.exception.BusinessException;
 import br.com.liquentec.AgenteAchaPet.exception.EntityCreationException;
 import br.com.liquentec.AgenteAchaPet.exception.MapperException;
@@ -22,120 +27,83 @@ import br.com.liquentec.AgenteAchaPet.repository.PetRepository;
 import br.com.liquentec.AgenteAchaPet.repository.PetSearchRepository;
 import br.com.liquentec.AgenteAchaPet.util.SlugUtil;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
-
 @RequiredArgsConstructor
-
 public class PetSearchService {
 
-    // private final PetSearch responseDTO;
     private final PetSearchRepository petSearchRepository;
     private final PetRepository petRepository;
     private final PersonRepository personRepository;
     private final PetSearchMapper petSearchMapper;
     private final PersonMapper personMapper;
 
+    @Transactional(readOnly = true)
+    public List<CartazDTO> listAll() {
 
-    public List<PetSearchResponseDTO> listAll() {
-
-        List<PetSearch> entities = petSearchRepository.findAll();
-
-        return petSearchMapper.toDoList(entities);
-
+        var entities = petSearchRepository.findAllDetailed(); // precisa existir no repo
+        
+        return petSearchMapper.toCartazDtoList(entities);
     }
 
     @Transactional
-    public PetSearchResponseDTO registerFullSearch(PetSearchCompositeForm compositeForm, MultipartFile photo) throws IOException {
- 
-    if (personRepository.existsByEmail(compositeForm.getPerson().getEmail())){
+    public CartazDTO registerFullSearch(PetSearchCreateRequest request, MultipartFile photo) throws IOException {
+        Person person = personMapper.toEntity(request.getPerson());
+        if (person.getRole() == null)
+            person.setRole(Role.REPORTER);
 
-        throw new BusinessException("Email já cadastrado");
-    }
-    // 1. Salvar a pessoa
-    Person person = personRepository.save(personMapper.toEntity(compositeForm.getPerson()));
- 
-    // 2. Salvar o pet
-    Pet pet = PetMapper.toEntity(compositeForm.getPet());
+        if (personRepository.existsByEmail(request.getPerson().getEmail())) {
+            throw new BusinessException("Email já cadastrado");
+        }
+        person = personRepository.save(person); // não precisa remapear
 
-    pet.setPerson(person);
-    pet = petRepository.save(pet);
- 
-    // 3. Criar a busca
-    PetSearchRequestForm form = compositeForm.getSearch();
-    PetSearch search = new PetSearch();
+        // Pet: defina a foto ANTES de salvar
+        Pet pet = PetMapper.toEntity(request.getPet());
+        if (photo != null && !photo.isEmpty()) {
+            pet.setPhoto(photo.getBytes());
+        }
+        pet.setPerson(person);
+        pet = petRepository.save(pet);
 
-    search.setPet(pet);
-    search.setRegisteredBy(person);
-    
-    search.setLocation(form.getLocation());
-    search.setDisappearanceDate(form.getDisappearanceDate());
-    search.setAdditionalNotes(form.getAdditionalNotes());
-    search.setReporterRole(form.getReporterRole());
-    search.setSlug(SlugUtil.toSlug(search.getPet().getName()));
-    // search.setSpecialNeed(form.getSpecialNeed());
- 
-    if (photo != null && !photo.isEmpty()) {
+        // Busca
+        SearchCreate form = request.getSearch();
+        PetSearch search = new PetSearch();
+        search.setPet(pet);
+        search.setRegisteredBy(person);
+        search.setLocation(form.getLocation());
+        search.setDisappearanceDate(form.getDisappearanceDate());
+        search.setAdditionalNotes(form.getAdditionalNotes());
+        search.setReporterRole(form.getReporterRole());
+        search.setSpecialNeed(form.getSpecialNeed());
+        search.setSlug(SlugUtil.toSlug(search.getPet().getName())); // considere garantir unicidade
 
-        pet.setPhoto(photo.getBytes());
-        
-    }   
-    PetSearch saved = petSearchRepository.save(search);
+        PetSearch saved = petSearchRepository.save(search);
+        if (saved == null)
+            throw new EntityCreationException("Falha ao salvar busca");
 
-    // Teste antes de mapear
-    if (saved == null) {
-
-        throw new EntityCreationException("Falha ao salvar busca");
-    }
-
-    PetSearchResponseDTO dto = petSearchMapper.toResponseDto(saved);
-
-    if (dto == null) {
-
-        throw new MapperException("Falha ao mapear busca para DTO");
-    }
-
-    return dto;
-
-}
-
-    public PetSearchResponseDTO register(PetSearchRequestForm form, MultipartFile photo) throws IOException {
-
-        Pet pet = petRepository.findById(form.getPetId())
-                .orElseThrow(() -> new EntityNotFoundException("Pet not found"));
-
-        Person person = personRepository.findById(form.getPersonId())
-                .orElseThrow(() -> new EntityNotFoundException("Person not found"));
-
-        PetSearch entity = PetSearch.builder()
-                .pet(pet)
-                .registeredBy(person)
-    
-                .reporterRole(form.getReporterRole())
-                .disappearanceDate(form.getDisappearanceDate())
-                .location(form.getLocation())
-                .additionalNotes(form.getAdditionalNotes())
-                // .specialNeed(form.getSpecialNeed())
-                .build();
-
-        return petSearchMapper.toResponseDto(petSearchRepository.save(entity));
+        // MapStruct + @AfterMapping já preenche photoUrl
+        CartazDTO dto = petSearchMapper.toCartazDto(saved);
+        if (dto == null)
+            throw new MapperException("Falha ao mapear busca para DTO");
+        return dto;
     }
 
     public byte[] getPhotoById(Long id) {
-
-       PetSearch compositeForm = petSearchRepository.findById(id)
+        PetSearch ps = petSearchRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("PetSearch not found"));
-       
-        byte[] petPhoto = compositeForm.getPet().getPhoto();
-        if (petPhoto == null) {
+        byte[] petPhoto = ps.getPet().getPhoto();
+        if (petPhoto == null)
             throw new EntityNotFoundException("No photo available for this record");
-        }
         return petPhoto;
     }
 
-
-
+    @Transactional(readOnly = true)
+    public CartazDTO getCartazBySlug(String slug) {
+        PetSearch entity = petSearchRepository.findDetailedBySlug(slug)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Busca via slug não encontrada"));
+        return petSearchMapper.toCartazDto(entity); // @AfterMapping já cuida do photoUrl
+    }
 }
 

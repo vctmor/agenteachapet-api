@@ -194,23 +194,8 @@ public PetDTO buscarPet(@PathVariable Long id) {
   linkCommits = [ ]
 
   [[processes.tasks]]
-  id = "task1"
-  title = "mfe"
-  description = "<p></p>"
-  tag = "backlog, backend"
-  linkFiles = [ ]
-  dueDate = ""
-  priority = ""
-  linkCommits = [ ]
-
-    [[processes.tasks.checkList]]
-    id = "wospvkis4rbtxbl7viwozlp5"
-    title = "1"
-    completed = false
-
-  [[processes.tasks]]
   id = "whe0n5yot7vy1iim5snu5j5m"
-  title = "back-front"
+  title = "Conectar back-front"
   description = "<p>- Equivaler as funcionalidades</p><p>- Assuir o backend também como protótipo</p>"
   tag = "backlog"
   linkFiles = [ ]
@@ -229,6 +214,21 @@ public PetDTO buscarPet(@PathVariable Long id) {
   checkList = [ ]
   priority = ""
   linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task1"
+  title = "mfe"
+  description = "<p></p>"
+  tag = "backlog, backend"
+  linkFiles = [ ]
+  dueDate = ""
+  priority = ""
+  linkCommits = [ ]
+
+    [[processes.tasks.checkList]]
+    id = "wospvkis4rbtxbl7viwozlp5"
+    title = "1"
+    completed = false
 
 [[processes]]
 id = "process2"

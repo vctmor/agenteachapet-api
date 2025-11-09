@@ -1,9 +1,10 @@
 package br.com.liquentec.AgenteAchaPet.service;
 
-import br.com.liquentec.AgenteAchaPet.dto.PersonDTO;
-import br.com.liquentec.AgenteAchaPet.dto.PetDTO;
-import br.com.liquentec.AgenteAchaPet.dto.PetSearchCompositeForm;
-import br.com.liquentec.AgenteAchaPet.dto.request.PetSearchRequestForm;
+import br.com.liquentec.AgenteAchaPet.dto.PersonCreate;
+import br.com.liquentec.AgenteAchaPet.dto.PetCreate;
+import br.com.liquentec.AgenteAchaPet.dto.PetSearchCreateRequest;
+import br.com.liquentec.AgenteAchaPet.dto.request.SearchCreate;
+import br.com.liquentec.AgenteAchaPet.dto.response.CartazDTO;
 import br.com.liquentec.AgenteAchaPet.dto.response.PetSearchResponseDTO;
 import br.com.liquentec.AgenteAchaPet.exception.BusinessException;
 import br.com.liquentec.AgenteAchaPet.exception.EntityCreationException;
@@ -14,13 +15,16 @@ import br.com.liquentec.AgenteAchaPet.mapper.PetSearchMapper;
 import br.com.liquentec.AgenteAchaPet.model.Person;
 import br.com.liquentec.AgenteAchaPet.model.Pet;
 import br.com.liquentec.AgenteAchaPet.model.PetSearch;
-import br.com.liquentec.AgenteAchaPet.model.SearchRole;
+import br.com.liquentec.AgenteAchaPet.model.Role;
 import br.com.liquentec.AgenteAchaPet.repository.PersonRepository;
 import br.com.liquentec.AgenteAchaPet.repository.PetRepository;
 import br.com.liquentec.AgenteAchaPet.repository.PetSearchRepository;
+import br.com.liquentec.AgenteAchaPet.suport.EntityBuilders;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -32,6 +36,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -57,44 +64,75 @@ public class PetSearchServiceTest {
                 personMapper);
     }
 
+    @Test
+  void getCartazBySlug_shouldMapEntityToDTO_andEnrichPhotoUrl() {
+    // arrange
+    Person r = EntityBuilders.person("Jonas", "a@b.com");
+    Pet p = EntityBuilders.pet(r, "Lola");
+    PetSearch ps = EntityBuilders.petSearch(p, r, "lola-8f3a2c");
+    ps.setId(1L);
+
+    CartazDTO dto = CartazDTO.builder()
+      .slug("lola-8f3a2c")
+      .pet(CartazDTO.PetInfo.builder().id(42L).petName("Lola").build())
+      .reporter(CartazDTO.ReporterInfo.builder().name("Jonas").phone("11999990000").build())
+      .sighting(CartazDTO.SightingInfo.builder().lastSeenPlace("Vila Sônia").build())
+      .build();
+
+    Mockito.when(petSearchRepository.findDetailedBySlug("lola-8f3a2c")).thenReturn(Optional.of(ps));
+    Mockito.when(petSearchMapper.toCartazDto(ps)).thenReturn(dto);
+
+    // act
+    CartazDTO out = service.getCartazBySlug("lola-8f3a2c");
+
+    // assert
+    assertNotNull(out);
+    assertEquals("lola-8f3a2c", out.getSlug());
+    assertNotNull(out.getPet().getPhotoUrl(), "photoUrl deve ser preenchida no service");
+    assertTrue(out.getPet().getPhotoUrl().contains("/api/v1/pet-searches/1/photo"));
+    Mockito.verify(petSearchRepository).findDetailedBySlug("lola-8f3a2c");
+    Mockito.verify(petSearchMapper).toCartazDto(ps);
+  }
+
      @Test
     void registerFullSearch_shouldSavePersonPetAndSearch() throws IOException {
 
-        PetSearchCompositeForm form = new PetSearchCompositeForm();
-        PersonDTO personDTO = new PersonDTO();
-        PetDTO petDTO = new PetDTO();
+        PetSearchCreateRequest form = new PetSearchCreateRequest();
+        PersonCreate personCreate = new PersonCreate();
+        PetCreate petCreate = new PetCreate();
 
-        personDTO.setEmail("test@email.com");
-        personDTO.setName("Alice");
+        personCreate.setEmail("test@email.com");
+        personCreate.setName("Alice");
 
-        petDTO.setName("Rex");
+        petCreate.setName("Rex");
 
-        form.setPerson(personDTO);
-        form.setPet(petDTO);
+        form.setPerson(personCreate);
+        form.setPet(petCreate);
 
-        PetSearchRequestForm searchForm = new PetSearchRequestForm();
-        searchForm.setLocation("SP");
-        searchForm.setReporterRole(SearchRole.TUTOR);
-        searchForm.setDisappearanceDate(LocalDateTime.now());
+        SearchCreate searchCreate = new SearchCreate();
 
-        form.setSearch(searchForm);
+        searchCreate.setLocation("SP");
+        searchCreate.setReporterRole(Role.TUTOR);
+        searchCreate.setDisappearanceDate(LocalDateTime.now());
+
+        form.setSearch(searchCreate);
 
         Person personEntity = new Person();
         Pet petEntity = new Pet();
         PetSearch savedSearch = new PetSearch();
-        PetSearchResponseDTO dto = new PetSearchResponseDTO();
+        CartazDTO dto = new CartazDTO();
 
         petEntity.setName("Rex");
 
         when(personRepository.existsByEmail("test@email.com")).thenReturn(false);
-        when(personMapper.toEntity(personDTO)).thenReturn(personEntity);
+        when(personMapper.toEntity(personCreate)).thenReturn(personEntity);
         when(personRepository.save(personEntity)).thenReturn(personEntity);
 
         try (MockedStatic<PetMapper> mocked = mockStatic(PetMapper.class)) {
             mocked.when(() -> PetMapper.toEntity(any())).thenReturn(petEntity);
             when(petRepository.save(petEntity)).thenReturn(petEntity);
             when(petSearchRepository.save(any(PetSearch.class))).thenReturn(savedSearch);
-            when(petSearchMapper.toResponseDto(savedSearch)).thenReturn(dto);
+            when(petSearchMapper.toCartazDto(savedSearch)).thenReturn(dto);
 
             PetSearchResponseDTO result = service.registerFullSearch(form, mock(MultipartFile.class));
 
@@ -104,8 +142,10 @@ public class PetSearchServiceTest {
 
     @Test
     void registerFullSearch_shouldThrowWhenEmailExists() {
-        PetSearchCompositeForm form = new PetSearchCompositeForm();
-        PersonDTO personDTO = new PersonDTO();
+
+        PetSearchCreateRequest form = new PetSearchCreateRequest();
+        PersonCreate personDTO = new PersonCreate();
+
         personDTO.setEmail("exists@email.com");
         form.setPerson(personDTO);
 
@@ -118,10 +158,12 @@ public class PetSearchServiceTest {
 
     @Test
     void registerFullSearch_shouldThrowEntityCreationExceptionWhenSaveReturnsNull() {
-        PetSearchCompositeForm form = new PetSearchCompositeForm();
-        form.setPerson(new PersonDTO());
-        form.setPet(new PetDTO());
-        form.setSearch(new PetSearchRequestForm());
+
+        PetSearchCreateRequest form = new PetSearchCreateRequest();
+
+        form.setPerson(new PersonCreate());
+        form.setPet(new PetCreate());
+        form.setSearch(new SearchCreate());
 
         when(personRepository.existsByEmail(null)).thenReturn(false);
         when(personMapper.toEntity(any())).thenReturn(new Person());
@@ -139,19 +181,22 @@ public class PetSearchServiceTest {
     
     @Test
     void registerFullSearch_shouldThrowMapperExceptionWhenMapperReturnsNull() {
-        PetSearchCompositeForm form = new PetSearchCompositeForm();
-        form.setPerson(new PersonDTO());
-        form.setPet(new PetDTO());
-        form.setSearch(new PetSearchRequestForm());
+
+        PetSearchCreateRequest form = new PetSearchCreateRequest();
+
+        form.setPerson(new PersonCreate());
+        form.setPet(new PetCreate());
+        form.setSearch(new SearchCreate());
 
         when(personRepository.existsByEmail(null)).thenReturn(false);
         when(personMapper.toEntity(any())).thenReturn(new Person());
         when(personRepository.save(any())).thenReturn(new Person());
+        
         try (MockedStatic<PetMapper> mocked = mockStatic(PetMapper.class)) {
             mocked.when(() -> PetMapper.toEntity(any())).thenReturn(new Pet());
             when(petRepository.save(any())).thenReturn(new Pet());
             when(petSearchRepository.save(any())).thenReturn(new PetSearch());
-            when(petSearchMapper.toResponseDto(any())).thenReturn(null);
+            when(petSearchMapper.toCartazDto(any())).thenReturn(null);
 
             assertThatThrownBy(() -> service.registerFullSearch(form, null))
                     .isInstanceOf(MapperException.class)
@@ -161,19 +206,21 @@ public class PetSearchServiceTest {
 
     @Test
     void register_shouldSaveSearchWhenPetAndPersonExist() throws IOException {
-        PetSearchRequestForm form = new PetSearchRequestForm();
+
+        SearchCreate form = new SearchCreate();
+
         form.setPetId(1L);
         form.setPersonId(2L);
 
         Pet pet = new Pet();
         Person person = new Person();
         PetSearch savedSearch = new PetSearch();
-        PetSearchResponseDTO dto = new PetSearchResponseDTO();
+        CartazDTO dto = new CartazDTO();
 
         when(petRepository.findById(1L)).thenReturn(Optional.of(pet));
         when(personRepository.findById(2L)).thenReturn(Optional.of(person));
         when(petSearchRepository.save(any())).thenReturn(savedSearch);
-        when(petSearchMapper.toResponseDto(savedSearch)).thenReturn(dto);
+        when(petSearchMapper.toCartazDto(savedSearch)).thenReturn(dto);
 
         PetSearchResponseDTO result = service.register(form, null);
 
@@ -182,7 +229,7 @@ public class PetSearchServiceTest {
 
     @Test
     void register_shouldThrowWhenPetNotFound() {
-        PetSearchRequestForm form = new PetSearchRequestForm();
+        SearchCreate form = new SearchCreate();
         form.setPetId(1L);
 
         when(petRepository.findById(1L)).thenReturn(Optional.empty());
@@ -194,7 +241,7 @@ public class PetSearchServiceTest {
 
     @Test
     void register_shouldThrowWhenPersonNotFound() {
-        PetSearchRequestForm form = new PetSearchRequestForm();
+        SearchCreate form = new SearchCreate();
         form.setPetId(1L);
         form.setPersonId(2L);
 
@@ -246,10 +293,10 @@ public class PetSearchServiceTest {
     @Test
     void listAll_shouldReturnMappedList() {
         List<PetSearch> entities = Arrays.asList(new PetSearch(), new PetSearch());
-        List<PetSearchResponseDTO> dtos = Arrays.asList(new PetSearchResponseDTO(), new PetSearchResponseDTO());
+        List<CartazDTO> dtos = Arrays.asList(new CartazDTO(), new CartazDTO());
 
         when(petSearchRepository.findAll()).thenReturn(entities);
-        when(petSearchMapper.toDoList(entities)).thenReturn(dtos);
+        when(petSearchMapper.toCartazDto(entities)).thenReturn(dtos);
 
         List<PetSearchResponseDTO> result = service.listAll();
 

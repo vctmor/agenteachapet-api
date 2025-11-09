@@ -1,3 +1,4 @@
+
 # 🧭 AgenteAchaPet — API
 
 ## Visão Geral
@@ -53,6 +54,23 @@ Com **testes automatizados (TDD)** e **documentação aberta via Swagger**, a AP
 * **CORS configurado para integração frontend**
 * **Preparada para deploy em nuvem (Render, Railway, Vercel)**
 * **Foco em princípios SOLID e SRP**
+
+---
+
+#### 🐾 **AgenteAchaPet API – v0.3.0 (Jul–Out 2025)**
+
+**Novidades principais**
+
+* ✨ Nova estrutura modular com DTOs e validação
+* 🧭 Endpoints REST completos para Pet, Tutor e Desaparecimento
+* 📦 Mapper via MapStruct e tratamento global de exceções
+* 🧪 Testes unitários e de integração
+* 🌍 Geocodificação inicial (Nominatim)
+* 📖 Documentação Swagger/OpenAPI
+* 🧰 Base sólida para automações e novas features
+
+**Foco desta release:** consolidar a base técnica e preparar o terreno para as automações de dados e alertas comunitários na v0.4.0.
+
 
 ---
 
@@ -135,3 +153,4 @@ Vamos juntos tornar a busca por pets mais acolhedora e eficiente.
 
 > "Cada busca é um esperançar. Ninguém solta a mão de ninguém."
 
+>>>>>>> dev

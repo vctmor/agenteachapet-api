@@ -1,0 +1,134 @@
+A seguir, reescrevo a entidade `PetSearch` com persistência da imagem diretamente no banco de dados usando anotação `@Lob`. Essa abordagem é recomendada apenas se:
+
+* o volume de dados binários for pequeno (ex.: thumbnails, imagens comprimidas),
+* e se não houver acesso frequente ou distribuição pública da imagem diretamente por link (como seria o caso em S3).
+
+---
+
+## 🧱 1. Entidade `PetSearch` com `@Lob`
+
+```java
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class PetSearch {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(optional = false)
+    private Pet pet;
+
+    @ManyToOne(optional = false)
+    private Person reportedBy;
+
+    @Enumerated(EnumType.STRING)
+    private SearchRole reporterRole;
+
+    private LocalDateTime disappearanceDate;
+
+    private String location;
+
+    @Lob
+    @Basic(fetch = FetchType.LAZY) // boa prática para performance
+    private byte[] photo;
+
+    @Column(columnDefinition = "TEXT")
+    private String additionalNotes;
+}
+```
+
+---
+
+## 📤 2. Atualização dos DTOs
+
+### `PetSearchRequestDTO`
+
+```java
+@Data
+public class PetSearchRequestDTO {
+    private Long petId;
+    private Long personId;
+    private SearchRole reporterRole;
+    private LocalDateTime disappearanceDate;
+    private String location;
+    private byte[] photo; // binário direto no request
+    private String additionalNotes;
+}
+```
+
+### `PetSearchResponseDTO`
+
+```java
+@Data
+public class PetSearchResponseDTO {
+    private Long id;
+    private Long petId;
+    private Long personId;
+    private String petName;
+    private String personName;
+    private SearchRole reporterRole;
+    private LocalDateTime disappearanceDate;
+    private String location;
+    private byte[] photo; // retorno da imagem
+    private String additionalNotes;
+}
+```
+
+---
+
+## 🔁 3. Mapper `PetSearchMapper` (sem mudanças)
+
+Como MapStruct lida com mapeamento automático de arrays, nenhuma modificação é necessária, desde que os campos `photo` estejam com o mesmo nome e tipo em ambas as classes.
+
+```java
+@Mapper(componentModel = "spring")
+public interface PetSearchMapper {
+
+    @Mapping(target = "pet.id", source = "petId")
+    @Mapping(target = "reportedBy.id", source = "personId")
+    PetSearch toEntity(PetSearchRequestDTO dto);
+
+    @Mapping(target = "petId", source = "pet.id")
+    @Mapping(target = "personId", source = "reportedBy.id")
+    @Mapping(target = "petName", source = "pet.name")
+    @Mapping(target = "personName", source = "reportedBy.name")
+    PetSearchResponseDTO toDto(PetSearch entity);
+}
+```
+
+---
+
+## ⚠️ Considerações técnicas
+
+* **Armazenamento binário no banco** com `@Lob` deve ser utilizado com cautela:
+
+  * Afeta desempenho em leitura de listas (ex.: consultas sem `fetch = LAZY`)
+  * Dificulta cache, CDN e distribuição de imagens
+  * Recomendado apenas para sistemas internos ou com imagens pequenas
+
+* Alternativa mais escalável:
+
+  * Armazenar a imagem em serviço externo (S3, GCP, Azure Blob, etc.)
+  * Salvar apenas a URL no campo `photoUrl` (como no exemplo anterior)
+
+---
+
+## 📚 Referências técnicas
+
+* [Hibernate ORM - Large Objects](https://docs.jboss.org/hibernate/orm/current/userguide/html_single/Hibernate_User_Guide.html#basic-lob)
+* [Spring Data JPA Reference](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/)
+* Silberschatz, A.; Korth, H. F.; Sudarshan, S. *Database System Concepts*, McGraw-Hill, 2010.
+
+---
+
+Se desejar, posso incluir:
+
+* Upload via `multipart/form-data` no controller
+* Endpoint específico para recuperação de imagem
+* Conversão entre `MultipartFile` e `byte[]` com utilitários do Spring
+
+Deseja que eu prossiga com isso?

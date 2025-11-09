@@ -4,13 +4,13 @@ import java.util.Base64;
 
 import org.mapstruct.Mapper;
 
-import br.com.liquentec.AgenteAchaPet.dto.PetDTO;
+import br.com.liquentec.AgenteAchaPet.dto.PetCreate;
 import br.com.liquentec.AgenteAchaPet.model.*;
 
 @Mapper(componentModel = "spring")
 public class PetMapper {
 
-    public static Pet toEntity(PetDTO dto) {
+    public static Pet toEntity(PetCreate dto) {
 
         Pet pet = new Pet();
 
@@ -36,7 +36,7 @@ public class PetMapper {
         return pet;
     }
 
-    public static PetDTO toDTO(Pet pet) {
+    public static PetCreate toDTO(Pet pet) {
 
         String imageBase64 = null;
 
@@ -45,7 +45,7 @@ public class PetMapper {
             imageBase64 = Base64.getEncoder().encodeToString(pet.getPhoto());
         }
 
-        return new PetDTO(
+        return new PetCreate(
                 pet.getId(),
                 pet.getName(),
                 pet.getColor(),

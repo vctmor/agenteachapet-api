@@ -1,0 +1,41 @@
+{
+    "title": "Kanban",
+    "cols": [
+        {
+            "title": "Bugs",
+            "tasks": [],
+            "id": "yl21upq7xl1qpj9gygdnbk15",
+            "color": "#eb144c"
+        },
+        {
+            "title": "To-Do",
+            "tasks": [
+                {
+                    "text": "- fazer\n[v] fazer\n\n",
+                    "id": "fczz9dsjrhh20ry8yrfldv97"
+                },
+                {
+                    "text": "# Testes\n\n- DTO\n- Service\n",
+                    "id": "cqduejrwjgbms4lfi7rjeoxq"
+                }
+            ],
+            "id": "f5eh6kie0548mjmtj6guiliw",
+            "color": "#fcb900"
+        },
+        {
+            "title": "Doing",
+            "tasks": [],
+            "id": "nlnsiw3w4ytcxwfigibceumx",
+            "color": "#0693e3"
+        },
+        {
+            "title": "Done",
+            "tasks": [],
+            "id": "fhmntrp82ugszbotbuitnxd2",
+            "color": "#00d084"
+        }
+    ],
+    "autosave": true,
+    "saveToFile": true,
+    "timestamp": 1754874462950
+}

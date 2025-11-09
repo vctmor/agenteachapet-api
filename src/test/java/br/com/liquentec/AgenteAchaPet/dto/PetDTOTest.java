@@ -1,7 +1,6 @@
 package br.com.liquentec.AgenteAchaPet.dto;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Set;
@@ -9,7 +8,6 @@ import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import br.com.liquentec.AgenteAchaPet.model.Person;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -19,12 +17,12 @@ public class PetDTOTest {
 
     private Validator validator;
 
-    private PetDTO petDTO;
+    private PetCreate petCreate;
 
     @BeforeEach
     void setup(){
 
-        petDTO = new PetDTO();
+        petCreate = new PetCreate();
 
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
@@ -33,37 +31,37 @@ public class PetDTOTest {
     @Test
     void shouldSetAndGetBasicAttributes(){
 
-        petDTO.setId(1L);
-        petDTO.setName("Tuco");
-        petDTO.setAge(1);
-        petDTO.setBreed("poodle");
-        petDTO.setColor("bege");
-        petDTO.setImageBase64("img");
-        petDTO.setPersonId(1L);
+        petCreate.setId(1L);
+        petCreate.setName("Tuco");
+        petCreate.setAge(1);
+        petCreate.setBreed("poodle");
+        petCreate.setColor("bege");
+        petCreate.setImageBase64("img");
+        petCreate.setPersonId(1L);
 
-        assertEquals(1L, petDTO.getId());
-        assertEquals("Tuco", petDTO.getName());
-        assertEquals(1, petDTO.getAge());
-        assertEquals("poodle", petDTO.getBreed());
+        assertEquals(1L, petCreate.getId());
+        assertEquals("Tuco", petCreate.getName());
+        assertEquals(1, petCreate.getAge());
+        assertEquals("poodle", petCreate.getBreed());
         
-        assertEquals("bege", petDTO.getColor());
-        assertEquals("img", petDTO.getImageBase64());
-        assertEquals(1, petDTO.getPersonId());       
+        assertEquals("bege", petCreate.getColor());
+        assertEquals("img", petCreate.getImageBase64());
+        assertEquals(1, petCreate.getPersonId());       
 
    }
 
    @Test
    void testInvalidRequiredFields(){
 
-        petDTO.setId(1L);
-        petDTO.setName("");
-        petDTO.setAge(null);
-        petDTO.setBreed("");
-        petDTO.setColor("");
-        petDTO.setImageBase64("");
-        petDTO.setPersonId(null);
+        petCreate.setId(1l);
+        petCreate.setName("");
+        petCreate.setAge(null);
+        petCreate.setBreed("");
+        petCreate.setColor("");
+        petCreate.setImageBase64(null);
+        petCreate.setPersonId(null);
 
-        Set<ConstraintViolation<PetDTO>> violations = validator.validate(petDTO);
+        Set<ConstraintViolation<PetCreate>> violations = validator.validate(petCreate);
 
         assertEquals(5, violations.size());
 

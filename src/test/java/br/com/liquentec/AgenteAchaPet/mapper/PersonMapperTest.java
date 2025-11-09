@@ -1,7 +1,6 @@
 package br.com.liquentec.AgenteAchaPet.mapper;
 
-import br.com.liquentec.AgenteAchaPet.dto.PersonDTO;
-import br.com.liquentec.AgenteAchaPet.dto.PersonWithPetsDTO;
+import br.com.liquentec.AgenteAchaPet.dto.PersonCreate;
 import br.com.liquentec.AgenteAchaPet.model.Person;
 import br.com.liquentec.AgenteAchaPet.model.Role;
 
@@ -18,7 +17,7 @@ class PersonMapperTest {
 
   private Person person;
 
-  PersonDTO dto;
+  PersonCreate dto;
 
   @BeforeEach
   void setup() {
