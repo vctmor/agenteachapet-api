@@ -1,0 +1,16 @@
+{
+    "person": {
+        "name": "João da Silva",
+        "phone": "11999999999",
+        "role": "TUTOR"
+    },
+    "pet": {
+        "name": "Rex",
+        "color": "Marrom"
+    },
+    "search": {
+        "location": "Rua X",
+        "disappearanceDate": "2025-07-21T15:00:00",
+        "reporterRole": "TUTOR"
+    }
+}
