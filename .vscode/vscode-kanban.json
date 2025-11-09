@@ -1,0 +1,35 @@
+{
+  "todo": [
+    {
+      "assignedTo": {
+        "name": "Victor Moreira"
+      },
+      "category": "Model",
+      "creation_time": "2025-05-24T15:26:18.607Z",
+      "description": {
+        "content": "O pet pode estar desaparecido, (já)em casa, ou com uma pessoa Guardiã.",
+        "mime": "text/markdown"
+      },
+      "id": "1",
+      "references": [],
+      "title": "PetStatus"
+    },
+    {
+      "assignedTo": {
+        "name": "Victor Moreira"
+      },
+      "category": "Model",
+      "creation_time": "2025-05-24T15:29:41.839Z",
+      "description": {
+        "content": "acrescentar Role Guardia",
+        "mime": "text/markdown"
+      },
+      "id": "2",
+      "references": [],
+      "title": "Person Role"
+    }
+  ],
+  "in-progress": [],
+  "testing": [],
+  "done": []
+}
