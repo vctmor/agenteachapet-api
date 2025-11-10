@@ -9,5 +9,6 @@
     "source.fixAll": "explicit"
   },
   "jira-plugin.workingProject": "",
-  "livePreview.defaultPreviewPath": "/index.html"
+  "livePreview.defaultPreviewPath": "/index.html",
+  "java.debug.settings.onBuildFailureProceed": true
 }

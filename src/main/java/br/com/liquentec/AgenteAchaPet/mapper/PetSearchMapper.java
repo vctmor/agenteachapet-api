@@ -1,7 +1,5 @@
 package br.com.liquentec.AgenteAchaPet.mapper;
 
-import br.com.liquentec.AgenteAchaPet.model.Role;
-
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

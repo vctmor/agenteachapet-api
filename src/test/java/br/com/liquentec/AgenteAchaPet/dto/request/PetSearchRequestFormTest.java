@@ -1,7 +1,6 @@
 package br.com.liquentec.AgenteAchaPet.dto.request;
 
 import br.com.liquentec.AgenteAchaPet.model.Role;
-import br.com.liquentec.AgenteAchaPet.model.SearchRole;
 import jakarta.validation.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,160 +1,110 @@
 package br.com.liquentec.AgenteAchaPet.mapper;
 
-import br.com.liquentec.AgenteAchaPet.dto.response.CartazDTO;
-import br.com.liquentec.AgenteAchaPet.dto.response.PetSearchResponseDTO;
-import br.com.liquentec.AgenteAchaPet.model.Pet;
-import br.com.liquentec.AgenteAchaPet.model.PetSearch;
-import br.com.liquentec.AgenteAchaPet.model.Role;
-import br.com.liquentec.AgenteAchaPet.suport.EntityBuilders;
-import br.com.liquentec.AgenteAchaPet.model.Person;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mapstruct.factory.Mappers;
-
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
+import br.com.liquentec.AgenteAchaPet.dto.response.CartazDTO;
+import br.com.liquentec.AgenteAchaPet.model.Pet;
+import br.com.liquentec.AgenteAchaPet.model.Person;
+import br.com.liquentec.AgenteAchaPet.model.PetSearch;
+import br.com.liquentec.AgenteAchaPet.model.Role;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
 class PetSearchMapperTest {
 
-    private final PetSearchMapper mapper = Mappers.getMapper(PetSearchMapper.class);
+    @Autowired
+    private PetSearchMapper mapper;
 
     private PetSearch petSearch;
-    private Pet pet;
-    private Person person;
+    private LocalDateTime disappearanceDate;
 
     @BeforeEach
-    void setup() {
-        // Monta Pet
-        pet = new Pet();
-        pet.setId(101L);
+    void setUp() {
+        // Pet
+        Pet pet = new Pet();
+        pet.setId(1001L);
         pet.setName("Rex");
         pet.setColor("Preto");
         pet.setBreed("SRD");
-        pet.setAge(4);
-        // pet.setPhoto(photo); // Não precisa mais do photo
+        pet.setAge(3);
 
-        // Monta Person
-        person = new Person();
-        person.setId(42L);
+        // Person / registeredBy
+        Person person = new Person();
+        person.setId(101L);
         person.setName("Alice");
-        person.setEmail("alice@email.com");
         person.setPhone("11999999999");
-        // person.setRole(Role.TUTOR); // Se existir, pode setar
+        person.setEmail("alice@example.com");
+        person.setRole(Role.TUTOR);
 
-        // Monta PetSearch
-        petSearch = new PetSearch();
-        petSearch.setId(1001L);
-        petSearch.setPet(pet);
-        petSearch.setRegisteredBy(person);
-        petSearch.setReporterRole(Role.TUTOR); // Use o enum correto
-        petSearch.setSpecialNeed("Precisa de remédio");
-        petSearch.setDisappearanceDate(LocalDateTime.of(2023, 1, 15, 10, 30));
-        petSearch.setLocation("São Paulo");
-        petSearch.setAdditionalNotes("Assustado com fogos");
-        petSearch.setSlug("rex-1001");
+        disappearanceDate = LocalDateTime.of(2023, 1, 15, 10, 30);
+
+        petSearch = PetSearch.builder()
+                .id(999L)
+                .pet(pet)
+                .registeredBy(person)
+                .reporterRole(Role.TUTOR)
+                .disappearanceDate(disappearanceDate)
+                .location("São Paulo")
+                .specialNeed("Precisa de remédio")
+                .additionalNotes("Assustado com fogos")
+                .slug("rex-1001")
+                .build();
     }
 
-     @Test
-    void shouldMapEntityToCartazDTO() {
-        Person r = EntityBuilders.person("Jonas", "a@b.com");
-        Pet p = EntityBuilders.pet(r, "Lola");
-        PetSearch ps = EntityBuilders.petSearch(p, r, "lola-8f3a2c");
-
-        CartazDTO dto = mapper.toCartazDto(ps);
-
-        assertEquals("lola-8f3a2c", dto.getSlug());
-        assertEquals("Lola", dto.getPet().getPetName());
-        assertEquals("Jonas", dto.getReporter().getName());
-        assertEquals("Vila Sônia", dto.getSighting().getLastSeenPlace());
-  }
-
     @Test
-    void testToResponseDto() {
+    void shouldMapPetSearchToCartazDto() {
+        // act
         CartazDTO dto = mapper.toCartazDto(petSearch);
 
+        // assert
         assertNotNull(dto);
-        assertEquals(1001L, dto.getPet());
-        assertEquals(101L, dto.getPet());
-        assertEquals(42L, dto.getPersonId());
-        assertEquals("Rex", dto.getPet());
-        assertEquals("SRD", dto.getBreed());
-        assertEquals("Preto", dto.getColor());
-        assertEquals("Alice", dto.getPersonId());
-        assertEquals(Role.TUTOR, dto.getReporter());
-        assertEquals(LocalDateTime.of(2023, 1, 15, 10, 30), dto.getDisappearanceDate());
-        assertEquals("São Paulo", dto.getLocation());
-        assertEquals("Precisa de remédio", dto.getSpecialNeed());
-        assertEquals("Assustado com fogos", dto.getAdditionalNotes());
+
+        // slug
         assertEquals("rex-1001", dto.getSlug());
-        // Não existe mais assertArrayEquals(photo, dto.getPhoto());
+
+        // Pet
+        assertNotNull(dto.getPet());
+        assertEquals(1001L, dto.getPet().getId());
+        assertEquals("Rex", dto.getPet().getPetName());
+        assertEquals("Preto", dto.getPet().getColor());
+        assertEquals("SRD", dto.getPet().getBreed());
+        assertEquals(3, dto.getPet().getAge());
+
+        // photoUrl preenchido no @AfterMapping
+        assertNotNull(dto.getPet().getPhotoUrl());
+        assertTrue(dto.getPet().getPhotoUrl().contains("/api/v1/pet-searches/"));
+        assertTrue(dto.getPet().getPhotoUrl().contains("/photo"));
+
+        // Reporter
+        assertNotNull(dto.getReporter());
+        assertEquals("Alice", dto.getReporter().getName());
+        assertEquals("11999999999", dto.getReporter().getPhone());
+        assertEquals("alice@example.com", dto.getReporter().getEmail());
+        assertEquals(Role.TUTOR, dto.getReporter().getRole());
+
+        // Sighting
+        assertNotNull(dto.getSighting());
+        assertEquals("São Paulo", dto.getSighting().getLastSeenPlace());
+        assertEquals(disappearanceDate, dto.getSighting().getLastSeenAt());
+        assertEquals("Assustado com fogos", dto.getSighting().getNotes());
+        assertEquals("Precisa de remédio", dto.getSighting().getSpecialNeed());
     }
 
     @Test
-    void testToDtoStatic() {
-        CartazDTO dto = PetSearchMapper.toCartazDto(petSearch);
+    void shouldMapListOfPetSearchToCartazDtoList() {
+        List<CartazDTO> list = mapper.toCartazDtoList(List.of(petSearch));
 
-        assertNotNull(dto);
-        assertEquals(1001L, dto.getBreed());
-        assertEquals(101L, dto.getPersonId());
-        assertEquals(42L, dto.getPersonId());
-        assertEquals("Rex", dto.getPet());
-        assertEquals("SRD", dto.getBreed());
-        assertEquals("Preto", dto.getColor());
-        assertEquals("Alice", dto.getPersonId());
-        assertEquals(Role.TUTOR, dto.getReporter());
-        assertEquals(LocalDateTime.of(2023, 1, 15, 10, 30), dto.getDisappearanceDate());
-        assertEquals("São Paulo", dto.getLocation());
-        assertEquals("Precisa de remédio", dto.getSpecialNeed());
-        assertEquals("Assustado com fogos", dto.getAdditionalNotes());
+        assertNotNull(list);
+        assertEquals(1, list.size());
+
+        CartazDTO dto = list.get(0);
         assertEquals("rex-1001", dto.getSlug());
+        assertEquals("Rex", dto.getPet().getPetName());
     }
-
-    @Test
-    void testToDoList() {
-        PetSearch search2 = new PetSearch();
-        search2.setId(1002L);
-        search2.setPet(pet);
-        search2.setRegisteredBy(person);
-
-        List<PetSearch> list = Arrays.asList(petSearch, search2);
-
-        List<PetSearchResponseDTO> dtoList = mapper.toDoList(list);
-
-        assertEquals(2, dtoList.size());
-        assertEquals(1001L, dtoList.get(0).getId());
-        assertEquals(1002L, dtoList.get(1).getId());
-    }
-
-    @Test
-    void testNullSafety() {
-        // Testa campos obrigatórios nulos
-        PetSearch empty = new PetSearch();
-        empty.setId(null);
-        empty.setPet(null);
-        empty.setRegisteredBy(null);
-
-        // Para o método estático, NullPointerException é esperado
-        assertThrows(NullPointerException.class, () -> PetSearchMapper.toDto(empty));
-
-        // Para o mapper do MapStruct, pode lançar NullPointerException ou retornar DTO
-        // nulo/campos nulos,
-        // então, teste ambos os comportamentos possíveis:
-        try {
-            PetSearchResponseDTO dto = mapper.toResponseDto(empty);
-            // Se não lançou exceção, os campos principais devem estar nulos
-            assertNotNull(dto);
-            assertNull(dto.getId());
-            assertNull(dto.getPetId());
-            assertNull(dto.getPersonId());
-            assertNull(dto.getPetName());
-            assertNull(dto.getPersonName());
-            // ... outros campos principais
-        } catch (NullPointerException ex) {
-            // Ok, comportamento aceitável, documentado no teste
-        }
-    }
-
 }

@@ -13,6 +13,7 @@
 /home/faunus/Documents/programacao/projetos/AgenteAchaPet/src/main/java/br/com/liquentec/AgenteAchaPet/repository/PersonRepository.java
 /home/faunus/Documents/programacao/projetos/AgenteAchaPet/src/main/java/br/com/liquentec/AgenteAchaPet/util/SlugUtil.java
 /home/faunus/Documents/programacao/projetos/AgenteAchaPet/src/main/java/br/com/liquentec/AgenteAchaPet/model/PetSearch.java
+/home/faunus/Documents/programacao/projetos/AgenteAchaPet/src/main/java/br/com/liquentec/AgenteAchaPet/dto/response/CartazDTO.java
 /home/faunus/Documents/programacao/projetos/AgenteAchaPet/src/main/java/br/com/liquentec/AgenteAchaPet/dto/request/SearchCreate.java
 /home/faunus/Documents/programacao/projetos/AgenteAchaPet/src/main/java/br/com/liquentec/AgenteAchaPet/controller/PetSearchController.java
 /home/faunus/Documents/programacao/projetos/AgenteAchaPet/src/main/java/br/com/liquentec/AgenteAchaPet/exception/BusinessException.java
@@ -20,7 +21,6 @@
 /home/faunus/Documents/programacao/projetos/AgenteAchaPet/src/main/java/br/com/liquentec/AgenteAchaPet/repository/PetSearchRepository.java
 /home/faunus/Documents/programacao/projetos/AgenteAchaPet/src/main/java/br/com/liquentec/AgenteAchaPet/dto/PetCreate.java
 /home/faunus/Documents/programacao/projetos/AgenteAchaPet/src/main/java/br/com/liquentec/AgenteAchaPet/mapper/PetMapper.java
-/home/faunus/Documents/programacao/projetos/AgenteAchaPet/src/main/java/br/com/liquentec/AgenteAchaPet/model/SearchRole.java
 /home/faunus/Documents/programacao/projetos/AgenteAchaPet/src/main/java/br/com/liquentec/AgenteAchaPet/controller/RedirectController.java
 /home/faunus/Documents/programacao/projetos/AgenteAchaPet/src/main/java/br/com/liquentec/AgenteAchaPet/dto/PetSearchCreateRequest.java
 /home/faunus/Documents/programacao/projetos/AgenteAchaPet/src/main/java/br/com/liquentec/AgenteAchaPet/service/PetSearchService.java
