@@ -24,9 +24,11 @@ public class CorsConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
+                
+                registry.addMapping("/api/v1/**")
                         .allowedOriginPatterns("http://localhost:*")
-                        .allowedOrigins("https://agenteachapet.vercel.app/")
+                        .allowedOrigins("http://localhost:5173")
+                        .allowedOrigins("https://agenteachapet.vercel.app")
 
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*");
